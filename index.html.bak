@@ -1,0 +1,1238 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Librería Universal | Imprenta, Gráfica y Librería en Valentín Alsina</title>
+  <meta name="description" content="Librería Universal en Valentín Alsina. Impresiones láser ByN y color, diseño gráfico, plastificados, encuadernaciones, confección de sellos y artículos de librería comercial y escolar.">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cyan: '#00A3E0',
+              magenta: '#E5007D',
+              yellow: '#FFD100',
+              purple: '#7C3AED',
+              dark: '#0B0F19',
+              card: '#111827',
+              border: '#1F2937'
+            }
+          },
+          fontFamily: {
+            sans: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+            display: ['Poppins', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            script: ['Dancing Script', 'cursive'],
+            impact: ['Oswald', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts Oficiales para Catálogo de Sellos e Interfaz -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Archivo+Narrow:wght@700&family=Arvo:wght@700&family=Barlow:wght@600&family=Bebas+Neue&family=Courier+Prime:wght@700&family=Courgette&family=Dancing+Script:wght@700&family=Fredoka:wght@600;700&family=Henny+Penny&family=Inter:wght@300;400;500;600;700&family=Kalam:ital,wght@1,700&family=Kaushan+Script&family=Lemon&family=Orbitron:wght@700&family=Patrick+Hand&family=Pompiere&family=Poppins:wght@300;400;500;600;700;800&family=Satisfy&family=Varela+Round&display=swap" rel="stylesheet">
+
+  <!-- CDNFonts para fuentes específicas de catálogo -->
+  <link href="https://fonts.cdnfonts.com/css/hobo-std" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/trashhand" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/script-mt-bold" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/always-in-my-heart" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/birds-of-paradise" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/charge-vector" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Estilos Personalizados -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-cyan-500 selection:text-white">
+
+  <!-- Barra Superior de Aviso y Horarios -->
+  <div class="bg-gradient-to-r from-purple-950 via-slate-950 to-cyan-950 border-b border-slate-800 text-xs py-2.5 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-slate-300">
+      <div class="flex items-center gap-2 text-slate-300 whitespace-nowrap">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span><strong class="text-white">Horarios:</strong> 9:30 a 13:15 y 16:00 a 19:30 hs</span>
+      </div>
+      <div class="flex items-center gap-1.5 text-amber-300 font-semibold bg-amber-950/40 px-3.5 py-1 rounded-full border border-amber-800/60 shadow-sm text-[11px] sm:text-xs">
+        <svg class="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+        </svg>
+        <span>¡Hola! No recibimos llamadas, solo mensajes de WhatsApp</span>
+      </div>
+      <div class="flex items-center gap-1.5 text-slate-300 text-xs whitespace-nowrap">
+        <svg class="w-4 h-4 text-cyan-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+        </svg>
+        <span>Av. Pte. Tte. Gral. J. D. Perón 3502, V. Alsina</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Barra Decorativa CMYK / Universal -->
+  <div class="h-1 w-full cmyk-bar"></div>
+
+  <!-- =========================================================================
+       A. HEADER / NAVEGACIÓN
+       ========================================================================= -->
+  <header class="sticky top-0 z-40 bg-slate-950/95 backdrop-blur-md border-b border-slate-800 transition-all shadow-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-24 gap-4">
+        
+        <!-- Logo Oficial de Librería Universal (Más grande y destacado) -->
+        <a href="#inicio" class="flex items-center gap-4 group flex-shrink-0">
+          <img src="img/logo-libreria-universal.png" alt="Logo Librería Universal" 
+               class="w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 rounded-full object-contain bg-slate-900 border-2 border-slate-700/90 group-hover:border-cyan-400 group-hover:scale-105 transition-all shadow-xl">
+          <div class="flex flex-col">
+            <span class="text-xl sm:text-2xl lg:text-3xl font-black tracking-tight text-white group-hover:text-cyan-400 transition leading-none">
+              Librería Universal
+            </span>
+            <span class="text-[11px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase mt-1">
+              Gráfica, Imprenta & Librería
+            </span>
+          </div>
+        </a>
+
+        <!-- Menú Desktop (Equilibrado, alineado y sin sección de preguntas) -->
+        <nav class="hidden lg:flex items-center gap-7 xl:gap-9 text-sm font-semibold text-slate-200">
+          <a href="#inicio" class="hover:text-cyan-400 transition-colors whitespace-nowrap">Inicio</a>
+          <a href="#servicios" class="hover:text-cyan-400 transition-colors whitespace-nowrap">Servicios de Imprenta</a>
+          <a href="#cotizador-sellos" class="group/nav inline-flex items-center gap-2 hover:text-cyan-400 transition-colors whitespace-nowrap">
+            <span>Diseñador de Sellos</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-extrabold tracking-wider uppercase bg-purple-900/70 text-purple-200 border border-purple-500/50 group-hover/nav:border-cyan-400 transition-colors leading-tight">
+              En Vivo
+            </span>
+          </a>
+          <a href="#libreria" class="hover:text-cyan-400 transition-colors whitespace-nowrap">Librería</a>
+          <a href="#contacto" class="hover:text-cyan-400 transition-colors whitespace-nowrap">Contacto</a>
+        </nav>
+
+        <!-- CTA Header WhatsApp Mejorado (Logo de WhatsApp grande y botón estilizado) -->
+        <div class="hidden sm:flex items-center gap-3 flex-shrink-0">
+          <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20pedir%20un%20presupuesto" target="_blank"
+             class="group inline-flex items-center gap-3 px-5 py-3 rounded-2xl font-black text-sm bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 hover:from-emerald-500 hover:to-green-400 text-white shadow-xl shadow-emerald-600/35 hover:shadow-emerald-500/55 border border-emerald-400/40 transition-all duration-200 transform hover:-translate-y-0.5 active:translate-y-0 whitespace-nowrap">
+            <!-- Logo de WhatsApp grande y nítido -->
+            <div class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/20 group-hover:bg-white/30 flex items-center justify-center flex-shrink-0 transition-colors shadow-inner">
+              <svg class="w-6 h-6 sm:w-6 sm:h-6 fill-white drop-shadow" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+              </svg>
+            </div>
+            <div class="flex flex-col text-left leading-tight">
+              <span class="text-sm font-extrabold tracking-tight text-white drop-shadow-sm">WhatsApp</span>
+              <span class="text-[11px] font-semibold text-emerald-100 opacity-95">Solo Mensajes</span>
+            </div>
+          </a>
+        </div>
+
+        <!-- Botón Mobile Hamburguesa -->
+        <button id="mobile-menu-toggle" type="button" aria-label="Abrir menú" class="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-cyan-500">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menú Drawer Mobile -->
+  <div id="mobile-menu-drawer" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm hidden transition-opacity">
+    <div class="fixed inset-y-0 right-0 w-full max-w-xs bg-slate-900 border-l border-slate-800 shadow-2xl p-6 flex flex-col justify-between">
+      <div>
+        <div class="flex items-center justify-between pb-4 border-b border-slate-800">
+          <div class="flex items-center gap-2.5">
+            <img src="img/logo-libreria-universal.png" alt="Logo" class="w-9 h-9 rounded-full object-contain border border-slate-700">
+            <span class="text-base font-black text-white">Librería Universal</span>
+          </div>
+          <button id="mobile-menu-close" type="button" aria-label="Cerrar menú" class="p-2 text-slate-400 hover:text-white rounded-lg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <nav class="mt-6 flex flex-col space-y-4 text-base font-semibold text-slate-300">
+          <a href="#inicio" class="mobile-nav-link hover:text-cyan-400 transition">Inicio</a>
+          <a href="#servicios" class="mobile-nav-link hover:text-cyan-400 transition">Servicios de Imprenta</a>
+          <a href="#cotizador-sellos" class="mobile-nav-link hover:text-cyan-400 transition flex items-center justify-between">
+            <span>Diseñador de Sellos</span>
+            <span class="px-2 py-0.5 text-xs bg-purple-950 text-purple-300 border border-purple-800 rounded-md font-bold">En Vivo</span>
+          </a>
+          <a href="#libreria" class="mobile-nav-link hover:text-cyan-400 transition">Librería & Insumos</a>
+          <a href="#contacto" class="mobile-nav-link hover:text-cyan-400 transition">Ubicación y Horarios</a>
+        </nav>
+      </div>
+
+      <div class="pt-6 border-t border-slate-800 space-y-3">
+        <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20pedir%20un%20presupuesto" target="_blank"
+           class="w-full flex items-center justify-center gap-3 px-4 py-3.5 bg-gradient-to-r from-emerald-600 via-emerald-500 to-green-500 text-white rounded-2xl font-black shadow-lg shadow-emerald-600/30 hover:from-emerald-500 hover:to-green-400 transition text-sm border border-emerald-400/30">
+          <svg class="w-6 h-6 fill-white drop-shadow flex-shrink-0" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+          </svg>
+          <div class="flex flex-col text-left leading-tight">
+            <span>WhatsApp: +54 9 11 2609-7125</span>
+          </div>
+        </a>
+        <p class="text-[11px] text-center text-amber-300 font-medium">Solo mensajes de WhatsApp (No llamadas)</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       B. HERO SECTION (PORTADA LIBRERÍA UNIVERSAL)
+       ========================================================================= -->
+  <section id="inicio" class="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950">
+    <div class="absolute top-0 right-0 -mr-24 -mt-24 w-96 h-96 rounded-full bg-purple-600/10 blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-0 -ml-24 -mb-24 w-96 h-96 rounded-full bg-cyan-600/10 blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Textos del Hero -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          
+          <!-- Badge superior con ubicación -->
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-slate-700 shadow-sm">
+            <span class="flex h-2.5 w-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <span class="text-xs font-bold text-slate-200 tracking-wide">Valentín Alsina &bull; Imprenta, Sellos & Librería</span>
+          </div>
+
+          <!-- Título principal -->
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.12]">
+            Librería Comercial / Escolar, <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-cyan-400 to-amber-300">Impresiones y Soluciones Gráficas.</span>
+          </h1>
+
+          <!-- Subtítulo -->
+          <p class="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+            Rapidez, máxima calidad de impresión y atención personalizada en Valentín Alsina. Impresiones, plastificados, encuadernaciones, diseño de sellos a medida y artículos de librería para particulares, colegios y empresas.
+          </p>
+
+          <!-- Botones de Acción (CTA) -->
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <a href="#cotizador-sellos" 
+               class="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm sm:text-base bg-cyan-600 hover:bg-cyan-500 text-white shadow-lg shadow-cyan-600/30 hover:shadow-cyan-600/50 transition-all transform hover:-translate-y-0.5 flex items-center justify-center gap-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+              <span>Diseñar mi Sello Ahora</span>
+            </a>
+
+            <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20hacer%20una%20consulta" target="_blank"
+               class="w-full sm:w-auto px-7 py-3.5 rounded-xl font-bold text-sm sm:text-base bg-slate-900 hover:bg-slate-800 text-white border border-slate-700 shadow-sm transition-all flex items-center justify-center gap-2">
+              <svg class="w-5 h-5 text-emerald-400 fill-current" viewBox="0 0 24 24">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+              </svg>
+              <span>Escribir por WhatsApp</span>
+            </a>
+          </div>
+
+          <!-- Métricas de confianza -->
+          <div class="pt-6 grid grid-cols-3 gap-4 border-t border-slate-800 max-w-lg mx-auto lg:mx-0">
+            <div>
+              <div class="text-xl sm:text-2xl font-black text-white">V. Alsina</div>
+              <div class="text-xs text-slate-400 font-medium">Local a la calle</div>
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-black text-cyan-400">24 hs</div>
+              <div class="text-xs text-slate-400 font-medium">Sellos y Trabajos</div>
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-black text-purple-400">100% HD</div>
+              <div class="text-xs text-slate-400 font-medium">Calidad de Taller</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tarjeta Perfil Oficial en el Hero -->
+        <div class="lg:col-span-5">
+          <div class="relative mx-auto max-w-md bg-slate-900/90 rounded-3xl p-6 sm:p-7 shadow-2xl border border-slate-800">
+            <!-- Header de tarjeta -->
+            <div class="flex items-center gap-3.5 pb-4 border-b border-slate-800">
+              <img src="img/logo-libreria-universal.png" alt="Logo Librería Universal" class="w-14 h-14 rounded-full object-contain bg-slate-950 border-2 border-slate-700 shadow-md">
+              <div>
+                <h3 class="text-base font-black text-white">Librería Universal</h3>
+                <p class="text-xs text-emerald-400 font-semibold flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  Cuenta de Empresa Verificada
+                </p>
+              </div>
+            </div>
+
+            <!-- Datos de contacto oficiales -->
+            <div class="mt-4 space-y-3 text-xs sm:text-sm">
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                <span class="text-purple-400 text-base">📱</span>
+                <div>
+                  <span class="text-slate-400 text-xs block">WhatsApp Oficial:</span>
+                  <strong class="text-white font-mono text-sm">+54 9 11 2609-7125</strong>
+                  <span class="text-[11px] text-amber-300 block font-medium mt-0.5">Solo mensajes, no llamadas</span>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                <span class="text-cyan-400 text-base">📍</span>
+                <div>
+                  <span class="text-slate-400 text-xs block">Dirección:</span>
+                  <strong class="text-white">Av. Pte. Tte. Gral. J. D. Perón 3502</strong>
+                  <span class="text-xs text-slate-400 block">Valentín Alsina, Buenos Aires</span>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                <span class="text-emerald-400 text-base">⏰</span>
+                <div>
+                  <span class="text-slate-400 text-xs block">Horarios de Atención:</span>
+                  <strong class="text-white">9:30 - 13:15 | 16:00 - 19:30</strong>
+                  <span class="text-xs text-slate-400 block">Lunes a Viernes</span>
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 flex items-start gap-3">
+                <span class="text-pink-400 text-base">✉️</span>
+                <div>
+                  <span class="text-slate-400 text-xs block">Correo Electrónico:</span>
+                  <a href="mailto:libu.impresiones@gmail.com" class="text-cyan-400 font-mono text-xs hover:underline">libu.impresiones@gmail.com</a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       C. CATÁLOGO DE SERVICIOS GRÁFICOS (5 SERVICIOS EXACTOS)
+       ========================================================================= -->
+  <section id="servicios" class="py-20 bg-slate-900 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-cyan-400 bg-cyan-950 px-3 py-1 rounded-full border border-cyan-800">
+          Servicios de Imprenta
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-3 mb-4">
+          Catálogo Gráfico & Soluciones de Impresión
+        </h2>
+        <p class="text-base text-slate-400">
+          Equipamiento de última generación para garantizar nitidez milimétrica, fidelidad cromática y terminaciones de máxima calidad.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        
+        <!-- 1. Impresiones ByN y Color -->
+        <div class="group relative bg-slate-950 rounded-3xl p-8 border border-slate-800 hover:border-cyan-500 transition-all duration-300 shadow-lg hover:shadow-cyan-900/20 hover:-translate-y-1 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-cyan-600/20 border border-cyan-500/40 text-cyan-400 flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+              </svg>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-cyan-300 bg-cyan-950 border border-cyan-800 px-2.5 py-0.5 rounded-full">Láser & Offset</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-cyan-400 transition">
+              Impresiones ByN y Color
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed mb-6">
+              Impresiones en alta definición blanco y negro o full color. Trabajamos con diversos gramajes: desde obra 75g y 80g hasta ilustración brillante y mate de 150g, 250g y 300g. Tamaños A4, Oficio, A3 y medidas especiales.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Tiradas cortas y por volumen</span>
+            <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quisiera%20consultar%20por%20impresiones" target="_blank"
+               class="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span>Cotizar</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 2. Diseño Gráfico -->
+        <div class="group relative bg-slate-950 rounded-3xl p-8 border border-slate-800 hover:border-pink-500 transition-all duration-300 shadow-lg hover:shadow-pink-900/20 hover:-translate-y-1 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-pink-600/20 border border-pink-500/40 text-pink-400 flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+              </svg>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-pink-300 bg-pink-950 border border-pink-800 px-2.5 py-0.5 rounded-full">Creatividad & Marca</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-pink-400 transition">
+              Diseño Gráfico Personalizado
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed mb-6">
+              Creación de identidad visual integral: logotipos, folletería publicitaria (flyers, trípticos, dípticos), tarjetas personales, catálogos, papelería comercial y diseño con archivos listos para imprenta en curvas (PDF/X).
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Asesoramiento profesional</span>
+            <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Necesito%20un%20diseño%20gráfico" target="_blank"
+               class="text-xs font-bold text-pink-400 hover:text-pink-300 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span>Consultar</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Plastificados y Laminados -->
+        <div class="group relative bg-slate-950 rounded-3xl p-8 border border-slate-800 hover:border-amber-500 transition-all duration-300 shadow-lg hover:shadow-amber-900/20 hover:-translate-y-1 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-amber-300 bg-amber-950 border border-amber-800 px-2.5 py-0.5 rounded-full">Protección Duradera</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-amber-400 transition">
+              Plastificados & Laminados
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed mb-6">
+              Opciones de plastificado en caliente (pouches rígidos) y laminado en frío mate o brillante. Ideal para proteger documentos importantes, carnets, credenciales de eventos, cartas y menús para restaurantes y fichas técnicas.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Carnet, A4, Oficio y A3</span>
+            <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20plastificar%20documentos" target="_blank"
+               class="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span>Cotizar</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4. Encuadernación y Libros -->
+        <div class="group relative bg-slate-950 rounded-3xl p-8 border border-slate-800 hover:border-emerald-500 transition-all duration-300 shadow-lg hover:shadow-emerald-900/20 hover:-translate-y-1 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-emerald-300 bg-emerald-950 border border-emerald-800 px-2.5 py-0.5 rounded-full">Editorial & Apuntes</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-emerald-400 transition">
+              Encuadernación y Libros
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed mb-6">
+              Anillados plásticos y espiralados metálicos reforzados con tapas de polipropileno cristal y opaco. Impresión por encargue de libros, tesis universitarias, manuales y recetarios con terminación cosida, pegada o tapa dura.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-medium text-slate-400">Desde 1 ejemplar</span>
+            <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20hacer%20una%20encuadernación/libro" target="_blank"
+               class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span>Cotizar</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 5. Fabricación de Sellos -->
+        <div class="group relative bg-slate-950 rounded-3xl p-8 border border-slate-800 hover:border-purple-400 transition-all duration-300 shadow-lg hover:shadow-purple-900/20 hover:-translate-y-1 flex flex-col justify-between md:col-span-2 lg:col-span-2">
+          <div>
+            <div class="w-14 h-14 rounded-2xl bg-purple-600/20 border border-purple-500/40 text-purple-300 flex items-center justify-center mb-6 shadow-md group-hover:scale-110 transition-transform">
+              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-bold text-purple-300 bg-purple-950 border border-purple-800 px-2.5 py-0.5 rounded-full">Grabado Láser HD</span>
+              <span class="text-xs font-bold text-cyan-300 bg-cyan-950 border border-cyan-800 px-2 py-0.5 rounded-full">Diseñá online</span>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-3 group-hover:text-purple-400 transition">
+              Fabricación de Sellos Personalizados
+            </h3>
+            <p class="text-sm text-slate-400 leading-relaxed mb-6">
+              Sellos de goma sintética inalterable tallados por rayo láser de alta precisión. Disponibles en aparatos automáticos auto-entintables (marcas líderes: Trodat y Colop), cabos de madera clásicos, fechadores, sellos de bolsillo portátiles y sellos para lacre o textil.
+            </p>
+          </div>
+          <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-xs font-semibold text-cyan-400">¡Probá nuestro diseñador visual en vivo aquí abajo!</span>
+            <a href="#cotizador-sellos" 
+               class="text-xs font-bold text-cyan-400 hover:text-cyan-300 flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+              <span>Diseñar ahora</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       D. FUNCIONALIDAD ESTRELLA: DISEÑADOR INTERACTIVO DE SELLOS
+       ========================================================================= -->
+  <section id="cotizador-sellos" class="py-20 bg-slate-950 text-white relative overflow-hidden border-t border-slate-800">
+    <div class="absolute top-0 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      
+      <!-- Encabezado del Diseñador -->
+      <div class="text-center max-w-3xl mx-auto mb-14">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-950 border border-purple-800 text-purple-300 text-xs font-bold tracking-wider uppercase mb-3">
+          <span class="w-2 h-2 rounded-full bg-purple-400 animate-pulse"></span>
+          Herramienta Exclusiva Online
+        </div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-tight">
+          Diseñador Interactivo de Sellos
+        </h2>
+        <p class="text-slate-300 text-sm sm:text-base mt-3">
+          Elegí tu aparato, escribí el texto línea por línea, visualizá la huella exacta con la tipografía que prefieras y pedí tu presupuesto a medida directo a Librería Universal por WhatsApp.
+        </p>
+      </div>
+
+      <!-- Módulo de 2 Columnas -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Formulario (Izq) -->
+        <div class="lg:col-span-7 bg-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-800 space-y-7">
+          
+          <!-- =========================================================================
+               CATEGORÍA ÚNICA: SELLO PERSONALIZADO
+               ========================================================================= -->
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-slate-800 gap-3">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-2xl bg-cyan-950 border border-cyan-800 text-cyan-400 flex items-center justify-center text-xl shadow-inner">
+                🏢
+              </div>
+              <div>
+                <span class="text-[11px] font-extrabold uppercase tracking-wider text-cyan-400">Categoría</span>
+                <h3 class="text-base sm:text-lg font-black text-white">Sello Personalizado</h3>
+              </div>
+            </div>
+            <button type="button" data-modal-open-tab="teacher" class="btn-open-catalog-modal inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold bg-cyan-950/80 text-cyan-300 border border-cyan-700/80 hover:bg-cyan-900 hover:text-white rounded-xl transition shadow-sm self-start sm:self-auto">
+              <span>👩‍🏫</span>
+              <span>Explorar Catálogo Docente CDC-8</span>
+            </button>
+          </div>
+
+          <!-- =========================================================================
+               FORMULARIO: SELLO PERSONALIZADO
+               ========================================================================= -->
+          <div id="mode-panel-personalizado" class="space-y-7">
+            
+            <!-- PASO 1: Tipo de Aparato -->
+            <div>
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-0.5 rounded">Paso 1</span>
+                <span class="text-xs font-semibold text-slate-400">Seleccioná el formato</span>
+              </div>
+              <h3 class="text-base sm:text-lg font-bold text-white mb-3">
+                Tipo de Aparato
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                <!-- Opción 1: Automático -->
+                <div data-apparatus="automatico" class="cursor-pointer rounded-2xl p-4 border-2 border-cyan-500 bg-cyan-950/40 ring-2 ring-cyan-500/30 transition-all hover:border-cyan-400 relative flex items-start gap-3">
+                  <input type="radio" name="apparatus-radio" checked class="mt-1 text-cyan-600 focus:ring-cyan-500">
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-white text-sm sm:text-base">Aparato Automático</span>
+                      <span class="text-[11px] font-bold text-cyan-300 bg-cyan-950 border border-cyan-800 px-2 py-0.5 rounded-full">Recomendado</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Auto-entintable tipo Trodat/Colop. Almohadilla interna incorporada, limpio, cómodo y listo para sellar.</p>
+                  </div>
+                </div>
+
+                <!-- Opción 2: Madera -->
+                <div data-apparatus="madera" class="cursor-pointer rounded-2xl p-4 border-2 border-slate-700 bg-slate-900/60 hover:border-slate-500 transition-all relative flex items-start gap-3">
+                  <input type="radio" name="apparatus-radio" class="mt-1 text-cyan-600 focus:ring-cyan-500">
+                  <div class="flex-1">
+                    <div class="flex items-center justify-between">
+                      <span class="font-bold text-white text-sm sm:text-base">Cabo de Madera</span>
+                      <span class="text-[11px] font-bold text-amber-300 bg-amber-950 border border-amber-800 px-2 py-0.5 rounded-full">Tradicional</span>
+                    </div>
+                    <p class="text-xs text-slate-400 mt-1">Clásico mango de madera pulida y barnizada. Formato económico, requiere almohadilla externa.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PASO 2: Cantidad de Líneas -->
+            <div class="pt-5 border-t border-slate-800">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-0.5 rounded">Paso 2</span>
+                <span class="text-xs text-slate-400 font-medium">1 a 4 líneas de texto</span>
+              </div>
+              <h3 class="text-base sm:text-lg font-bold text-white mb-3">
+                Cantidad de Líneas de Texto
+              </h3>
+
+              <div class="grid grid-cols-4 gap-2 mb-4">
+                <button type="button" data-lines="1" class="py-2.5 px-3 rounded-xl font-bold text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                  1 Línea
+                </button>
+                <button type="button" data-lines="2" class="py-2.5 px-3 rounded-xl font-bold text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                  2 Líneas
+                </button>
+                <button type="button" data-lines="3" class="py-2.5 px-3 rounded-xl font-bold text-sm bg-cyan-600 text-white shadow-md shadow-cyan-600/30 transition">
+                  3 Líneas
+                </button>
+                <button type="button" data-lines="4" class="py-2.5 px-3 rounded-xl font-bold text-sm bg-slate-800 text-slate-300 hover:bg-slate-700 transition">
+                  4 Líneas
+                </button>
+              </div>
+
+              <!-- Control de Misma Fuente en Todas las Líneas -->
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 mb-3 bg-slate-900/90 rounded-xl border border-slate-800">
+                <label class="inline-flex items-center gap-2.5 cursor-pointer select-none">
+                  <input type="checkbox" id="stamp-sync-font-toggle" checked class="w-4 h-4 rounded text-cyan-600 focus:ring-cyan-500 bg-slate-950 border-slate-700 cursor-pointer">
+                  <span class="text-xs font-bold text-slate-200 flex items-center gap-1.5">
+                    <span>🔗</span>
+                    <span>Usar la misma fuente en todas las líneas</span>
+                  </span>
+                </label>
+                <button type="button" id="btn-apply-line1-font" class="text-[11px] font-bold text-cyan-400 hover:text-cyan-300 bg-cyan-950/70 border border-cyan-800/80 px-2.5 py-1 rounded-lg transition hover:bg-cyan-900/70 flex items-center gap-1">
+                  <span>Aplicar fuente de Línea 1 a todas</span>
+                </button>
+              </div>
+
+              <!-- Contenedor dinámico de inputs -->
+              <div id="stamp-lines-inputs" class="space-y-3 bg-slate-950/80 p-4 rounded-2xl border border-slate-800">
+                <!-- Se genera con app.js -->
+              </div>
+            </div>
+
+            <!-- PASO 3: Tipografía, Alineación y Tinta -->
+            <div class="pt-5 border-t border-slate-800 space-y-4">
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-0.5 rounded">Paso 3</span>
+                <span class="text-xs text-slate-400 font-medium">Catálogo 01 al 23</span>
+              </div>
+              <h3 class="text-base sm:text-lg font-bold text-white">
+                Tipografía & Estilo Visual
+              </h3>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="stamp-font-select" class="block text-xs font-bold text-slate-300 mb-1.5">
+                    Fuente General / Predeterminada:
+                  </label>
+                  <select id="stamp-font-select" class="w-full px-3.5 py-2.5 text-sm bg-slate-950 text-white border border-slate-700 rounded-xl focus:ring-2 focus:ring-cyan-500 outline-none font-medium">
+                    <optgroup label="─── ESTÁNDAR (01 a 11) ───">
+                      <option value="font-stamp-01" selected>01 - Arial (Sans-Serif Clásica)</option>
+                      <option value="font-stamp-02">02 - Times New Roman (Serif Formal)</option>
+                      <option value="font-stamp-03">03 - Archivo Narrow (Condensada)</option>
+                      <option value="font-stamp-04">04 - Barlow (Moderna Limpia)</option>
+                      <option value="font-stamp-05">05 - Arvo (Slab Serif Geométrica)</option>
+                      <option value="font-stamp-06">06 - Courier Prime (Mecanografiada)</option>
+                      <option value="font-stamp-07">07 - Varela Round (Redondeada Suave)</option>
+                      <option value="font-stamp-08">08 - Hobo Std (Comercial Vintage)</option>
+                      <option value="font-stamp-09">09 - Rickety (Manuscrita / Sin Números)</option>
+                      <option value="font-stamp-10">10 - Impact (Negrita Fuerte)</option>
+                      <option value="font-stamp-11">11 - Orbitron (Tecnológica / Futurista)</option>
+                    </optgroup>
+                    <optgroup label="─── SOLO MAYÚSCULAS (12 a 16) ───">
+                      <option value="font-stamp-12">12 - Bebas Neue (Mayúsculas Compactas)</option>
+                      <option value="font-stamp-13">13 - Lemon (Mayúsculas Gruesas)</option>
+                      <option value="font-stamp-14">14 - TrashHand (Letra a Mano Mayúsculas)</option>
+                      <option value="font-stamp-15">15 - Amatic SC (Bloque Alto y Delgado)</option>
+                      <option value="font-stamp-16">16 - Charge Vector (Mayúsculas Tech)</option>
+                    </optgroup>
+                    <optgroup label="─── CURSIVAS (17 a 23) ───">
+                      <option value="font-stamp-17">17 - Script MT Bold (Cursiva Formal)</option>
+                      <option value="font-stamp-18">18 - Satisfy (Firma Dinámica Elegante)</option>
+                      <option value="font-stamp-19">19 - Dancing Script (Cursiva Fluida)</option>
+                      <option value="font-stamp-20">20 - Courgette (Pincelada)</option>
+                      <option value="font-stamp-21">21 - Kalam (Casual Artística)</option>
+                      <option value="font-stamp-22">22 - Always In My Heart (Delicada)</option>
+                      <option value="font-stamp-23">23 - Birds of Paradise (Caligráfica / Sin Números)</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="stamp-border-select" class="block text-xs font-bold text-slate-300 mb-1.5">
+                    Marco Perimetral:
+                  </label>
+                  <select id="stamp-border-select" class="w-full px-3.5 py-2.5 text-sm bg-slate-950 text-white border border-slate-700 rounded-xl focus:ring-2 focus:ring-cyan-500 outline-none font-medium">
+                    <option value="dashed" selected>Límite técnico punteado (sin marco impreso)</option>
+                    <option value="solid">Marco rectangular simple (línea impresa)</option>
+                    <option value="rounded">Marco con esquinas redondeadas</option>
+                    <option value="none">Sin marco perimetral</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Alineación y Color de Tinta -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div>
+                  <span class="block text-xs font-bold text-slate-300 mb-1.5">Alineación del texto:</span>
+                  <div class="inline-flex rounded-xl p-1 bg-slate-950 border border-slate-800">
+                    <button type="button" data-align="left" title="Alinear a la izquierda" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-slate-400 hover:text-white transition">
+                      Izquierda
+                    </button>
+                    <button type="button" data-align="center" title="Alinear al centro" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-cyan-600 text-white transition shadow-sm">
+                      Centrado
+                    </button>
+                    <button type="button" data-align="right" title="Alinear a la derecha" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-900 text-slate-400 hover:text-white transition">
+                      Derecha
+                    </button>
+                  </div>
+                </div>
+
+                <div>
+                  <span class="block text-xs font-bold text-slate-300 mb-1.5">Color de Tinta:</span>
+                  <div class="flex items-center gap-2.5 pt-1">
+                    <button type="button" data-ink-color="#111827" title="Tinta Negra Clásica" class="w-7 h-7 rounded-full bg-slate-900 border border-slate-600 ring-4 ring-offset-2 ring-cyan-500 ring-offset-slate-900 transition-all"></button>
+                    <button type="button" data-ink-color="#1e40af" title="Tinta Azul Institucional" class="w-7 h-7 rounded-full bg-blue-700 hover:scale-110 transition-all"></button>
+                    <button type="button" data-ink-color="#dc2626" title="Tinta Roja Notarial" class="w-7 h-7 rounded-full bg-red-600 hover:scale-110 transition-all"></button>
+                    <button type="button" data-ink-color="#6d28d9" title="Tinta Violeta" class="w-7 h-7 rounded-full bg-purple-700 hover:scale-110 transition-all"></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- PASO 4: Agregar Dibujo (Catálogo 1 al 168) -->
+            <div class="pt-5 border-t border-slate-800 space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-extrabold uppercase tracking-wider text-cyan-400 bg-cyan-950 border border-cyan-800 px-2.5 py-0.5 rounded">Paso 4</span>
+                <span class="text-xs text-amber-300 font-semibold bg-amber-950/40 px-2.5 py-0.5 rounded-full border border-amber-800/60">Opcional</span>
+              </div>
+              
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                <div>
+                  <h3 class="text-base sm:text-lg font-bold text-white">
+                    Agregar Dibujo al Sello
+                  </h3>
+                  <p class="text-xs text-slate-400">Elegí una ilustración de nuestro Catálogo Oficial 1 al 168</p>
+                </div>
+
+                <div class="flex items-center gap-2 flex-wrap">
+                  <button type="button" data-modal-open-tab="drawings" class="btn-open-catalog-modal inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-purple-950 text-purple-300 border border-purple-800 hover:bg-purple-900 hover:text-white rounded-xl transition shadow-sm">
+                    <span>🧸 Dibujos 1-168</span>
+                  </button>
+                  <button type="button" data-modal-open-tab="teacher" class="btn-open-catalog-modal inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-cyan-950 text-cyan-300 border border-cyan-800 hover:bg-cyan-900 hover:text-white rounded-xl transition shadow-sm">
+                    <span>👩‍🏫 Catálogo Docente CDC-8</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Selector de Posición del Dibujo -->
+              <div>
+                <span class="block text-xs font-bold text-slate-300 mb-2">Posición del dibujo en la huella:</span>
+                <div class="grid grid-cols-3 gap-2">
+                  <button type="button" data-drawing-pos="none" class="drawing-pos-btn py-2 px-3 rounded-xl text-xs font-bold border border-cyan-500 bg-cyan-950 text-cyan-200 transition">
+                    🚫 Sin Dibujo
+                  </button>
+                  <button type="button" data-drawing-pos="left" class="drawing-pos-btn py-2 px-3 rounded-xl text-xs font-bold border border-slate-800 bg-slate-950 text-slate-400 hover:text-white transition">
+                    👈 A la Izquierda
+                  </button>
+                  <button type="button" data-drawing-pos="right" class="drawing-pos-btn py-2 px-3 rounded-xl text-xs font-bold border border-slate-800 bg-slate-950 text-slate-400 hover:text-white transition">
+                    👉 A la Derecha
+                  </button>
+                </div>
+              </div>
+
+              <!-- Banner de Dibujo Actualmente Seleccionado -->
+              <div id="selected-drawing-banner" class="hidden items-center justify-between p-3 rounded-2xl bg-cyan-950/40 border border-cyan-700/60 transition-all">
+                <div class="flex items-center gap-3">
+                  <div class="w-12 h-12 bg-white rounded-xl p-1 flex items-center justify-center flex-shrink-0 shadow-md">
+                    <img id="selected-drawing-thumb" src="" alt="" class="max-w-full max-h-full object-contain filter contrast-125" />
+                  </div>
+                  <div>
+                    <div class="flex items-center gap-2">
+                      <span class="text-xs font-mono font-bold text-cyan-400" id="selected-drawing-code">#--</span>
+                      <span class="text-xs font-bold text-white" id="selected-drawing-title">--</span>
+                    </div>
+                    <span class="text-[11px] text-slate-400" id="selected-drawing-pos-text">Ubicación: A la Izquierda</span>
+                  </div>
+                </div>
+                <button type="button" id="btn-remove-selected-drawing" class="text-xs text-rose-400 hover:text-rose-300 font-bold px-3 py-1.5 rounded-xl bg-slate-900 border border-rose-900/50 hover:bg-rose-950/50 transition">
+                  ✕ Quitar
+                </button>
+              </div>
+
+              <!-- Buscador y Selector de Dibujo -->
+              <div id="drawing-selector-wrapper" class="space-y-3 pt-2">
+                <div class="flex items-center gap-2">
+                  <div class="relative flex-1">
+                    <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">🔍</span>
+                    <input type="text" id="stamp-drawing-search" placeholder="Buscar dibujo por número o nombre (ej: 24, Messi, Stitch, AFA, Panda...)" class="w-full pl-9 pr-4 py-2 text-xs bg-slate-950 text-white border border-slate-700 rounded-xl focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+                  </div>
+                  <span id="drawing-results-counter" class="text-[11px] text-slate-400 font-mono whitespace-nowrap">168 dibujos</span>
+                </div>
+
+                <!-- Filtro por Categorías Rápidas -->
+                <div class="flex gap-1.5 overflow-x-auto pb-1.5 catalog-scroll text-[11px]">
+                  <button type="button" data-drawing-cat="todos" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-cyan-600 text-white whitespace-nowrap">Todos (168)</button>
+                  <button type="button" data-drawing-cat="deportes" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">⚽ Deportes (1-16)</button>
+                  <button type="button" data-drawing-cat="escudos" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">🏆 Escudos (17-26)</button>
+                  <button type="button" data-drawing-cat="fantasia" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">🦄 Unicornios (27-40)</button>
+                  <button type="button" data-drawing-cat="corazones" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">💖 Corazones (41-56)</button>
+                  <button type="button" data-drawing-cat="animales" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">🐾 Animales (57-66)</button>
+                  <button type="button" data-drawing-cat="personajes" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">🦸 Personajes (67-96)</button>
+                  <button type="button" data-drawing-cat="musica_cine" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">⚡ Cine & HP (97-118)</button>
+                  <button type="button" data-drawing-cat="naturaleza_gaming" class="drawing-cat-btn px-2.5 py-1 rounded-lg font-semibold bg-slate-950 text-slate-400 hover:text-white whitespace-nowrap">🎮 Gaming & Stitch (119-168)</button>
+                </div>
+
+                <!-- Grilla con Scroll de Dibujos -->
+                <div id="stamp-drawings-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2 max-h-56 overflow-y-auto p-2 bg-slate-950/80 rounded-2xl border border-slate-800 catalog-scroll">
+                  <!-- Inyectado por JS -->
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- Columna Derecha: Live Preview y WhatsApp -->
+        <div class="lg:col-span-5 space-y-6 lg:sticky lg:top-28">
+          
+          <div class="bg-slate-900 rounded-3xl p-6 shadow-2xl border border-slate-800">
+            <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-800">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <h4 id="stamp-mode-badge" class="text-xs font-bold tracking-wider text-slate-300 uppercase">Personalizado</h4>
+              </div>
+              <span id="stamp-dimension-badge" class="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-slate-950 text-cyan-400 border border-slate-800">
+                47 x 18 mm (Aprox.)
+              </span>
+            </div>
+
+            <!-- Recuadro simulador de huella -->
+            <div id="stamp-live-preview-box" class="stamp-paper-bg rounded-2xl border border-slate-300 min-h-[220px] flex items-center justify-center p-4 overflow-hidden shadow-inner">
+              <div id="stamp-inner-frame" class="p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-dashed border-slate-400 rounded-sm">
+                <div id="stamp-live-text-content" class="stamp-ink-effect font-stamp-01 text-center space-y-1 w-full">
+                  <!-- Inyectado por JS -->
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-3 flex items-center justify-between text-[11px] text-slate-400">
+              <span id="stamp-apparatus-badge" class="font-medium text-slate-300">Aparato Automático</span>
+              <span class="italic text-slate-400">Grabado en goma sintética HD</span>
+            </div>
+
+            <!-- Banner de Sello Docente Seleccionado -->
+            <div id="selected-teacher-stamp-banner" class="hidden mt-3 p-3 rounded-2xl bg-cyan-950/70 border border-cyan-800/80 items-center justify-between text-xs gap-2">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="text-xl flex-shrink-0">👩‍🏫</span>
+                <div class="min-w-0">
+                  <div class="flex items-center gap-1.5">
+                    <span id="teacher-banner-code" class="px-1.5 py-0.5 rounded text-[10px] font-mono font-bold bg-cyan-900 text-cyan-200">#12M</span>
+                    <span class="text-[10px] text-cyan-300 font-semibold uppercase">Catálogo CDC-8</span>
+                  </div>
+                  <p id="teacher-banner-phrase" class="text-xs font-bold text-white truncate mt-0.5">MESSIRVE</p>
+                </div>
+              </div>
+              <button type="button" id="btn-remove-teacher-stamp" class="text-[11px] font-bold text-red-400 hover:text-red-300 bg-red-950/80 border border-red-800/80 px-2.5 py-1.5 rounded-xl transition hover:bg-red-900/80 flex-shrink-0">
+                ✕ Volver a líneas
+              </button>
+            </div>
+          </div>
+
+          <!-- Resumen y Enlace a WhatsApp -->
+          <div class="bg-gradient-to-br from-slate-900 via-slate-900 to-slate-950 rounded-3xl p-6 border border-slate-800 shadow-2xl space-y-5">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">Resumen del Pedido</span>
+              <span class="text-xs text-slate-400">Valentín Alsina</span>
+            </div>
+
+            <div class="space-y-2.5 text-xs sm:text-sm text-slate-300 border-b border-slate-800 pb-4">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Modalidad:</span>
+                <span id="summary-mode" class="font-bold text-cyan-300">Personalizado</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Medida Estimada:</span>
+                <span id="summary-dimensions" class="font-bold text-white bg-slate-800 px-2 py-0.5 rounded border border-slate-700">47 x 18 mm</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Aparato:</span>
+                <span id="summary-apparatus" class="font-bold text-white bg-slate-800 px-2 py-0.5 rounded border border-slate-700">Aparato Automático</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Tipografía:</span>
+                <span id="summary-font" class="font-semibold text-cyan-300">01 - Arial</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Dibujo / Código:</span>
+                <span id="summary-drawing" class="font-bold text-amber-300">Sin dibujo</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400">Detalle / Texto:</span>
+                <span id="summary-content" class="text-right text-slate-200 font-medium truncate max-w-[200px]">3 Líneas de texto</span>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 leading-relaxed">
+              💬 <strong>Presupuesto directo:</strong> Enviás el diseño por mensaje de WhatsApp a <strong>Librería Universal</strong> y te confirmamos precio y plazo de entrega para retirar por nuestro local.
+            </div>
+
+            <div class="space-y-2.5 pt-1">
+              <button id="btn-whatsapp-stamp-order" type="button" 
+                      class="w-full py-4 px-6 rounded-2xl font-black text-sm sm:text-base bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/30 hover:shadow-emerald-600/50 transition-all flex items-center justify-center gap-3 transform hover:-translate-y-0.5 active:translate-y-0">
+                <svg class="w-6 h-6 fill-current flex-shrink-0" viewBox="0 0 24 24">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+                </svg>
+                <span>Solicitar Presupuesto por WhatsApp</span>
+              </button>
+
+              <button id="btn-copy-stamp-details" type="button"
+                      class="w-full py-2.5 px-4 rounded-xl font-semibold text-xs text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 transition flex items-center justify-center gap-2 border border-slate-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                <span>Copiar Especificaciones</span>
+              </button>
+
+              <button type="button" class="btn-open-catalog-modal w-full py-2 px-4 rounded-xl font-semibold text-xs text-cyan-300 hover:text-white bg-cyan-950/40 hover:bg-cyan-900/60 transition flex items-center justify-center gap-2 border border-cyan-800">
+                <span>📖 Ver Catálogos Completos (PDFs y Láminas)</span>
+              </button>
+            </div>
+
+            <div class="pt-2 text-center text-xs text-slate-400">
+              ⚡ <strong>Retiro en el local:</strong> Av. Pte. Tte. Gral. J. D. Perón 3502
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       E. SECCIÓN DE INSUMOS DE LIBRERÍA
+       ========================================================================= -->
+  <section id="libreria" class="py-20 bg-slate-900 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-amber-400 bg-amber-950 px-3 py-1 rounded-full border border-amber-800">
+          Librería Universal
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-3 mb-4">
+          Artículos de Librería Comercial, Escolar & Técnica
+        </h2>
+        <p class="text-base text-slate-400">
+          Abastecemos a oficinas, estudios profesionales, instituciones educativas y artistas. Consultá por disponibilidad o presupuestos por volumen.
+        </p>
+      </div>
+
+      <!-- Filtros y Buscador -->
+      <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8 bg-slate-950 p-3 sm:p-4 rounded-2xl shadow-lg border border-slate-800">
+        
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <button type="button" data-stationery-tab="comercial" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-cyan-600 text-white shadow-md shadow-cyan-600/30 transition">
+            Librería Comercial (Oficina)
+          </button>
+          <button type="button" data-stationery-tab="escolar" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 text-slate-300 hover:bg-slate-800 transition">
+            Escolar & Artística
+          </button>
+          <button type="button" data-stationery-tab="tecnica" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-slate-900 text-slate-300 hover:bg-slate-800 transition">
+            Papelería Técnica & Especial
+          </button>
+        </div>
+
+        <div class="relative w-full md:w-72">
+          <input type="text" id="stationery-search-input" placeholder="Buscar por artículo, marca..." 
+                 class="w-full pl-9 pr-4 py-2.5 text-xs sm:text-sm bg-slate-900 text-white border border-slate-700 rounded-xl focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none transition placeholder-slate-500">
+          <svg class="w-4 h-4 text-slate-400 absolute left-3 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+
+      </div>
+
+      <!-- Grid de Productos -->
+      <div id="stationery-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Renderizado por app.js -->
+      </div>
+
+      <!-- Banner de Pedidos Mayoristas -->
+      <div class="mt-12 bg-gradient-to-r from-purple-950 via-slate-900 to-slate-950 rounded-3xl p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl border border-slate-800">
+        <div class="space-y-2 text-center md:text-left">
+          <span class="text-xs font-bold uppercase tracking-wider text-purple-300 bg-purple-950 px-2.5 py-1 rounded-md border border-purple-800">
+            Atención a Empresas y Colegios
+          </span>
+          <h3 class="text-xl sm:text-2xl font-black">¿Necesitás comprar insumos por bulto o resmas cerradas?</h3>
+          <p class="text-xs sm:text-sm text-slate-300 max-w-xl">
+            Emitimos Factura A y B. Hacemos listas escolares completas con descuento por cantidad y entregas programadas en Valentín Alsina y alrededores.
+          </p>
+        </div>
+        <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quisiera%20solicitar%20cotización%20mayorista" target="_blank"
+           class="flex-shrink-0 px-6 py-3.5 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-xl shadow-lg transition transform hover:-translate-y-0.5 text-sm">
+          Solicitar Lista Mayorista
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- =========================================================================
+       F. CÓMO TRABAJAMOS / PASO A PASO
+       ========================================================================= -->
+  <section class="py-16 bg-slate-950 border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          Tu trabajo impreso en 4 pasos sencillos
+        </h2>
+        <p class="text-sm text-slate-400 mt-2">Garantizamos una experiencia ágil y sin complicaciones.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+        
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center relative">
+          <div class="w-10 h-10 rounded-full bg-cyan-600 text-white font-black text-sm flex items-center justify-center mx-auto mb-4 shadow-md shadow-cyan-600/30">
+            1
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">Envío por WhatsApp</h3>
+          <p class="text-xs text-slate-400">Nos enviás tu archivo listo por mensaje o te asesoramos en el diseño.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center relative">
+          <div class="w-10 h-10 rounded-full bg-purple-600 text-white font-black text-sm flex items-center justify-center mx-auto mb-4 shadow-md shadow-purple-600/30">
+            2
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">Muestra Digital</h3>
+          <p class="text-xs text-slate-400">Te confirmamos presupuesto y muestra digital previa a la impresión.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center relative">
+          <div class="w-10 h-10 rounded-full bg-amber-500 text-white font-black text-sm flex items-center justify-center mx-auto mb-4 shadow-md shadow-amber-500/30">
+            3
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">Impresión y Acabado</h3>
+          <p class="text-xs text-slate-400">Procesamos con calibración de color, cortes limpios y control de calidad.</p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-slate-900 border border-slate-800 text-center relative">
+          <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-black text-sm flex items-center justify-center mx-auto mb-4 shadow-md shadow-emerald-600/30">
+            4
+          </div>
+          <h3 class="font-bold text-white text-base mb-2">Retiro en Local</h3>
+          <p class="text-xs text-slate-400">Retirás por nuestro local en Av. Perón 3502, Valentín Alsina.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+
+
+
+
+  <!-- =========================================================================
+       H. FOOTER Y CONTACTO (DATOS REALES LIBRERÍA UNIVERSAL)
+       ========================================================================= -->
+  <footer id="contacto" class="bg-slate-950 text-white pt-16 pb-12 border-t-4 border-purple-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-slate-800">
+        
+        <!-- Columna 1: Marca y Resumen -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <img src="img/logo-libreria-universal.png" alt="Logo Librería Universal" class="w-12 h-12 rounded-full object-contain bg-slate-900 border-2 border-slate-700 shadow-md">
+            <div>
+              <span class="text-xl font-black text-white">Librería Universal</span>
+              <span class="text-xs block text-slate-400 font-semibold uppercase">Valentín Alsina</span>
+            </div>
+          </div>
+          <p class="text-xs text-slate-400 leading-relaxed">
+            Tu centro gráfico integral de confianza en Valentín Alsina. Impresiones, plastificados, encuadernaciones, sellos y librería comercial y escolar.
+          </p>
+          <div class="p-2.5 rounded-xl bg-amber-950/60 border border-amber-800/80 text-[11px] text-amber-300">
+            ⚠️ <strong>Aviso:</strong> No recibimos llamadas telefónicas. Escribinos directamente por mensaje de WhatsApp.
+          </div>
+        </div>
+
+        <!-- Columna 2: Navegación Rápida -->
+        <div>
+          <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Navegación</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li><a href="#inicio" class="hover:text-cyan-400 transition">Inicio</a></li>
+            <li><a href="#servicios" class="hover:text-cyan-400 transition">Servicios de Imprenta</a></li>
+            <li><a href="#cotizador-sellos" class="hover:text-cyan-400 transition font-bold text-cyan-300">Diseñador de Sellos en Vivo</a></li>
+            <li><a href="#libreria" class="hover:text-cyan-400 transition">Insumos de Librería</a></li>
+            <li><a href="#contacto" class="hover:text-cyan-400 transition">Ubicación y Contacto</a></li>
+          </ul>
+        </div>
+
+        <!-- Columna 3: Servicios Destacados -->
+        <div>
+          <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Servicios</h4>
+          <ul class="space-y-2 text-xs text-slate-400">
+            <li>Impresiones Láser ByN y Color HD</li>
+            <li>Sellos Automáticos y de Madera</li>
+            <li>Plastificados en frío y calor</li>
+            <li>Anillados y Edición de Libros</li>
+            <li>Diseño Gráfico y Papelería</li>
+            <li>Artículos de Librería y Oficina</li>
+          </ul>
+        </div>
+
+        <!-- Columna 4: Ubicación y Horarios Oficiales -->
+        <div class="space-y-3">
+          <h4 class="text-sm font-bold uppercase tracking-wider text-slate-200 mb-4">Atención al Cliente</h4>
+          <div class="flex items-start gap-2.5 text-xs text-slate-300">
+            <svg class="w-4 h-4 text-cyan-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span><strong>Av. Pte. Tte. Gral. J. D. Perón 3502</strong><br>Valentín Alsina, Buenos Aires</span>
+          </div>
+
+          <div class="flex items-start gap-2.5 text-xs text-slate-300">
+            <svg class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+            </svg>
+            <div>
+              <p><strong class="text-white">+54 9 11 2609-7125</strong></p>
+              <p class="text-[11px] text-slate-400">Solo mensajes de texto o audio</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-2.5 text-xs text-slate-300">
+            <svg class="w-4 h-4 text-purple-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div>
+              <p><strong class="text-white">Horarios de atención:</strong></p>
+              <p>Mañana: 9:30 a 13:15 hs</p>
+              <p>Tarde: 16:00 a 19:30 hs</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2.5 text-xs text-slate-300 pt-1">
+            <svg class="w-4 h-4 text-pink-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            <a href="mailto:libu.impresiones@gmail.com" class="text-cyan-400 hover:underline">libu.impresiones@gmail.com</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+        <p>&copy; 2026 Librería Universal. Valentín Alsina, Buenos Aires. Todos los derechos reservados.</p>
+        <p class="text-slate-400">Página Web Profesional &bull; Imprenta, Gráfica & Librería.</p>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       BOTÓN FLOTANTE DE WHATSAPP
+       ========================================================================= -->
+  <a id="floating-whatsapp" href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Me%20contacto%20desde%20la%20p%C3%A1gina%20web" target="_blank" aria-label="Escribir por WhatsApp a Librería Universal"
+     class="whatsapp-pulse fixed bottom-6 right-6 z-50 w-14 h-14 bg-emerald-500 hover:bg-emerald-400 text-white rounded-full flex items-center justify-center shadow-2xl transition transform hover:scale-110">
+    <svg class="w-7 h-7 fill-current" viewBox="0 0 24 24">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+    </svg>
+  </a>
+
+  <!-- =========================================================================
+       MODAL LIGHTBOX: CATÁLOGOS VISUALES COMPLETOS (DIBUJOS 1-168, DOCENTE CDC-8)
+       ========================================================================= -->
+  <div id="catalog-lightbox-modal" class="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md hidden items-center justify-center p-3 sm:p-6 transition-all duration-300">
+    <div class="bg-slate-900 border border-slate-700 w-full max-w-4xl max-h-[90vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+      
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-6 border-b border-slate-800 flex items-center justify-between gap-4 bg-slate-950/60">
+        <div>
+          <span class="text-[11px] font-extrabold uppercase tracking-wider text-cyan-400 bg-cyan-950 border border-cyan-800 px-2 py-0.5 rounded">Catálogos Oficiales</span>
+          <h3 class="text-base sm:text-xl font-black text-white mt-1">Explorador de Dibujos & Sellos Docentes</h3>
+        </div>
+        <button type="button" id="btn-close-catalog-modal" class="w-9 h-9 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center font-bold text-lg transition">
+          ✕
+        </button>
+      </div>
+
+      <!-- Modal Tabs & PDF Download Links -->
+      <div class="px-4 sm:px-6 pt-3 pb-2 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3 bg-slate-900">
+        <!-- Tabs -->
+        <div class="flex items-center gap-2" id="modal-tabs">
+          <button type="button" data-modal-tab="drawings" class="modal-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-cyan-600 text-white shadow transition">
+            🧸 Dibujos del Catálogo (1 al 168)
+          </button>
+          <button type="button" data-modal-tab="teacher" class="modal-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white transition">
+            👩‍🏫 Catálogo Docente CDC-8
+          </button>
+        </div>
+
+        <!-- PDF Direct Links -->
+        <div class="flex items-center gap-2 text-xs">
+          <a href="catalogos/dibujitos-sellos-infantiles.pdf" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-950 text-purple-300 border border-purple-800 hover:bg-purple-900 hover:text-white font-semibold transition">
+            <span>📥 PDF Dibujos 1 al 168</span>
+          </a>
+          <a href="catalogos/catalogo-docente-cdc8.pdf" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-cyan-950 text-cyan-300 border border-cyan-800 hover:bg-cyan-900 hover:text-white font-semibold transition">
+            <span>📥 PDF Docente CDC-8 (19 pág.)</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Modal Search Bar -->
+      <div class="p-4 sm:px-6 bg-slate-950/40 border-b border-slate-800 flex items-center gap-3">
+        <div class="relative flex-1">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">🔍</span>
+          <input type="text" id="modal-search-input" placeholder="Buscar por número o palabra clave (ej: Messi, AFA, Stitch, Capybara, 12M, T25...)" class="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-slate-950 text-white border border-slate-700 rounded-xl focus:ring-2 focus:ring-cyan-500 outline-none placeholder-slate-500">
+        </div>
+        <span id="modal-items-count" class="text-xs text-slate-400 font-mono whitespace-nowrap">Cargando...</span>
+      </div>
+
+      <!-- Barra de Filtros Rápidos de Colecciones Docentes (Pills) -->
+      <div id="modal-teacher-filters" class="hidden px-4 sm:px-6 py-2.5 bg-slate-950/70 border-b border-slate-800 overflow-x-auto catalog-scroll whitespace-nowrap gap-2 items-center">
+        <!-- Generado dinámicamente en app.js -->
+      </div>
+
+      <!-- Modal Interactive Grid -->
+      <div class="p-4 sm:p-6 overflow-y-auto max-h-[60vh] catalog-scroll bg-slate-950/60">
+        <div id="modal-grid-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          <!-- Inyectado por JS -->
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-3 sm:p-4 bg-slate-950 border-t border-slate-800 flex items-center justify-between text-xs text-slate-400">
+        <span>💡 <strong>Consejo:</strong> Hacé clic en cualquier diseño para seleccionarlo en tu sello automáticamente.</span>
+        <button type="button" id="btn-modal-close-footer" class="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold transition">
+          Cerrar
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/stamp-data.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    if (window.lucide) {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

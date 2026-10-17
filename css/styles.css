@@ -1,0 +1,270 @@
+/* Estilos personalizados para CMYK Gráfica, Imprenta y Librería */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Inter:wght@300;400;500;600;700;800&family=Oswald:wght@500;700&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Poppins:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap');
+
+:root {
+  --cmyk-cyan: #00A3E0;
+  --cmyk-magenta: #E5007D;
+  --cmyk-yellow: #FFD100;
+  --cmyk-black: #111827;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* Efecto de papel y huella de sello */
+.stamp-paper-bg {
+  background-color: #fbfbfa;
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px), radial-gradient(#f3f4f6 1px, #fbfbfa 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+}
+
+/* Simulación de textura de tinta de goma */
+.stamp-ink-effect {
+  position: relative;
+  transition: all 0.25s ease;
+  filter: contrast(1.1) drop-shadow(0px 1px 1px rgba(0,0,0,0.06));
+}
+
+.stamp-ink-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+  opacity: 0.7;
+}
+
+/* ==========================================================================
+   CATÁLOGO OFICIAL DE 23 TIPOGRAFÍAS PARA SELLOS
+   ========================================================================== */
+
+/* ─── 1. ESTÁNDAR (01 - 11) ─── */
+.font-stamp-01 {
+  font-family: Arial, Helvetica, system-ui, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+.font-stamp-02 {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  letter-spacing: 0.01em;
+}
+
+.font-stamp-03 {
+  font-family: 'Archivo Narrow', 'Arial Narrow', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.font-stamp-04 {
+  font-family: 'Barlow', 'Segoe UI', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.font-stamp-05 {
+  font-family: 'Arvo', Georgia, serif;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.font-stamp-06 {
+  font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.font-stamp-07 {
+  font-family: 'Varela Round', Verdana, system-ui, sans-serif;
+  letter-spacing: 0.01em;
+}
+
+.font-stamp-08 {
+  font-family: 'Hobo Std', 'Arial Black', sans-serif;
+  letter-spacing: 0.02em;
+}
+
+.font-stamp-09 {
+  font-family: 'Patrick Hand', 'Comic Sans MS', cursive;
+  letter-spacing: 0.02em;
+}
+
+.font-stamp-10 {
+  font-family: Impact, 'Arial Black', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.font-stamp-11 {
+  font-family: 'Orbitron', monospace, sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+/* ─── 2. SOLO MAYÚSCULAS (12 - 16) ─── */
+.font-stamp-12 {
+  font-family: 'Bebas Neue', Impact, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.font-stamp-13 {
+  font-family: 'Lemon', cursive, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.font-stamp-14 {
+  font-family: 'TrashHand', 'Comic Sans MS', cursive;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.font-stamp-15 {
+  font-family: 'Amatic SC', cursive, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1.2em;
+}
+
+.font-stamp-16 {
+  font-family: 'Charge Vector', 'Orbitron', monospace, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ─── 3. CURSIVAS (17 - 23) ─── */
+.font-stamp-17 {
+  font-family: 'Script MT Bold', 'Brush Script MT', cursive;
+  letter-spacing: 0.02em;
+}
+
+.font-stamp-18 {
+  font-family: 'Satisfy', cursive;
+  line-height: 1.25;
+}
+
+.font-stamp-19 {
+  font-family: 'Dancing Script', cursive;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.font-stamp-20 {
+  font-family: 'Courgette', cursive;
+  line-height: 1.25;
+}
+
+.font-stamp-21 {
+  font-family: 'Kalam', cursive;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.25;
+}
+
+.font-stamp-22 {
+  font-family: 'Always In My Heart', cursive;
+  line-height: 1.25;
+}
+
+.font-stamp-23 {
+  font-family: 'Birds of Paradise', cursive;
+  line-height: 1.25;
+}
+
+/* Aliases de compatibilidad previa */
+.font-sans-clean { font-family: Arial, Helvetica, system-ui, sans-serif; letter-spacing: -0.01em; }
+.font-serif-formal { font-family: 'Times New Roman', Times, Georgia, serif; letter-spacing: 0.01em; }
+.font-script-elegant { font-family: 'Dancing Script', cursive; font-weight: 700; line-height: 1.25; }
+.font-impact-bold { font-family: Impact, 'Arial Black', sans-serif; text-transform: uppercase; letter-spacing: 0.05em; }
+.font-tech-clean { font-family: 'Orbitron', monospace, sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+
+/* ==========================================================================
+   TIPOGRAFÍAS PARA SELLOS DE ROPA / TELA (1 al 10)
+   ========================================================================== */
+.font-cloth-01 { font-family: Arial, Helvetica, sans-serif; }
+.font-cloth-02 { font-family: 'Lemon', cursive, sans-serif; letter-spacing: 0.02em; }
+.font-cloth-03 { font-family: 'Hobo Std', 'Arial Black', sans-serif; }
+.font-cloth-04 { font-family: 'Bebas Neue', Impact, sans-serif; letter-spacing: 0.06em; text-transform: uppercase; }
+.font-cloth-05 { font-family: 'Trebuchet MS', 'Lucida Sans', sans-serif; font-weight: bold; }
+.font-cloth-06 { font-family: 'Comic Sans MS', cursive, sans-serif; font-weight: bold; }
+.font-cloth-07 { font-family: 'Fredoka', 'Varela Round', sans-serif; font-weight: 700; }
+.font-cloth-08 { font-family: 'Patrick Hand', 'Kalam', cursive; font-size: 1.15em; line-height: 1.2; }
+.font-cloth-09 { font-family: 'Rockwell', 'Arvo', serif; font-weight: 700; }
+.font-cloth-10 { font-family: 'Script MT Bold', 'Dancing Script', cursive; line-height: 1.25; }
+
+/* Proporciones físicas de sellos docentes */
+.stamp-frame-4x4 { width: 230px; height: 230px; }
+.stamp-frame-4x2 { width: 320px; height: 160px; }
+.stamp-frame-5x3 { width: 300px; height: 180px; }
+.stamp-frame-6x4 { width: 320px; height: 213px; }
+
+/* Scrollbars personalizados para grillas de catálogos */
+.catalog-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.catalog-scroll::-webkit-scrollbar-track {
+  background: #0f172a;
+  border-radius: 9999px;
+}
+.catalog-scroll::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 9999px;
+}
+.catalog-scroll::-webkit-scrollbar-thumb:hover {
+  background: #0284c7;
+}
+
+/* Animación de pulso para botón WhatsApp */
+@keyframes softPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 10px 25px -5px rgba(34, 197, 94, 0.4), 0 8px 10px -6px rgba(34, 197, 94, 0.3);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 20px 35px -5px rgba(34, 197, 94, 0.6), 0 10px 15px -5px rgba(34, 197, 94, 0.4);
+  }
+}
+
+.whatsapp-pulse {
+  animation: softPulse 2.8s infinite ease-in-out;
+}
+
+/* Efecto CMYK Dots decorativo */
+.cmyk-dot-c { background-color: var(--cmyk-cyan); }
+.cmyk-dot-m { background-color: var(--cmyk-magenta); }
+.cmyk-dot-y { background-color: var(--cmyk-yellow); }
+.cmyk-dot-k { background-color: var(--cmyk-black); }
+
+/* Gradiente sutil CMYK en bordes o barras */
+.cmyk-bar {
+  background: linear-gradient(90deg, 
+    var(--cmyk-cyan) 0%, 
+    var(--cmyk-cyan) 25%, 
+    var(--cmyk-magenta) 25%, 
+    var(--cmyk-magenta) 50%, 
+    var(--cmyk-yellow) 50%, 
+    var(--cmyk-yellow) 75%, 
+    var(--cmyk-black) 75%, 
+    var(--cmyk-black) 100%
+  );
+}
+
+/* Estilo para items activos de tabs */
+.tab-active {
+  border-bottom: 3px solid #0284c7;
+  color: #0284c7;
+  font-weight: 600;
+}
+
+/* Toast flotante */
+#toast-notification {
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}

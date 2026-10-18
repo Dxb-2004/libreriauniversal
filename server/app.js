@@ -57,6 +57,12 @@ const {
   xssSanitizerMiddleware
 } = require('./security/sanitizer');
 const { requireBotVerification } = require('./security/botVerification');
+const {
+  verifyAdminPassword,
+  updateAdminPassword,
+  resetAdminPasswordWithCode,
+  getAdminEmail
+} = require('./security/authManager');
 const { db } = require('./db/client');
 const productsRouter = require('./routes/products');
 
@@ -209,12 +215,13 @@ app.post(
       const { email, password } = req.body;
       const normalizedEmail = (email || '').trim().toLowerCase();
 
-      // 1. Verificación de Administrador
-      const isAdminEmail = (normalizedEmail === env.ADMIN_EMAIL.toLowerCase() || normalizedEmail === 'admin@libreriauniversal.com');
-      const isAdminPassword = (password === env.ADMIN_PASSWORD || password === 'UniversalAlsina2026!');
+      // 1. Verificación de Administrador (Hasheo seguro Bcrypt + AES-256)
+      const adminEmail = getAdminEmail();
+      const isAdminEmail = (normalizedEmail === adminEmail.toLowerCase() || normalizedEmail === 'admin@libreriauniversal.com');
 
       if (isAdminEmail) {
-        if (!isAdminPassword) {
+        const isPasswordCorrect = await verifyAdminPassword(password);
+        if (!isPasswordCorrect) {
           return res.status(401).json({
             error: 'InvalidCredentials',
             message: 'Contraseña de administrador incorrecta. Verifique sus datos.'
@@ -223,7 +230,7 @@ app.post(
 
         const adminUser = {
           id: 'admin_master_lu_2026',
-          email: env.ADMIN_EMAIL,
+          email: adminEmail,
           full_name: 'Administrador Librería Universal',
           role: 'admin'
         };
@@ -292,6 +299,137 @@ app.get(['/api/auth/me', '/auth/me'], requireAuth, (req, res) => {
     user: req.user
   });
 });
+
+/**
+ * Punto 10: Cambio de Contraseña de Administrador (Protegido por Middleware JWT)
+ * Valida contraseña previa, hashea nueva contraseña con Bcrypt (costo 12) y renueva token
+ */
+app.post(
+  ['/api/auth/change-password', '/auth/change-password'],
+  requireAuth,
+  authRateLimiter,
+  async (req, res) => {
+    try {
+      if (!req.user || req.user.role !== 'admin') {
+        return res.status(403).json({
+          error: 'Forbidden',
+          message: 'Permiso denegado. Solo administradores pueden cambiar la contraseña.'
+        });
+      }
+
+      const { currentPassword, newPassword, confirmPassword } = req.body;
+
+      if (!currentPassword || !newPassword) {
+        return res.status(400).json({
+          error: 'BadRequest',
+          message: 'Debe ingresar la contraseña actual y la nueva contraseña.'
+        });
+      }
+
+      if (confirmPassword && newPassword !== confirmPassword) {
+        return res.status(400).json({
+          error: 'BadRequest',
+          message: 'La nueva contraseña y su confirmación no coinciden.'
+        });
+      }
+
+      // Validar contraseña actual con hash bcrypt
+      const isCurrentValid = await verifyAdminPassword(currentPassword);
+      if (!isCurrentValid) {
+        return res.status(401).json({
+          error: 'InvalidCredentials',
+          message: 'La contraseña actual ingresada es incorrecta.'
+        });
+      }
+
+      if (currentPassword === newPassword) {
+        return res.status(400).json({
+          error: 'BadRequest',
+          message: 'La nueva contraseña no puede ser igual a la anterior.'
+        });
+      }
+
+      // Encriptar / hashear con Bcrypt costo 12
+      await updateAdminPassword(newPassword);
+
+      // Renovar token de administrador
+      const adminEmail = getAdminEmail();
+      const updatedUser = {
+        id: req.user.id || 'admin_master_lu_2026',
+        email: adminEmail,
+        full_name: 'Administrador Librería Universal',
+        role: 'admin'
+      };
+
+      const newToken = generateToken(updatedUser);
+      setAuthCookie(res, newToken);
+
+      return res.json({
+        success: true,
+        message: 'Contraseña actualizada y encriptada exitosamente con Bcrypt (costo 12).',
+        token: newToken,
+        user: updatedUser
+      });
+    } catch (err) {
+      console.error('Error al cambiar contraseña:', err.message);
+      return res.status(400).json({
+        error: 'BadRequest',
+        message: err.message || 'Error al procesar el cambio de contraseña.'
+      });
+    }
+  }
+);
+
+/**
+ * Punto 5 y 10: Restablecimiento de Contraseña de Emergencia con Código Cifrado AES-256-GCM
+ */
+app.post(
+  ['/api/auth/reset-password', '/auth/reset-password'],
+  authRateLimiter,
+  async (req, res) => {
+    try {
+      const { email, recoveryCode, newPassword, confirmPassword } = req.body;
+
+      if (!email || !recoveryCode || !newPassword) {
+        return res.status(400).json({
+          error: 'BadRequest',
+          message: 'Todos los campos son obligatorios (correo, código de seguridad y nueva contraseña).'
+        });
+      }
+
+      if (confirmPassword && newPassword !== confirmPassword) {
+        return res.status(400).json({
+          error: 'BadRequest',
+          message: 'La nueva contraseña y su confirmación no coinciden.'
+        });
+      }
+
+      const adminEmail = getAdminEmail();
+      const normalizedEmail = (email || '').trim().toLowerCase();
+
+      if (normalizedEmail !== adminEmail.toLowerCase() && normalizedEmail !== 'admin@libreriauniversal.com') {
+        return res.status(404).json({
+          error: 'NotFound',
+          message: 'El correo electrónico no corresponde a la cuenta de administración.'
+        });
+      }
+
+      // Valida el código contra el secreto descifrado con AES-256-GCM y hashea la nueva clave
+      await resetAdminPasswordWithCode(recoveryCode, newPassword);
+
+      return res.json({
+        success: true,
+        message: 'Contraseña restablecida exitosamente. Inicie sesión con su nueva clave.'
+      });
+    } catch (err) {
+      console.error('Error al restablecer contraseña:', err.message);
+      return res.status(400).json({
+        error: 'SecurityError',
+        message: err.message || 'Error al validar el código o restablecer la contraseña.'
+      });
+    }
+  }
+);
 
 /**
  * Puntos 4, 5, 6, 8, 13, 14: Creación de Pedido con Cifrado AES-256 de Datos Sensibles

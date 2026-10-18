@@ -29,9 +29,9 @@ const adminState = {
 // 1. INICIALIZACIÓN Y PROTECCIÓN DE SESIÓN
 // =============================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  // 1. Verificar credenciales almacenadas
-  const token = localStorage.getItem('lu_admin_token');
-  const storedUser = localStorage.getItem('lu_admin_user');
+  // 1. Verificar credenciales almacenadas (soporta sessionStorage y localStorage)
+  const token = sessionStorage.getItem('lu_admin_token') || localStorage.getItem('lu_admin_token');
+  const storedUser = sessionStorage.getItem('lu_admin_user') || localStorage.getItem('lu_admin_user');
 
   if (!token || !storedUser) {
     window.location.replace('login.html');
@@ -178,6 +178,104 @@ function initEventListeners() {
   urlInput.addEventListener('input', (e) => {
     updateImagePreview(e.target.value.trim());
   });
+
+  // Modal Cambiar Contraseña de Administrador (Bcrypt costo 12)
+  const pwdModal = document.getElementById('password-modal');
+  const btnOpenPwd = document.getElementById('btn-open-password-modal');
+  const btnClosePwd = document.getElementById('btn-close-password-modal');
+  const btnCancelPwd = document.getElementById('btn-cancel-pwd');
+  const changePwdForm = document.getElementById('change-password-form');
+  const pwdErrorAlert = document.getElementById('pwd-error-alert');
+
+  if (btnOpenPwd && pwdModal) {
+    btnOpenPwd.addEventListener('click', () => {
+      if (pwdErrorAlert) {
+        pwdErrorAlert.classList.add('hidden');
+        pwdErrorAlert.textContent = '';
+      }
+      if (changePwdForm) changePwdForm.reset();
+      pwdModal.classList.remove('hidden');
+      pwdModal.classList.add('flex');
+      const currInput = document.getElementById('input-curr-pwd');
+      if (currInput) currInput.focus();
+    });
+  }
+
+  const closePwdModal = () => {
+    if (!pwdModal) return;
+    pwdModal.classList.add('hidden');
+    pwdModal.classList.remove('flex');
+    if (changePwdForm) changePwdForm.reset();
+  };
+
+  if (btnClosePwd) btnClosePwd.addEventListener('click', closePwdModal);
+  if (btnCancelPwd) btnCancelPwd.addEventListener('click', closePwdModal);
+
+  if (changePwdForm) {
+    changePwdForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (pwdErrorAlert) pwdErrorAlert.classList.add('hidden');
+
+      const currentPassword = document.getElementById('input-curr-pwd').value;
+      const newPassword = document.getElementById('input-new-pwd').value;
+      const confirmPassword = document.getElementById('input-confirm-pwd').value;
+
+      if (newPassword !== confirmPassword) {
+        pwdErrorAlert.textContent = 'La nueva contraseña y su confirmación no coinciden.';
+        pwdErrorAlert.classList.remove('hidden');
+        return;
+      }
+
+      if (newPassword.length < 8 || !/[A-Z]/.test(newPassword) || !/[0-9]/.test(newPassword)) {
+        pwdErrorAlert.textContent = 'La nueva contraseña debe tener al menos 8 caracteres, 1 mayúscula y 1 número.';
+        pwdErrorAlert.classList.remove('hidden');
+        return;
+      }
+
+      const submitBtn = document.getElementById('btn-submit-pwd');
+      const btnText = document.getElementById('pwd-btn-text');
+      const spinner = document.getElementById('pwd-spinner');
+
+      submitBtn.disabled = true;
+      btnText.textContent = 'Encriptando y guardando...';
+      spinner.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/auth/change-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${adminState.token}`
+          },
+          body: JSON.stringify({ currentPassword, newPassword, confirmPassword })
+        });
+
+        const data = await res.json();
+        if (!res.ok || !data.success) {
+          throw new Error(data.message || 'Error al actualizar contraseña.');
+        }
+
+        // Actualizar token en memoria y sesión
+        if (data.token) {
+          adminState.token = data.token;
+          sessionStorage.setItem('lu_admin_token', data.token);
+          localStorage.setItem('lu_admin_token', data.token);
+        }
+
+        closePwdModal();
+        showToast('¡Contraseña actualizada y encriptada exitosamente con Bcrypt (costo 12)!', 'success');
+      } catch (err) {
+        if (pwdErrorAlert) {
+          pwdErrorAlert.textContent = err.message || 'Error al cambiar contraseña.';
+          pwdErrorAlert.classList.remove('hidden');
+        }
+      } finally {
+        submitBtn.disabled = false;
+        btnText.textContent = 'Actualizar y Encriptar';
+        spinner.classList.add('hidden');
+      }
+    });
+  }
 }
 
 /**
@@ -642,6 +740,8 @@ async function logout() {
   } catch (e) {
     // Continuar con limpieza local
   }
+  sessionStorage.removeItem('lu_admin_token');
+  sessionStorage.removeItem('lu_admin_user');
   localStorage.removeItem('lu_admin_token');
   localStorage.removeItem('lu_admin_user');
   window.location.replace('login.html');

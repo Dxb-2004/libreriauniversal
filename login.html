@@ -180,12 +180,15 @@
             </div>
           </div>
 
-          <!-- Opciones adicionales -->
-          <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
-            <label class="flex items-center gap-2 cursor-pointer select-none">
-              <input type="checkbox" id="remember-me" checked class="w-4 h-4 rounded bg-[#0B0E14] border-[#1E2638] text-brand-cyan focus:ring-brand-cyan focus:ring-offset-0 cursor-pointer" />
-              <span>Recordar sesión</span>
-            </label>
+          <!-- Requerimiento de contraseña estricto y enlace de recuperación -->
+          <div class="flex items-center justify-between text-xs pt-1">
+            <span class="text-[11px] text-slate-400 flex items-center gap-1.5">
+              <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+              Requiere contraseña en cada acceso
+            </span>
+            <button type="button" id="btn-show-recovery" class="text-xs text-brand-cyan hover:underline transition font-medium">
+              ¿Olvidaste tu clave?
+            </button>
           </div>
 
           <!-- Botón de Envío -->
@@ -204,6 +207,45 @@
             </svg>
           </button>
         </form>
+
+        <!-- Formulario de Restablecimiento con Código Maestro Cifrado AES-256 -->
+        <div id="recovery-container" class="hidden space-y-4 pt-2">
+          <div class="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs">
+            <strong>Recuperación de Administrador:</strong> Ingrese el código de seguridad maestro cifrado y su nueva contraseña.
+          </div>
+
+          <form id="recovery-form" class="space-y-4">
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Correo de Administrador</label>
+              <input type="email" id="recovery-email" required placeholder="libu.impresiones@gmail.com" class="glass-input w-full px-3.5 py-2.5 text-xs text-white rounded-xl outline-none" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Código Maestro de Seguridad</label>
+              <input type="text" id="recovery-code" required placeholder="LU-ADMIN-XXXX-SEC" class="glass-input w-full px-3.5 py-2.5 text-xs text-white rounded-xl outline-none uppercase font-mono tracking-wider" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Nueva Contraseña</label>
+              <input type="password" id="recovery-new-password" required placeholder="••••••••••••" class="glass-input w-full px-3.5 py-2.5 text-xs text-white rounded-xl outline-none" />
+              <p class="text-[10px] text-slate-400 mt-1">Mínimo 8 caracteres, al menos 1 mayúscula y 1 número.</p>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Confirmar Nueva Contraseña</label>
+              <input type="password" id="recovery-confirm-password" required placeholder="••••••••••••" class="glass-input w-full px-3.5 py-2.5 text-xs text-white rounded-xl outline-none" />
+            </div>
+
+            <div class="pt-2 flex items-center justify-between gap-3">
+              <button type="button" id="btn-back-to-login" class="text-xs text-slate-400 hover:text-white transition">
+                ← Volver al Login
+              </button>
+              <button type="submit" id="btn-submit-recovery" class="px-5 py-2.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-[#080B10] font-bold text-xs transition shadow-md">
+                <span id="recovery-btn-text">Restablecer y Encriptar</span>
+              </button>
+            </div>
+          </form>
+        </div>
 
         <!-- Indicador de Seguridad -->
         <div class="mt-8 pt-6 border-t border-[#1E2638] text-center">
@@ -235,22 +277,12 @@
 
   <!-- Lógica de Autenticación y Validación -->
   <script>
-    // Si ya existe sesión activa válida, redirigir automáticamente al dashboard
-    (function checkExistingSession() {
-      const token = localStorage.getItem('lu_admin_token');
-      const user = localStorage.getItem('lu_admin_user');
-      if (token && user) {
-        try {
-          const parsed = JSON.parse(user);
-          if (parsed && parsed.role === 'admin') {
-            window.location.href = 'admin.html';
-          }
-        } catch (e) {
-          localStorage.removeItem('lu_admin_token');
-          localStorage.removeItem('lu_admin_user');
-        }
-      }
-    })();
+    // REGLA ESTRICTA DE SEGURIDAD:
+    // Cada vez que se entra al login se limpian tokens previos para forzar siempre ingresar la contraseña
+    sessionStorage.removeItem('lu_admin_token');
+    sessionStorage.removeItem('lu_admin_user');
+    localStorage.removeItem('lu_admin_token');
+    localStorage.removeItem('lu_admin_user');
 
     // Toggle para visualizar contraseña
     const passwordInput = document.getElementById('admin-password');
@@ -260,7 +292,6 @@
       passwordInput.type = isPassword ? 'text' : 'password';
       togglePasswordBtn.classList.toggle('text-brand-cyan', isPassword);
     });
-
 
     // Manejo de Error Visual
     const errorAlert = document.getElementById('login-error-alert');
@@ -275,14 +306,31 @@
       errorAlert.classList.add('hidden');
     }
 
+    // Toggle entre Formulario de Login y Formulario de Recuperación
+    const loginForm = document.getElementById('admin-login-form');
+    const recoveryContainer = document.getElementById('recovery-container');
+    const btnShowRecovery = document.getElementById('btn-show-recovery');
+    const btnBackToLogin = document.getElementById('btn-back-to-login');
+
+    btnShowRecovery.addEventListener('click', () => {
+      hideError();
+      loginForm.classList.add('hidden');
+      recoveryContainer.classList.remove('hidden');
+    });
+
+    btnBackToLogin.addEventListener('click', () => {
+      hideError();
+      recoveryContainer.classList.add('hidden');
+      loginForm.classList.remove('hidden');
+    });
+
     // Procesamiento de Login
-    const form = document.getElementById('admin-login-form');
     const submitBtn = document.getElementById('login-submit-btn');
     const btnText = document.getElementById('btn-text');
     const btnSpinner = document.getElementById('btn-spinner');
     const btnArrow = document.getElementById('btn-arrow');
 
-    form.addEventListener('submit', async (e) => {
+    loginForm.addEventListener('submit', async (e) => {
       e.preventDefault();
       hideError();
 
@@ -296,7 +344,7 @@
 
       // Estado de carga
       submitBtn.disabled = true;
-      btnText.textContent = 'Verificando credenciales...';
+      btnText.textContent = 'Verificando contraseña...';
       btnSpinner.classList.remove('hidden');
       btnArrow.classList.add('hidden');
 
@@ -319,12 +367,13 @@
           throw new Error(data.message || 'Error al autenticar. Verifique sus datos.');
         }
 
-        // Validar que sea rol admin
         if (data.user && data.user.role !== 'admin') {
           throw new Error('Acceso denegado: Esta cuenta no posee permisos de Administrador.');
         }
 
-        // Guardar token y datos en localStorage (Replicando el flujo de tesla-computacion)
+        // Guardar token seguro en sessionStorage y localStorage
+        sessionStorage.setItem('lu_admin_token', data.token);
+        sessionStorage.setItem('lu_admin_user', JSON.stringify(data.user));
         localStorage.setItem('lu_admin_token', data.token);
         localStorage.setItem('lu_admin_user', JSON.stringify(data.user));
 
@@ -334,7 +383,7 @@
 
         setTimeout(() => {
           window.location.href = 'admin.html';
-        }, 600);
+        }, 500);
 
       } catch (err) {
         showError(err.message || 'No se pudo conectar con el servidor.');
@@ -342,6 +391,72 @@
         btnText.textContent = 'Ingresar al Dashboard';
         btnSpinner.classList.add('hidden');
         btnArrow.classList.remove('hidden');
+      }
+    });
+
+    // Procesamiento de Restablecimiento con Código Maestro Cifrado
+    const recoveryForm = document.getElementById('recovery-form');
+    const btnSubmitRecovery = document.getElementById('btn-submit-recovery');
+    const recoveryBtnText = document.getElementById('recovery-btn-text');
+
+    recoveryForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      hideError();
+
+      const email = document.getElementById('recovery-email').value.trim();
+      const recoveryCode = document.getElementById('recovery-code').value.trim();
+      const newPassword = document.getElementById('recovery-new-password').value;
+      const confirmPassword = document.getElementById('recovery-confirm-password').value;
+
+      if (!email || !recoveryCode || !newPassword || !confirmPassword) {
+        showError('Todos los campos son obligatorios.');
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        showError('Las contraseñas no coinciden.');
+        return;
+      }
+
+      btnSubmitRecovery.disabled = true;
+      recoveryBtnText.textContent = 'Validando y encriptando...';
+
+      try {
+        const response = await fetch('/api/auth/reset-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email,
+            recoveryCode,
+            newPassword,
+            confirmPassword
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.message || 'Error al restablecer la contraseña.');
+        }
+
+        // Éxito: volver a pantalla de login con mensaje
+        recoveryContainer.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        document.getElementById('admin-email').value = email;
+        document.getElementById('admin-password').value = '';
+        
+        // Mostrar alerta verde temporal
+        errorAlert.classList.remove('hidden', 'bg-brand-magenta/10', 'border-brand-magenta/40', 'text-brand-magenta');
+        errorAlert.classList.add('bg-emerald-500/15', 'border-emerald-500/40', 'text-emerald-400');
+        errorMessage.textContent = '¡Contraseña restablecida y encriptada! Ingrese su nueva clave.';
+
+      } catch (err) {
+        showError(err.message || 'Error al validar el código.');
+      } finally {
+        btnSubmitRecovery.disabled = false;
+        recoveryBtnText.textContent = 'Restablecer y Encriptar';
       }
     });
   </script>

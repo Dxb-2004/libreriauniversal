@@ -87,8 +87,8 @@
   <!-- Route Guard Inmediato (Previene parpadeo o render no autorizado) -->
   <script>
     (function routeGuard() {
-      const token = localStorage.getItem('lu_admin_token');
-      const user = localStorage.getItem('lu_admin_user');
+      const token = sessionStorage.getItem('lu_admin_token') || localStorage.getItem('lu_admin_token');
+      const user = sessionStorage.getItem('lu_admin_user') || localStorage.getItem('lu_admin_user');
       if (!token || !user) {
         window.location.replace('login.html');
       }
@@ -143,6 +143,19 @@
             </svg>
             <span class="hidden sm:inline">Ver Sitio Web</span>
           </a>
+
+          <!-- Botón Cambiar Contraseña -->
+          <button 
+            type="button" 
+            id="btn-open-password-modal"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#0B0E14] text-amber-400 hover:text-white hover:bg-amber-500/20 border border-amber-500/30 transition duration-200"
+            title="Cambiar contraseña de Administrador"
+          >
+            <svg class="w-3.5 h-3.5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+            </svg>
+            <span class="hidden sm:inline">Cambiar Clave</span>
+          </button>
 
           <!-- Botón Cerrar Sesión -->
           <button 
@@ -596,6 +609,68 @@
         >
           Sí, Eliminar
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       7.1. MODAL PARA CAMBIAR CONTRASEÑA DE ADMINISTRADOR (BCRYPT COSTO 12)
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="password-modal" class="fixed inset-0 z-50 bg-[#080B10]/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#121722] border border-[#1E2638] rounded-2xl w-full max-w-md shadow-2xl overflow-hidden">
+      <div class="cmyk-stripe"></div>
+      <div class="p-6">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"/>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-base font-display font-bold text-white">Cambiar Contraseña</h3>
+              <p class="text-[11px] text-slate-400">Se encriptará con Bcrypt (costo 12)</p>
+            </div>
+          </div>
+          <button type="button" id="btn-close-password-modal" class="text-slate-400 hover:text-white p-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+
+        <div id="pwd-error-alert" class="hidden mb-4 p-3 rounded-lg bg-brand-magenta/10 border border-brand-magenta/40 text-brand-magenta text-xs font-medium"></div>
+
+        <form id="change-password-form" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Contraseña Actual</label>
+            <input type="password" id="input-curr-pwd" required placeholder="••••••••••••" class="glass-input w-full px-3.5 py-2.5 text-xs text-white rounded-xl outline-none" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Nueva Contraseña</label>
+            <input type="password" id="input-new-pwd" required placeholder="••••••••••••" class="glass-input w-full px-3.5 py-2.5 text-xs text-white rounded-xl outline-none" />
+            <p class="text-[10px] text-slate-400 mt-1">Mínimo 8 caracteres, al menos 1 mayúscula y 1 número.</p>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Confirmar Nueva Contraseña</label>
+            <input type="password" id="input-confirm-pwd" required placeholder="••••••••••••" class="glass-input w-full px-3.5 py-2.5 text-xs text-white rounded-xl outline-none" />
+          </div>
+
+          <div class="pt-3 border-t border-[#1E2638] flex items-center justify-end gap-3">
+            <button type="button" id="btn-cancel-pwd" class="px-4 py-2 text-xs font-semibold rounded-lg bg-[#0B0E14] text-slate-300 hover:text-white border border-[#1E2638] transition">
+              Cancelar
+            </button>
+            <button type="submit" id="btn-submit-pwd" class="inline-flex items-center gap-2 px-5 py-2 text-xs font-bold rounded-lg bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] shadow-md transition duration-200">
+              <span id="pwd-btn-text">Actualizar y Encriptar</span>
+              <svg id="pwd-spinner" class="hidden w-3.5 h-3.5 animate-spin text-[#080B10]" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+              </svg>
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

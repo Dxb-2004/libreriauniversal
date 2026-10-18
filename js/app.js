@@ -572,11 +572,13 @@ function bindPersonalizedControls() {
     });
   }
 
-  // Botón Solicitar Presupuesto por WhatsApp
-  const btnWhatsAppOrder = document.getElementById('btn-whatsapp-stamp-order');
-  if (btnWhatsAppOrder) {
-    btnWhatsAppOrder.addEventListener('click', handleWhatsAppOrder);
-  }
+  // Botones Solicitar Presupuesto por WhatsApp (en ambas tarjetas de vista previa)
+  ['btn-whatsapp-stamp-order', 'btn-whatsapp-stamp-order-2'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener('click', handleWhatsAppOrder);
+    }
+  });
 
   // Botón Copiar Configuración al Portapapeles
   const btnCopyDetails = document.getElementById('btn-copy-stamp-details');
@@ -584,16 +586,18 @@ function bindPersonalizedControls() {
     btnCopyDetails.addEventListener('click', handleCopyDetails);
   }
 
-  // Botón Volver a Líneas (quitar sello docente seleccionado)
-  const btnRemoveTeacher = document.getElementById('btn-remove-teacher-stamp');
-  if (btnRemoveTeacher) {
-    btnRemoveTeacher.addEventListener('click', () => {
-      stampState.selectedTeacherStamp = null;
-      updateStampPreview();
-      updateStampSummary();
-      showToast("Volviendo a diseño personalizado por líneas.");
-    });
-  }
+  // Botón Volver a Líneas (quitar sello docente seleccionado en ambas tarjetas)
+  ['btn-remove-teacher-stamp', 'btn-remove-teacher-stamp-2'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener('click', () => {
+        stampState.selectedTeacherStamp = null;
+        updateStampPreview();
+        updateStampSummary();
+        showToast("Volviendo a diseño personalizado por líneas.");
+      });
+    }
+  });
 }
 
 // ─── Selector de Dibujos 1 al 168 (Modo Personalizado) ───
@@ -1226,71 +1230,87 @@ function getInkFilter(hex) {
   }
 }
 
-// ─── Generación de Vista Previa en Vivo ───
+// ─── Generación de Vista Previa en Vivo (Sincroniza ambas tarjetas) ───
 function updateStampPreview() {
-  const previewBox = document.getElementById('stamp-live-preview-box');
-  const innerFrame = document.getElementById('stamp-inner-frame');
-  const previewContent = document.getElementById('stamp-live-text-content');
-  const dimensionBadge = document.getElementById('stamp-dimension-badge');
-  const apparatusBadge = document.getElementById('stamp-apparatus-badge');
-  const modeBadge = document.getElementById('stamp-mode-badge');
-  const teacherBanner = document.getElementById('selected-teacher-stamp-banner');
-  const teacherCode = document.getElementById('teacher-banner-code');
-  const teacherPhrase = document.getElementById('teacher-banner-phrase');
+  const previewBoxes = [document.getElementById('stamp-live-preview-box'), document.getElementById('stamp-live-preview-box-2')].filter(Boolean);
+  const innerFrames = [document.getElementById('stamp-inner-frame'), document.getElementById('stamp-inner-frame-2')].filter(Boolean);
+  const previewContents = [document.getElementById('stamp-live-text-content'), document.getElementById('stamp-live-text-content-2')].filter(Boolean);
+  const dimensionBadges = [document.getElementById('stamp-dimension-badge'), document.getElementById('stamp-dimension-badge-2')].filter(Boolean);
+  const apparatusBadges = [document.getElementById('stamp-apparatus-badge'), document.getElementById('stamp-apparatus-badge-2')].filter(Boolean);
+  const modeBadges = [document.getElementById('stamp-mode-badge'), document.getElementById('stamp-mode-badge-2')].filter(Boolean);
+  const teacherBanners = [document.getElementById('selected-teacher-stamp-banner'), document.getElementById('selected-teacher-stamp-banner-2')].filter(Boolean);
+  const teacherCodes = [document.getElementById('teacher-banner-code'), document.getElementById('teacher-banner-code-2')].filter(Boolean);
+  const teacherPhrases = [document.getElementById('teacher-banner-phrase'), document.getElementById('teacher-banner-phrase-2')].filter(Boolean);
 
-  if (!previewBox || !innerFrame || !previewContent) return;
+  if (previewBoxes.length === 0 || innerFrames.length === 0 || previewContents.length === 0) return;
 
   // Fondo de papel realista para la huella
-  previewBox.className = 'stamp-paper-bg relative w-full p-6 sm:p-8 flex items-center justify-center transition-all duration-300 min-h-[220px] shadow-inner rounded-2xl';
+  previewBoxes.forEach(box => {
+    box.className = 'stamp-paper-bg relative w-full p-6 sm:p-8 flex items-center justify-center transition-all duration-300 min-h-[220px] shadow-inner rounded-2xl';
+  });
+
+  const dimensionsMap = {
+    1: '38 x 10 mm (Aprox. Trodat 4910 / Madera Chico)',
+    2: '38 x 14 mm (Aprox. Trodat 4911 / Madera Estándar)',
+    3: '47 x 18 mm (Aprox. Trodat 4912 / Profesional)',
+    4: '58 x 22 mm (Aprox. Trodat 4913 / Empresa & CUIT)'
+  };
+  const dimText = dimensionsMap[stampState.lineCount] || 'Medida estándar';
+  const appText = stampState.apparatusType === 'automatico'
+    ? 'Aparato Automático (Auto-entintable)'
+    : 'Cabo de Madera Tradicional (Grabado Láser)';
 
   // Si hay un Sello Docente seleccionado del Catálogo CDC-8
   if (stampState.selectedTeacherStamp) {
     const teacher = stampState.selectedTeacherStamp;
-    if (teacherBanner) {
-      teacherBanner.classList.remove('hidden');
-      teacherBanner.classList.add('flex');
-    }
-    if (teacherCode) teacherCode.textContent = `#${teacher.code}`;
-    if (teacherPhrase) teacherPhrase.textContent = `${teacher.phrase} (${getCollectionShortLabel(teacher.collection)})`;
+    teacherBanners.forEach(b => {
+      b.classList.remove('hidden');
+      b.classList.add('flex');
+    });
+    teacherCodes.forEach(c => { c.textContent = `#${teacher.code}`; });
+    teacherPhrases.forEach(p => { p.textContent = `${teacher.phrase} (${getCollectionShortLabel(teacher.collection)})`; });
 
-    if (modeBadge) modeBadge.textContent = '👩‍🏫 Sello Docente CDC-8';
-    if (dimensionBadge) dimensionBadge.textContent = `${teacher.size} cm (CDC-8)`;
-    if (apparatusBadge) {
-      apparatusBadge.textContent = stampState.apparatusType === 'automatico'
-        ? 'Aparato Automático (Auto-entintable)'
-        : 'Cabo de Madera Tradicional (Grabado Láser)';
-    }
+    modeBadges.forEach(b => { b.textContent = '👩‍🏫 Sello Docente CDC-8'; });
+    dimensionBadges.forEach(b => { b.textContent = `${teacher.size} cm (CDC-8)`; });
+    apparatusBadges.forEach(b => { b.textContent = appText; });
 
-    innerFrame.className = 'w-full flex items-center justify-center transition-all border-0 p-0';
-    innerFrame.style.borderColor = 'transparent';
+    innerFrames.forEach(frame => {
+      frame.className = 'w-full flex items-center justify-center transition-all border-0 p-0';
+      frame.style.borderColor = 'transparent';
+    });
 
-    previewContent.className = 'stamp-ink-effect flex flex-col items-center justify-center transition-all duration-150 w-full';
-    previewContent.style.color = stampState.inkColor;
-    previewContent.innerHTML = renderTeacherStampVisual(teacher, stampState.inkColor, 'preview');
+    const teacherHtml = renderTeacherStampVisual(teacher, stampState.inkColor, 'preview');
+    previewContents.forEach(content => {
+      content.className = 'stamp-ink-effect flex flex-col items-center justify-center transition-all duration-150 w-full';
+      content.style.color = stampState.inkColor;
+      content.innerHTML = teacherHtml;
+    });
     return;
   }
 
-  // Si no hay sello docente seleccionado, ocultar banner
-  if (teacherBanner) {
-    teacherBanner.classList.add('hidden');
-    teacherBanner.classList.remove('flex');
-  }
+  // Si no hay sello docente seleccionado, ocultar banners
+  teacherBanners.forEach(b => {
+    b.classList.add('hidden');
+    b.classList.remove('flex');
+  });
 
-  if (modeBadge) modeBadge.textContent = '🏢 Sello Personalizado';
+  modeBadges.forEach(b => { b.textContent = '🏢 Sello Personalizado'; });
+  dimensionBadges.forEach(b => { b.textContent = dimText; });
+  apparatusBadges.forEach(b => { b.textContent = appText; });
 
-  innerFrame.className = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-dashed border-slate-400 rounded-sm';
-  if (stampState.borderStyle === 'solid') innerFrame.className = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-solid border-slate-800 rounded-sm';
-  if (stampState.borderStyle === 'rounded') innerFrame.className = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-solid border-slate-800 rounded-xl';
-  if (stampState.borderStyle === 'none') innerFrame.className = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border border-transparent';
+  let frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-dashed border-slate-400 rounded-sm';
+  if (stampState.borderStyle === 'solid') frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-solid border-slate-800 rounded-sm';
+  if (stampState.borderStyle === 'rounded') frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-solid border-slate-800 rounded-xl';
+  if (stampState.borderStyle === 'none') frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border border-transparent';
 
-  if (stampState.borderStyle === 'solid' || stampState.borderStyle === 'rounded') {
-    innerFrame.style.borderColor = stampState.inkColor;
-  } else {
-    innerFrame.style.borderColor = '';
-  }
-
-  previewContent.className = 'stamp-ink-effect flex flex-col justify-center transition-all duration-150 w-full';
-  previewContent.style.color = stampState.inkColor;
+  innerFrames.forEach(frame => {
+    frame.className = frameClass;
+    if (stampState.borderStyle === 'solid' || stampState.borderStyle === 'rounded') {
+      frame.style.borderColor = stampState.inkColor;
+    } else {
+      frame.style.borderColor = '';
+    }
+  });
 
   // Generar el bloque de texto con tipografía independiente por línea
   const textLinesHtml = [];
@@ -1318,6 +1338,7 @@ function updateStampPreview() {
 
   const textAlignClass = stampState.alignment === 'left' ? 'text-left items-start' : (stampState.alignment === 'right' ? 'text-right items-end' : 'text-center items-center');
 
+  let fullPreviewHtml = '';
   // Dibujo Opcional (Izquierda o Derecha)
   if (stampState.drawingPosition !== 'none' && stampState.selectedDrawing) {
     const drawingHtml = `
@@ -1331,7 +1352,7 @@ function updateStampPreview() {
     `;
 
     if (stampState.drawingPosition === 'left') {
-      previewContent.innerHTML = `
+      fullPreviewHtml = `
         <div class="flex items-center justify-center gap-3 w-full">
           ${drawingHtml}
           <div class="flex-1 flex flex-col ${textAlignClass}">
@@ -1340,7 +1361,7 @@ function updateStampPreview() {
         </div>
       `;
     } else {
-      previewContent.innerHTML = `
+      fullPreviewHtml = `
         <div class="flex items-center justify-center gap-3 w-full">
           <div class="flex-1 flex flex-col ${textAlignClass}">
             ${textLinesHtml.join('')}
@@ -1350,21 +1371,14 @@ function updateStampPreview() {
       `;
     }
   } else {
-    previewContent.innerHTML = `<div class="flex flex-col ${textAlignClass} w-full">${textLinesHtml.join('')}</div>`;
+    fullPreviewHtml = `<div class="flex flex-col ${textAlignClass} w-full">${textLinesHtml.join('')}</div>`;
   }
 
-  const dimensionsMap = {
-    1: '38 x 10 mm (Aprox. Trodat 4910 / Madera Chico)',
-    2: '38 x 14 mm (Aprox. Trodat 4911 / Madera Estándar)',
-    3: '47 x 18 mm (Aprox. Trodat 4912 / Profesional)',
-    4: '58 x 22 mm (Aprox. Trodat 4913 / Empresa & CUIT)'
-  };
-  if (dimensionBadge) dimensionBadge.textContent = dimensionsMap[stampState.lineCount] || 'Medida estándar';
-  if (apparatusBadge) {
-    apparatusBadge.textContent = stampState.apparatusType === 'automatico'
-      ? 'Aparato Automático (Auto-entintable)'
-      : 'Cabo de Madera Tradicional (Grabado Láser)';
-  }
+  previewContents.forEach(content => {
+    content.className = 'stamp-ink-effect flex flex-col justify-center transition-all duration-150 w-full';
+    content.style.color = stampState.inkColor;
+    content.innerHTML = fullPreviewHtml;
+  });
 }
 
 // ─── Actualiza el resumen técnico de la tarjeta derecha ───

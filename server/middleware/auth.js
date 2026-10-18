@@ -6,6 +6,7 @@
 
 const jwt = require('jsonwebtoken');
 const { env } = require('../config/env');
+const { getActiveJwtSecret, getAuthConfig } = require('../security/authManager');
 
 const COOKIE_NAME = 'lu_access_token';
 
@@ -21,19 +22,21 @@ const SECURE_COOKIE_OPTIONS = {
 };
 
 /**
- * Genera un token JWT firmado de forma segura.
+ * Genera un token JWT firmado de forma segura con la clave activa y versión de sesión.
  * @param {object} payload - Información del usuario (id, email, role)
  * @returns {string} - Token firmado
  */
 function generateToken(payload) {
+  const config = getAuthConfig();
   return jwt.sign(
     {
       sub: payload.id,
       id: payload.id,
       email: payload.email,
-      role: payload.role || 'customer'
+      role: payload.role || 'customer',
+      token_version: config.token_version || 1
     },
-    env.JWT_SECRET,
+    getActiveJwtSecret(),
     {
       algorithm: 'HS256',
       expiresIn: env.JWT_EXPIRES_IN,
@@ -89,11 +92,19 @@ function requireAuth(req, res, next) {
   }
 
   try {
-    const decoded = jwt.verify(token, env.JWT_SECRET, {
+    const decoded = jwt.verify(token, getActiveJwtSecret(), {
       algorithms: ['HS256'],
       issuer: 'libreria-universal',
       audience: 'libreria-universal-client'
     });
+
+    const config = getAuthConfig();
+    if (config.sessions_revoked_at && decoded.iat && decoded.iat < config.sessions_revoked_at) {
+      return res.status(401).json({
+        error: 'Unauthorized',
+        message: 'Todas las sesiones activas han sido cerradas por seguridad. Inicie sesión nuevamente.'
+      });
+    }
 
     req.user = {
       id: decoded.id || decoded.sub,

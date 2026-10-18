@@ -1,11 +1,14 @@
 {
   "admin_email": "libu.impresiones@gmail.com",
-  "password_hash": "$2a$12$0RVfYNjyueUjwRH5aph10.rNItGKjUDGzsqGoDL7f9SFCKJYujXhW",
+  "password_hash": "$2a$12$KqIut91EcYf6FGLFSWHa2ePNeqRrboyNeOlLHTndenVkJ5tN.RT3K",
   "recovery_code_encrypted": {
     "ciphertext": "db59106ff8cf059beae06532e1b4cf7073",
     "iv": "deb07b3ce1fea2c2430da794",
     "authTag": "c9351582ce1277a4f1341eb76494fcd6"
   },
   "encryption_standard": "AES-256-GCM + Bcrypt-Cost-12",
-  "updated_at": "2026-10-18T21:36:24.376Z"
+  "updated_at": "2026-10-18T22:00:45.409Z",
+  "session_seed": "51e4f54a0013f3507ae875aeebdc635ec76bc3bf37e3a3c0bc0b0298f836798d",
+  "sessions_revoked_at": 1792360845,
+  "token_version": 3
 }

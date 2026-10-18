@@ -6,6 +6,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { hashPassword, verifyPassword, encryptSensitiveData, decryptSensitiveData } = require('./crypto');
 const { env } = require('../config/env');
 
@@ -23,6 +24,9 @@ const DEFAULT_AUTH_DATA = {
     iv: 'deb07b3ce1fea2c2430da794',
     authTag: 'c9351582ce1277a4f1341eb76494fcd6'
   },
+  session_seed: crypto.randomBytes(32).toString('hex'),
+  sessions_revoked_at: Math.floor(Date.now() / 1000),
+  token_version: 1,
   encryption_standard: 'AES-256-GCM + Bcrypt-Cost-12',
   updated_at: new Date().toISOString()
 };
@@ -186,11 +190,41 @@ function getAdminEmail() {
   return config.admin_email || env.ADMIN_EMAIL || 'libu.impresiones@gmail.com';
 }
 
+/**
+ * Retorna la clave secreta activa para firma y verificación de JWT,
+ * derivada con la semilla de sesión dinámica para permitir invalidación instantánea.
+ * @returns {string}
+ */
+function getActiveJwtSecret() {
+  const config = getAuthConfig();
+  const seed = config.session_seed || 'default_lu_session_seed_2026';
+  return `${env.JWT_SECRET}_${seed}`;
+}
+
+/**
+ * Revoca y desloguea TODAS las sesiones activas en todos los dispositivos
+ * rotando la semilla criptográfica de JWT e incrementando la versión de tokens.
+ * @returns {{ revoked_at: number, token_version: number }}
+ */
+function revokeAllSessions() {
+  const config = getAuthConfig();
+  config.session_seed = crypto.randomBytes(32).toString('hex');
+  config.sessions_revoked_at = Math.floor(Date.now() / 1000);
+  config.token_version = (config.token_version || 1) + 1;
+  saveAuthConfig(config);
+  return {
+    revoked_at: config.sessions_revoked_at,
+    token_version: config.token_version
+  };
+}
+
 module.exports = {
   getAuthConfig,
   saveAuthConfig,
   verifyAdminPassword,
   updateAdminPassword,
   resetAdminPasswordWithCode,
-  getAdminEmail
+  getAdminEmail,
+  getActiveJwtSecret,
+  revokeAllSessions
 };

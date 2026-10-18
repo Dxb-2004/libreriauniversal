@@ -83,8 +83,34 @@ document.addEventListener('DOMContentLoaded', async () => {
 // 2. GESTIÓN DE EVENTOS DE INTERFAZ
 // =============================================================================
 function initEventListeners() {
-  // Botón Cerrar Sesión
+  // Botón Cerrar Sesión Individual
   document.getElementById('btn-logout').addEventListener('click', logout);
+
+  // Botón Desloguear Todos los Dispositivos Conectados
+  const btnLogoutAll = document.getElementById('btn-logout-all');
+  if (btnLogoutAll) {
+    btnLogoutAll.addEventListener('click', async () => {
+      const confirmLogout = confirm('¿Estás seguro de que deseas cerrar la sesión en TODOS los dispositivos y navegadores conectados? Tendrás que volver a ingresar tu contraseña.');
+      if (!confirmLogout) return;
+
+      try {
+        await fetch('/api/auth/logout-all', {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${adminState.token}`
+          }
+        });
+      } catch (e) {
+        // Continuar con limpieza
+      }
+
+      sessionStorage.removeItem('lu_admin_token');
+      sessionStorage.removeItem('lu_admin_user');
+      localStorage.removeItem('lu_admin_token');
+      localStorage.removeItem('lu_admin_user');
+      window.location.replace('login.html');
+    });
+  }
 
   // Botón Abrir Modal de Creación
   document.getElementById('btn-open-create-modal').addEventListener('click', openCreateModal);

@@ -61,7 +61,8 @@ const {
   verifyAdminPassword,
   updateAdminPassword,
   resetAdminPasswordWithCode,
-  getAdminEmail
+  getAdminEmail,
+  revokeAllSessions
 } = require('./security/authManager');
 const { db } = require('./db/client');
 const productsRouter = require('./routes/products');
@@ -283,11 +284,33 @@ app.post(
 );
 
 /**
- * Cierre de sesión seguro
+ * Cierre de sesión individual
  */
 app.post(['/api/auth/logout', '/auth/logout'], (req, res) => {
   clearAuthCookie(res);
   res.json({ success: true, message: 'Sesión cerrada y cookies eliminadas.' });
+});
+
+/**
+ * Desloguear a todas las personas y dispositivos conectados a la cuenta
+ * Invalida criptográficamente todos los tokens emitidos anteriormente
+ */
+app.post(['/api/auth/logout-all', '/auth/logout-all'], requireAuth, (req, res) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({
+      error: 'Forbidden',
+      message: 'Solo el administrador puede revocar todas las sesiones.'
+    });
+  }
+
+  const result = revokeAllSessions();
+  clearAuthCookie(res);
+
+  res.json({
+    success: true,
+    message: 'Todas las sesiones activas en todos los dispositivos han sido deslogueadas exitosamente.',
+    revoked_at: result.revoked_at
+  });
 });
 
 /**

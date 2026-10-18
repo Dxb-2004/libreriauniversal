@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración | Librería Universal</title>
+  
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="apple-touch-icon" href="favicon.png" />
+
+  <!-- Google Fonts & Tailwind CDN -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              cyan: '#00A8E8',
+              magenta: '#E6007E',
+              yellow: '#FFD100',
+              whatsapp: '#159A5C',
+              dark: '#080B10',
+              card: '#121722',
+              border: '#1E2638'
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            display: ['Playfair Display', 'serif'],
+            mono: ['JetBrains Mono', 'monospace']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #080B10;
+      color: #F8FAFC;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+    }
+
+    .cmyk-stripe {
+      background: linear-gradient(90deg, 
+        #00A8E8 0%, #00A8E8 33.33%, 
+        #E6007E 33.33%, #E6007E 66.66%, 
+        #FFD100 66.66%, #FFD100 100%
+      );
+      height: 4px;
+    }
+
+    .glass-input {
+      background-color: #0B0E14;
+      border: 1px solid #1E2638;
+      transition: all 0.2s ease-in-out;
+    }
+    .glass-input:focus {
+      border-color: #00A8E8;
+      box-shadow: 0 0 0 2px rgba(0, 168, 232, 0.25);
+    }
+
+    /* Scrollbar personalizada */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0E14;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1E2638;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00A8E8;
+    }
+  </style>
+
+  <!-- Route Guard Inmediato (Previene parpadeo o render no autorizado) -->
+  <script>
+    (function routeGuard() {
+      const token = localStorage.getItem('lu_admin_token');
+      const user = localStorage.getItem('lu_admin_user');
+      if (!token || !user) {
+        window.location.replace('login.html');
+      }
+    })();
+  </script>
+</head>
+<body class="flex flex-col min-h-screen">
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       1. HEADER DEL PANEL DE ADMINISTRACIÓN
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <header class="sticky top-0 z-40 bg-[#121722]/95 backdrop-blur-md border-b border-[#1E2638]">
+    <!-- Barra CMYK superior -->
+    <div class="cmyk-stripe"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        
+        <!-- Logo e Indicador de Marca -->
+        <div class="flex items-center gap-3">
+          <a href="index.html" class="flex items-center gap-3 group">
+            <div class="w-10 h-10 rounded-xl bg-[#0B0E14] border border-[#1E2638] flex items-center justify-center shadow-inner group-hover:border-brand-cyan transition">
+              <span class="font-display text-lg font-black text-brand-cyan">U</span>
+              <span class="font-display text-lg font-black text-brand-magenta -ml-1">L</span>
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="font-display font-bold text-white text-base tracking-tight">Librería Universal</span>
+                <span class="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase rounded-full bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">
+                  Admin
+                </span>
+              </div>
+              <p class="text-[11px] text-slate-400 font-medium">Valentín Alsina • Panel de Control</p>
+            </div>
+          </a>
+        </div>
+
+        <!-- Acciones del Administrador -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          
+          <!-- Indicador de Usuario Autenticado -->
+          <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#0B0E14] border border-[#1E2638] text-xs">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span class="text-slate-400">Admin:</span>
+            <span id="header-user-email" class="font-mono text-slate-200 font-semibold truncate max-w-[200px]">libu.impresiones@gmail.com</span>
+          </div>
+
+          <!-- Botón Ver Sitio Público -->
+          <a href="index.html" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-[#0B0E14] text-slate-300 hover:text-white border border-[#1E2638] hover:border-slate-600 transition">
+            <svg class="w-3.5 h-3.5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+            <span class="hidden sm:inline">Ver Sitio Web</span>
+          </a>
+
+          <!-- Botón Cerrar Sesión -->
+          <button 
+            type="button" 
+            id="btn-logout"
+            class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-brand-magenta/10 text-brand-magenta hover:bg-brand-magenta hover:text-white border border-brand-magenta/30 hover:border-brand-magenta transition duration-200"
+          >
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+            </svg>
+            <span class="hidden sm:inline">Cerrar Sesión</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       2. CONTENIDO PRINCIPAL DEL DASHBOARD
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+
+    <!-- Sección de Bienvenida y Resumen -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl sm:text-3xl font-display font-bold text-white tracking-tight">
+          Gestión de Productos & Catálogo
+        </h1>
+        <p class="text-xs sm:text-sm text-slate-400 mt-1">
+          Crea, edita, actualiza precios y controla el stock de librería, imprenta y sellos en tiempo real.
+        </p>
+      </div>
+
+      <!-- Botón Primario para Nuevo Producto -->
+      <button 
+        type="button" 
+        id="btn-open-create-modal"
+        class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] font-bold text-sm shadow-lg shadow-brand-cyan/20 hover:shadow-brand-cyan/30 transition duration-200 active:scale-[0.99] self-start md:self-auto"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span>Nuevo Producto</span>
+      </button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         3. TARJETAS DE ESTADÍSTICAS RÁPIDAS (STATS)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Stat 1: Total Productos -->
+      <div class="bg-[#121722] border border-[#1E2638] rounded-xl p-5 relative overflow-hidden group hover:border-brand-cyan/40 transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs uppercase font-bold tracking-wider text-slate-400">Total Productos</span>
+          <div class="w-8 h-8 rounded-lg bg-brand-cyan/10 border border-brand-cyan/30 flex items-center justify-center text-brand-cyan">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="stat-total" class="text-2xl sm:text-3xl font-display font-bold text-white">0</span>
+          <span class="text-xs text-slate-400 font-medium">artículos</span>
+        </div>
+        <div class="w-full bg-[#0B0E14] h-1.5 rounded-full mt-3 overflow-hidden">
+          <div class="bg-brand-cyan h-full w-full"></div>
+        </div>
+      </div>
+
+      <!-- Stat 2: En Stock -->
+      <div class="bg-[#121722] border border-[#1E2638] rounded-xl p-5 relative overflow-hidden group hover:border-emerald-500/40 transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs uppercase font-bold tracking-wider text-slate-400">En Stock</span>
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="stat-in-stock" class="text-2xl sm:text-3xl font-display font-bold text-emerald-400">0</span>
+          <span class="text-xs text-slate-400 font-medium">disponibles</span>
+        </div>
+        <div class="w-full bg-[#0B0E14] h-1.5 rounded-full mt-3 overflow-hidden">
+          <div id="stat-stock-bar" class="bg-emerald-400 h-full" style="width: 80%;"></div>
+        </div>
+      </div>
+
+      <!-- Stat 3: Sin Stock / Por Encargue -->
+      <div class="bg-[#121722] border border-[#1E2638] rounded-xl p-5 relative overflow-hidden group hover:border-brand-yellow/40 transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs uppercase font-bold tracking-wider text-slate-400">Sin Stock</span>
+          <div class="w-8 h-8 rounded-lg bg-brand-yellow/10 border border-brand-yellow/30 flex items-center justify-center text-brand-yellow">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="stat-out-of-stock" class="text-2xl sm:text-3xl font-display font-bold text-brand-yellow">0</span>
+          <span class="text-xs text-slate-400 font-medium">por encargue</span>
+        </div>
+        <div class="w-full bg-[#0B0E14] h-1.5 rounded-full mt-3 overflow-hidden">
+          <div id="stat-out-stock-bar" class="bg-brand-yellow h-full" style="width: 20%;"></div>
+        </div>
+      </div>
+
+      <!-- Stat 4: Destacados en Inicio -->
+      <div class="bg-[#121722] border border-[#1E2638] rounded-xl p-5 relative overflow-hidden group hover:border-brand-magenta/40 transition">
+        <div class="flex items-center justify-between">
+          <span class="text-xs uppercase font-bold tracking-wider text-slate-400">Destacados</span>
+          <div class="w-8 h-8 rounded-lg bg-brand-magenta/10 border border-brand-magenta/30 flex items-center justify-center text-brand-magenta">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="mt-3 flex items-baseline gap-2">
+          <span id="stat-featured" class="text-2xl sm:text-3xl font-display font-bold text-brand-magenta">0</span>
+          <span class="text-xs text-slate-400 font-medium">en portada</span>
+        </div>
+        <div class="w-full bg-[#0B0E14] h-1.5 rounded-full mt-3 overflow-hidden">
+          <div class="bg-brand-magenta h-full w-2/3"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         4. BARRA DE FILTROS Y BÚSQUEDA EN TIEMPO REAL
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="bg-[#121722] border border-[#1E2638] rounded-xl p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+      
+      <!-- Buscador -->
+      <div class="relative w-full md:w-80">
+        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </div>
+        <input 
+          type="text" 
+          id="search-filter" 
+          placeholder="Buscar por nombre o descripción..." 
+          class="glass-input w-full pl-10 pr-4 py-2.5 text-xs sm:text-sm text-white rounded-lg placeholder-slate-500 outline-none"
+        />
+      </div>
+
+      <!-- Filtros desplegables -->
+      <div class="flex flex-wrap items-center gap-3 w-full md:w-auto">
+        
+        <!-- Filtro Categoría -->
+        <div class="w-full sm:w-auto">
+          <select 
+            id="category-filter"
+            class="glass-input w-full sm:w-48 px-3.5 py-2.5 text-xs sm:text-sm text-slate-200 rounded-lg outline-none cursor-pointer"
+          >
+            <option value="Todas">Todas las Categorías</option>
+            <option value="Librería Comercial">Librería Comercial</option>
+            <option value="Librería Escolar">Librería Escolar</option>
+            <option value="Servicios de Imprenta">Servicios de Imprenta</option>
+            <option value="Sellos">Sellos</option>
+            <option value="Insumos / Otros">Insumos / Otros</option>
+          </select>
+        </div>
+
+        <!-- Filtro Stock -->
+        <div class="w-full sm:w-auto">
+          <select 
+            id="stock-filter"
+            class="glass-input w-full sm:w-36 px-3.5 py-2.5 text-xs sm:text-sm text-slate-200 rounded-lg outline-none cursor-pointer"
+          >
+            <option value="todos">Todo el Stock</option>
+            <option value="en_stock">En Stock</option>
+            <option value="sin_stock">Sin Stock</option>
+          </select>
+        </div>
+
+        <!-- Contador de resultados -->
+        <div class="text-xs text-slate-400 font-mono whitespace-nowrap px-2 py-1 bg-[#0B0E14] border border-[#1E2638] rounded-md">
+          <span id="filtered-count">0</span> resultados
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         5. TABLA PRINCIPAL DE GESTIÓN (CRUD)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="bg-[#121722] border border-[#1E2638] rounded-xl overflow-hidden shadow-2xl">
+      
+      <div class="overflow-x-auto">
+        <table class="w-full text-left text-sm text-slate-300">
+          <thead class="text-[11px] uppercase tracking-wider bg-[#0B0E14] text-slate-400 border-b border-[#1E2638] font-bold">
+            <tr>
+              <th scope="col" class="py-3.5 px-4 w-16">Foto</th>
+              <th scope="col" class="py-3.5 px-4">Producto & Descripción</th>
+              <th scope="col" class="py-3.5 px-4">Categoría</th>
+              <th scope="col" class="py-3.5 px-4">Precio</th>
+              <th scope="col" class="py-3.5 px-4 text-center">Disponibilidad</th>
+              <th scope="col" class="py-3.5 px-4 text-center">Destacado</th>
+              <th scope="col" class="py-3.5 px-4 text-right">Acciones</th>
+            </tr>
+          </thead>
+          <tbody id="products-table-body" class="divide-y divide-[#1E2638]">
+            <!-- Filas inyectadas dinámicamente por JavaScript -->
+            <tr>
+              <td colspan="7" class="py-12 text-center text-slate-400">
+                <div class="inline-flex items-center gap-2">
+                  <svg class="w-5 h-5 animate-spin text-brand-cyan" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                  </svg>
+                  <span>Cargando catálogo...</span>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       6. MODAL DE CREACIÓN / EDICIÓN DE PRODUCTO
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="product-modal" class="fixed inset-0 z-50 bg-[#080B10]/80 backdrop-blur-sm hidden items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-[#121722] border border-[#1E2638] rounded-2xl w-full max-w-2xl shadow-2xl overflow-hidden my-8 relative">
+      
+      <!-- Borde Superior CMYK -->
+      <div class="cmyk-stripe"></div>
+
+      <!-- Header del Modal -->
+      <div class="px-6 py-4 border-b border-[#1E2638] flex items-center justify-between bg-[#0B0E14]/50">
+        <div>
+          <h2 id="modal-title" class="text-lg font-display font-bold text-white">Nuevo Producto</h2>
+          <p class="text-xs text-slate-400">Completa la información técnica, categoría e imagen.</p>
+        </div>
+        <button type="button" id="btn-close-modal" class="p-2 text-slate-400 hover:text-white rounded-lg hover:bg-[#1E2638] transition">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Formulario -->
+      <form id="product-form" class="p-6 space-y-5">
+        <input type="hidden" id="form-product-id" />
+
+        <!-- Fila 1: Nombre y Categoría -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="form-nombre" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+              Nombre del Producto / Servicio <span class="text-brand-magenta">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="form-nombre" 
+              required 
+              placeholder="Ej. Resma A4 Autor 75g" 
+              class="glass-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-white rounded-lg outline-none"
+            />
+          </div>
+
+          <div>
+            <label for="form-categoria" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+              Categoría Oficial <span class="text-brand-magenta">*</span>
+            </label>
+            <select 
+              id="form-categoria" 
+              required 
+              class="glass-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-white rounded-lg outline-none cursor-pointer"
+            >
+              <option value="Librería Comercial">Librería Comercial</option>
+              <option value="Librería Escolar">Librería Escolar</option>
+              <option value="Servicios de Imprenta">Servicios de Imprenta</option>
+              <option value="Sellos">Sellos</option>
+              <option value="Insumos / Otros">Insumos / Otros</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Fila 2: Precio y Opciones de Presupuesto -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="form-precio" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+              Precio en Pesos ($ ARS)
+            </label>
+            <div class="relative">
+              <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center text-slate-500 font-mono text-sm">$</span>
+              <input 
+                type="number" 
+                id="form-precio" 
+                step="0.01" 
+                min="0" 
+                placeholder="0.00" 
+                class="glass-input w-full pl-8 pr-4 py-2.5 text-xs sm:text-sm font-mono text-white rounded-lg outline-none"
+              />
+            </div>
+            <label class="flex items-center gap-2 mt-2 cursor-pointer select-none text-[11px] text-brand-yellow font-medium">
+              <input type="checkbox" id="form-consultar-precio" class="w-3.5 h-3.5 rounded bg-[#0B0E14] border-[#1E2638] text-brand-yellow focus:ring-0 cursor-pointer" />
+              <span>Mostrar como "Consultar Presupuesto"</span>
+            </label>
+          </div>
+
+          <!-- Switches de Disponibilidad y Destacado -->
+          <div class="space-y-3 pt-1">
+            <label class="flex items-center gap-2.5 cursor-pointer select-none p-2.5 rounded-lg bg-[#0B0E14] border border-[#1E2638]">
+              <input type="checkbox" id="form-stock" checked class="w-4 h-4 rounded bg-[#121722] border-[#1E2638] text-emerald-500 focus:ring-0 cursor-pointer" />
+              <div>
+                <span class="text-xs font-bold text-white block">En Stock Inmediato</span>
+                <span class="text-[10px] text-slate-400">Desmarcar para marcar como "Por encargue"</span>
+              </div>
+            </label>
+
+            <label class="flex items-center gap-2.5 cursor-pointer select-none p-2.5 rounded-lg bg-[#0B0E14] border border-[#1E2638]">
+              <input type="checkbox" id="form-destacado" class="w-4 h-4 rounded bg-[#121722] border-[#1E2638] text-brand-magenta focus:ring-0 cursor-pointer" />
+              <div>
+                <span class="text-xs font-bold text-white block">Destacar en Inicio</span>
+                <span class="text-[10px] text-slate-400">Aparecerá en la sección de portada de la web</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <!-- Fila 3: Descripción -->
+        <div>
+          <label for="form-descripcion" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+            Descripción / Medidas / Especificaciones Técnicas
+          </label>
+          <textarea 
+            id="form-descripcion" 
+            rows="3" 
+            placeholder="Detalles sobre gramaje, medidas, cantidad de hojas, tinta o recomendaciones..."
+            class="glass-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-white rounded-lg outline-none"
+          ></textarea>
+        </div>
+
+        <!-- Fila 4: Imagen (Archivo o URL) con Previsualización en Vivo -->
+        <div class="space-y-3">
+          <label class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+            Imagen del Producto
+          </label>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+            
+            <!-- Previsualizador de Imagen -->
+            <div class="sm:col-span-1 h-32 rounded-xl bg-[#0B0E14] border border-dashed border-[#1E2638] flex items-center justify-center overflow-hidden relative group">
+              <img id="form-image-preview" src="" alt="Previsualización" class="hidden w-full h-full object-cover" />
+              <div id="form-image-placeholder" class="text-center p-3 text-slate-500">
+                <svg class="w-8 h-8 mx-auto mb-1 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-[10px]">Sin imagen</span>
+              </div>
+            </div>
+
+            <!-- Controles de Imagen -->
+            <div class="sm:col-span-2 space-y-2.5">
+              
+              <!-- Subir Archivo -->
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">Subir archivo (JPG, PNG, WebP • Máx 5MB):</label>
+                <input 
+                  type="file" 
+                  id="form-image-file" 
+                  accept="image/jpeg,image/png,image/webp,image/gif"
+                  class="block w-full text-xs text-slate-400 file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-brand-cyan/15 file:text-brand-cyan hover:file:bg-brand-cyan/25 cursor-pointer"
+                />
+              </div>
+
+              <!-- O pegar URL externa -->
+              <div>
+                <label class="block text-[11px] text-slate-400 mb-1">O pegar URL de imagen externa:</label>
+                <input 
+                  type="url" 
+                  id="form-image-url" 
+                  placeholder="https://images.unsplash.com/photo-..." 
+                  class="glass-input w-full px-3 py-2 text-xs text-white rounded-lg outline-none"
+                />
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Footer del Modal -->
+        <div class="pt-4 border-t border-[#1E2638] flex items-center justify-end gap-3">
+          <button 
+            type="button" 
+            id="btn-cancel-modal"
+            class="px-4 py-2.5 text-xs font-semibold rounded-lg bg-[#0B0E14] text-slate-300 hover:text-white border border-[#1E2638] transition"
+          >
+            Cancelar
+          </button>
+          
+          <button 
+            type="submit" 
+            id="btn-save-product"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] font-bold text-xs shadow-md shadow-brand-cyan/20 transition duration-200"
+          >
+            <span id="save-btn-text">Guardar Producto</span>
+            <svg id="save-btn-spinner" class="hidden w-3.5 h-3.5 animate-spin text-[#080B10]" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       7. MODAL DE CONFIRMACIÓN DE ELIMINACIÓN
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="delete-modal" class="fixed inset-0 z-50 bg-[#080B10]/80 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-[#121722] border border-[#1E2638] rounded-2xl w-full max-w-md shadow-2xl p-6 text-center space-y-4">
+      <div class="w-14 h-14 rounded-2xl bg-brand-magenta/15 border border-brand-magenta/30 text-brand-magenta flex items-center justify-center mx-auto">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+        </svg>
+      </div>
+
+      <h3 class="text-lg font-display font-bold text-white">¿Eliminar este producto?</h3>
+      <p id="delete-product-name" class="text-xs text-slate-300 font-semibold truncate bg-[#0B0E14] p-2 rounded-lg border border-[#1E2638]">
+        --
+      </p>
+      <p class="text-xs text-slate-400">
+        Esta acción eliminará el producto del catálogo público y de la base de datos de forma permanente.
+      </p>
+
+      <div class="flex items-center justify-center gap-3 pt-2">
+        <button 
+          type="button" 
+          id="btn-cancel-delete"
+          class="px-4 py-2 text-xs font-semibold rounded-lg bg-[#0B0E14] text-slate-300 hover:text-white border border-[#1E2638] transition"
+        >
+          Cancelar
+        </button>
+        <button 
+          type="button" 
+          id="btn-confirm-delete"
+          class="px-4 py-2 text-xs font-bold rounded-lg bg-brand-magenta hover:bg-[#d0006f] text-white shadow-md shadow-brand-magenta/20 transition duration-200"
+        >
+          Sí, Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       8. CONTENEDOR DE TOASTS DE NOTIFICACIÓN
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       9. SCRIPTS DE CONTROL Y CRUD REACTIVO (ADMIN.JS)
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <script src="js/admin.js"></script>
+</body>
+</html>

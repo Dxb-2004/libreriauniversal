@@ -1,7 +1,21 @@
 /**
  * Librería Universal - Gráfica, Imprenta y Librería Integral
  * Lógica Interactiva (Dark & White Theme)
+ * Blindaje Anti-XSS (Punto 15)
  */
+
+// Utilidad criptográfica y de escape Anti-XSS (Punto 15)
+function escapeHTML(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
+}
+
 
 // Configuración oficial del negocio (Datos reales verificados)
 const BUSINESS_CONFIG = {
@@ -1315,13 +1329,15 @@ function updateStampPreview() {
   // Generar el bloque de texto con tipografía independiente por línea
   const textLinesHtml = [];
   for (let i = 0; i < stampState.lineCount; i++) {
-    let text = (stampState.lines[i] || '').trim();
+    let rawText = (stampState.lines[i] || '').trim();
     const lineFont = stampState.lineFonts[i] || stampState.fontFamily || 'font-stamp-01';
 
     // Si la fuente es Solo Mayúsculas (12 a 16), forzar uppercase
-    if (text && isFontUppercase(lineFont)) {
-      text = text.toUpperCase();
+    if (rawText && isFontUppercase(lineFont)) {
+      rawText = rawText.toUpperCase();
     }
+
+    const text = escapeHTML(rawText);
 
     const boldClass = stampState.lineBolds[i] ? 'font-bold' : 'font-normal';
     const italicClass = stampState.lineItalics[i] ? 'italic' : '';

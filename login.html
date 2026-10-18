@@ -136,8 +136,7 @@
                 id="admin-email" 
                 name="email" 
                 required 
-                placeholder="libu.impresiones@gmail.com"
-                value="libu.impresiones@gmail.com"
+                placeholder="ejemplo@correo.com"
                 autocomplete="username"
                 class="glass-input w-full pl-10 pr-4 py-3 text-sm text-white rounded-xl placeholder-slate-600 outline-none"
               />
@@ -164,7 +163,6 @@
                 name="password" 
                 required 
                 placeholder="••••••••••••"
-                value="UniversalAlsina2026!"
                 autocomplete="current-password"
                 class="glass-input w-full pl-10 pr-11 py-3 text-sm text-white rounded-xl placeholder-slate-600 outline-none"
               />
@@ -188,7 +186,6 @@
               <input type="checkbox" id="remember-me" checked class="w-4 h-4 rounded bg-[#0B0E14] border-[#1E2638] text-brand-cyan focus:ring-brand-cyan focus:ring-offset-0 cursor-pointer" />
               <span>Recordar sesión</span>
             </label>
-            <span class="text-brand-cyan hover:underline cursor-pointer" onclick="fillDemoCredentials()">Autocompletar</span>
           </div>
 
           <!-- Botón de Envío -->
@@ -264,12 +261,6 @@
       togglePasswordBtn.classList.toggle('text-brand-cyan', isPassword);
     });
 
-    // Función para autocompletar credenciales predeterminadas
-    function fillDemoCredentials() {
-      document.getElementById('admin-email').value = 'libu.impresiones@gmail.com';
-      document.getElementById('admin-password').value = 'UniversalAlsina2026!';
-      hideError();
-    }
 
     // Manejo de Error Visual
     const errorAlert = document.getElementById('login-error-alert');

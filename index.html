@@ -374,14 +374,14 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8 text-slate-300">
           
-          <!-- Columna 1: 📱 WhatsApp Oficial -->
+          <!-- Columna 1: 📱 WhatsApp Oficial & Correo -->
           <div class="flex items-start gap-4">
             <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0 text-emerald-400">
               <svg class="w-7 h-7 fill-current" viewBox="5.8 5.8 12.4 12.4">
                 <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
               </svg>
             </div>
-            <div>
+            <div class="min-w-0">
               <span class="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-400 block font-body">WhatsApp Oficial</span>
               <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20hacer%20una%20consulta" target="_blank"
                  class="text-base sm:text-lg font-bold text-white font-mono leading-snug hover:text-emerald-400 transition-colors block mt-0.5">
@@ -393,23 +393,41 @@
                 </svg>
                 <span>Solo mensajes · No llamadas</span>
               </div>
+              <div class="mt-2.5 pt-2 border-t border-[#1F2937]/80 flex items-center gap-2">
+                <svg class="w-4 h-4 text-brand-magenta flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <a href="mailto:libu.impresiones@gmail.com" class="text-xs sm:text-[13px] font-mono text-slate-300 hover:text-brand-cyan transition truncate font-medium" title="libu.impresiones@gmail.com">
+                  libu.impresiones@gmail.com
+                </a>
+              </div>
             </div>
           </div>
 
-          <!-- Columna 2: 📍 Dirección -->
-          <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 flex items-center justify-center flex-shrink-0 text-brand-cyan">
-              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <!-- Columna 2: 📍 Dirección (Enlace directo a Google Maps) -->
+          <a href="https://maps.google.com/?q=Librer%C3%ADa+Universal,+Av.+Pte.+Tte.+Gral.+J.+D.+Per%C3%B3n+3502,+Valentin+Alsina" 
+             target="_blank" 
+             rel="noopener noreferrer"
+             class="group/dir flex items-start gap-4 transition-all duration-200"
+             title="Abrir ubicación en Google Maps">
+            <div class="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/20 group-hover/dir:border-brand-cyan/50 group-hover/dir:bg-brand-cyan/20 flex items-center justify-center flex-shrink-0 text-brand-cyan transition-all duration-200">
+              <svg class="w-7 h-7 group-hover/dir:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
             <div>
-              <span class="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-400 block font-body">Dirección</span>
-              <strong class="text-base sm:text-lg font-bold text-white leading-snug block mt-0.5">Av. Pte. Tte. Gral. J. D. Perón 3502</strong>
+              <div class="flex items-center gap-1.5">
+                <span class="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-400 block font-body">Dirección</span>
+                <span class="text-[10px] text-brand-cyan font-bold flex items-center gap-0.5 group-hover/dir:underline">
+                  <span>(Ver en Maps)</span>
+                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </span>
+              </div>
+              <strong class="text-base sm:text-lg font-bold text-white leading-snug block mt-0.5 group-hover/dir:text-brand-cyan transition-colors">Av. Pte. Tte. Gral. J. D. Perón 3502</strong>
               <span class="text-sm text-slate-400 block mt-1">Valentín Alsina, Buenos Aires</span>
             </div>
-          </div>
+          </a>
 
           <!-- Columna 3: 📦 Correo Argentino - Punto de Retiro Oficial -->
           <div class="flex items-start gap-4">
@@ -1380,13 +1398,17 @@
         <!-- Columna 4: Ubicación y Horarios -->
         <div class="space-y-3">
           <h4 class="text-[10px] font-body font-bold tracking-[0.3em] uppercase text-slate-400 mb-4">Atención al Cliente</h4>
-          <div class="flex items-start gap-2.5 text-xs text-slate-300 font-body">
-            <svg class="w-4 h-4 text-brand-cyan flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <a href="https://maps.google.com/?q=Librer%C3%ADa+Universal,+Av.+Pte.+Tte.+Gral.+J.+D.+Per%C3%B3n+3502,+Valentin+Alsina" 
+             target="_blank" 
+             rel="noopener noreferrer" 
+             class="group/fdir flex items-start gap-2.5 text-xs text-slate-300 font-body hover:text-white transition"
+             title="Ver en Google Maps">
+            <svg class="w-4 h-4 text-brand-cyan flex-shrink-0 mt-0.5 group-hover/fdir:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
             </svg>
-            <span><strong>Av. Pte. Tte. Gral. J. D. Perón 3502</strong><br>Valentín Alsina, Buenos Aires</span>
-          </div>
+            <span><strong class="group-hover/fdir:text-brand-cyan transition-colors">Av. Pte. Tte. Gral. J. D. Perón 3502</strong><br>Valentín Alsina, Buenos Aires</span>
+          </a>
 
           <div class="flex items-start gap-2.5 text-xs text-slate-300 font-body">
             <svg class="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="5.8 5.8 12.4 12.4">

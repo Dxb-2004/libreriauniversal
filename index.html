@@ -154,10 +154,13 @@
     /* Typographic dot separator for nav */
     .nav-dot::after {
       content: "·";
-      margin-left: 1.5rem;
-      color: #374151;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      color: #4B5563;
       font-weight: 700;
       font-size: 1.1em;
+      display: inline-block;
+      pointer-events: none;
     }
     .nav-dot:last-child::after {
       content: "";
@@ -228,7 +231,7 @@
               En Vivo
             </span>
           </a>
-          <a href="#libreria" class="nav-dot hover:text-brand-cyan transition-colors whitespace-nowrap tracking-wide">Librería</a>
+          <a href="#libreria" class="nav-dot hover:text-brand-cyan transition-colors whitespace-nowrap tracking-wide">Insumos</a>
           <a href="#contacto" class="hover:text-brand-cyan transition-colors whitespace-nowrap tracking-wide">Contacto</a>
         </nav>
 
@@ -284,7 +287,7 @@
             <span>Diseñador de Sellos</span>
             <span class="px-2 py-0.5 text-[10px] bg-brand-purple/20 text-purple-300 border border-purple-700 font-bold tracking-[0.15em] uppercase">En Vivo</span>
           </a>
-          <a href="#libreria" class="mobile-nav-link hover:text-brand-cyan transition tracking-wide">Librería & Insumos</a>
+          <a href="#libreria" class="mobile-nav-link hover:text-brand-cyan transition tracking-wide">Insumos</a>
           <a href="#contacto" class="mobile-nav-link hover:text-brand-cyan transition tracking-wide">Ubicación y Horarios</a>
         </nav>
       </div>
@@ -1420,7 +1423,7 @@
             <li><a href="#inicio" class="hover:text-brand-cyan transition">Inicio</a></li>
             <li><a href="#servicios" class="hover:text-brand-cyan transition">Servicios de Imprenta</a></li>
             <li><a href="#cotizador-sellos" class="hover:text-brand-cyan transition font-bold text-brand-cyan">Diseñador de Sellos en Vivo</a></li>
-            <li><a href="#libreria" class="hover:text-brand-cyan transition">Insumos de Librería</a></li>
+            <li><a href="#libreria" class="hover:text-brand-cyan transition">Insumos</a></li>
             <li><a href="#contacto" class="hover:text-brand-cyan transition">Ubicación y Contacto</a></li>
           </ul>
         </div>

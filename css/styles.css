@@ -13,19 +13,33 @@ html {
   font-family: 'Poppins', 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* Efecto de papel y huella de sello */
+/* Efecto de papel y huella de sello realista (Textura de taller) */
 .stamp-paper-bg {
-  background-color: #fbfbfa;
-  background-image: radial-gradient(#e5e7eb 1px, transparent 1px), radial-gradient(#f3f4f6 1px, #fbfbfa 1px);
-  background-size: 20px 20px;
-  background-position: 0 0, 10px 10px;
+  background-color: #FAF8F5;
+  background-image: 
+    radial-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(135deg, #FFFFFF 0%, #F6F3EC 50%, #ECE6DC 100%);
+  background-size: 16px 16px, 100% 100%;
+  box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.08), 0 8px 30px -5px rgba(0, 0, 0, 0.4);
+  border: 1px solid #D6CEBE;
+  position: relative;
 }
 
-/* Simulación de textura de tinta de goma */
+/* Marco guía de corte del sello */
+.stamp-cutting-frame {
+  border: 1.5px dashed #94A3B8;
+  background-color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+  position: relative;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Simulación de tinta nítida */
 .stamp-ink-effect {
   position: relative;
-  transition: all 0.25s ease;
-  filter: contrast(1.1) drop-shadow(0px 1px 1px rgba(0,0,0,0.06));
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #111827;
+  filter: contrast(1.15) drop-shadow(0px 0.5px 0.5px rgba(0, 0, 0, 0.25));
 }
 
 .stamp-ink-effect::after {
@@ -321,4 +335,68 @@ html {
 /* 5. Acento de brillo sutil en títulos destacados */
 .font-display {
   text-rendering: optimizeLegibility;
+}
+
+/* ==========================================================================
+   BENTO GRID + CHIPS Y REFINAMIENTO DE UI/UX
+   ========================================================================== */
+
+/* Tarjetas Bento Grid */
+.bento-card {
+  position: relative;
+  background: linear-gradient(180deg, #121722 0%, #0D121B 100%);
+  border: 1px solid #1E2638;
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.28s ease;
+  height: 100%;
+}
+
+.bento-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--card-accent, #00A3E0);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.65), 0 0 20px -3px var(--card-accent-glow, rgba(0, 163, 224, 0.18));
+}
+
+/* Pills / Chips escaneables */
+.bento-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  background: rgba(11, 14, 20, 0.85);
+  border: 1px solid rgba(30, 38, 56, 0.95);
+  color: #CBD5E1;
+  transition: all 0.2s ease;
+  line-height: 1.25;
+}
+
+.bento-chip:hover {
+  border-color: rgba(255, 255, 255, 0.35);
+  color: #FFFFFF;
+  background: rgba(30, 38, 56, 0.7);
+}
+
+/* Áreas táctiles mínimas (44px) en móvil */
+@media (max-width: 768px) {
+  .mobile-nav-link {
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* Transición suave para el drawer móvil */
+#mobile-menu-drawer {
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#mobile-menu-drawer > div {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }

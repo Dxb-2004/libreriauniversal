@@ -177,30 +177,20 @@
   <!-- ═══════════════════════════════════════════════════════════════
        CINTILLO EDITORIAL SUPERIOR
        ═══════════════════════════════════════════════════════════════ -->
-  <div class="bg-[#0a0d15] border-b border-[#1F2937] text-xs py-2.5 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3 text-slate-400">
-      
-      <!-- Punto de Retiro Correo Argentino -->
-      <div class="flex items-center gap-2">
-        <img src="img/correo-argentino.svg" alt="Correo Argentino" class="h-7 sm:h-8 w-auto object-contain rounded-md shadow-md ring-1 ring-brand-yellow/30" />
-        <span class="text-[11px] sm:text-xs font-bold text-slate-100 tracking-wider uppercase flex items-center gap-2 font-body">
-          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)] animate-pulse flex-shrink-0"></span>
-          Punto de Retiro Oficial
-        </span>
+  <div class="bg-[#090D16] border-b border-[#1F2937]/80 text-xs py-2 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2.5 text-slate-300 text-[11px] sm:text-xs font-medium">
+        <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
+        <span class="font-display tracking-tight text-white font-semibold">Librería Universal</span>
+        <span class="text-slate-500 hidden sm:inline">|</span>
+        <span class="text-slate-400 hidden sm:inline font-body text-[11px]">Imprenta, Insumos &amp; Gráfica Comercial en Valentín Alsina</span>
       </div>
-
-      <div class="flex items-center gap-1.5 text-amber-300 font-semibold bg-amber-950/40 px-3.5 py-1 border border-amber-800/60 text-[11px] tracking-wide uppercase">
-        <svg class="w-3.5 h-3.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
-        </svg>
-        <span>Solo mensajes de WhatsApp — No recibimos llamadas</span>
-      </div>
-      <div class="flex items-center gap-1.5 text-slate-400 text-[10px] whitespace-nowrap tracking-widest uppercase">
-        <svg class="w-3.5 h-3.5 text-brand-cyan flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-        </svg>
-        <span>Av. Pte. Tte. Gral. J. D. Perón 3502, V. Alsina</span>
+      <div class="flex items-center gap-3">
+        <!-- Indicador dinámico de estado en vivo (Abierto/Cerrado) -->
+        <div id="topbar-live-status" class="inline-flex items-center gap-2 text-[11px] font-semibold text-emerald-300 font-mono">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span>Abierto ahora</span>
+        </div>
       </div>
     </div>
   </div>
@@ -234,6 +224,7 @@
         <!-- Menú Desktop Editorial con separadores tipográficos -->
         <nav class="hidden lg:flex items-center text-sm font-body font-medium text-slate-300">
           <a href="#inicio" class="nav-dot hover:text-brand-cyan transition-colors whitespace-nowrap tracking-wide">Inicio</a>
+          <a href="#como-pedir" class="nav-dot hover:text-brand-cyan transition-colors whitespace-nowrap tracking-wide">Cómo Pedir</a>
           <a href="#servicios" class="nav-dot hover:text-brand-cyan transition-colors whitespace-nowrap tracking-wide">Servicios de Imprenta</a>
           <a href="#cotizador-sellos" class="nav-dot group/nav inline-flex items-center gap-2 hover:text-brand-cyan transition-colors whitespace-nowrap tracking-wide">
             <span>Diseñador de Sellos</span>
@@ -292,6 +283,7 @@
         </div>
         <nav class="mt-6 flex flex-col space-y-4 text-base font-medium text-slate-300">
           <a href="#inicio" class="mobile-nav-link hover:text-brand-cyan transition tracking-wide">Inicio</a>
+          <a href="#como-pedir" class="mobile-nav-link hover:text-brand-cyan transition tracking-wide">Cómo Pedir</a>
           <a href="#servicios" class="mobile-nav-link hover:text-brand-cyan transition tracking-wide">Servicios de Imprenta</a>
           <a href="#cotizador-sellos" class="mobile-nav-link hover:text-brand-cyan transition flex items-center justify-between tracking-wide">
             <span>Diseñador de Sellos</span>
@@ -420,7 +412,12 @@
                  class="text-base sm:text-lg font-bold text-white font-mono leading-snug hover:text-emerald-400 transition-colors block mt-0.5">
                 +54 9 11 2609-7125
               </a>
-              <span class="text-sm text-amber-300 font-medium block mt-1">Solo mensajes, no llamadas</span>
+              <div class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/25 text-[11px] font-semibold font-body">
+                <svg class="w-3.5 h-3.5 text-amber-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                </svg>
+                <span>Solo mensajes · No llamadas</span>
+              </div>
             </div>
           </div>
 
@@ -466,7 +463,12 @@
             </div>
             <div class="w-full">
               <span class="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-400 block font-body">Horarios de Atención</span>
-              <div class="mt-1.5 space-y-2 font-body" id="hero-schedule-container">
+              <!-- Indicador de estado en tiempo real (Abierto/Cerrado) -->
+              <div id="hero-live-schedule-badge" class="mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-md shadow-emerald-950/40 font-body">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span>
+                <span>Abierto ahora</span>
+              </div>
+              <div class="mt-1 space-y-2 font-body" id="hero-schedule-container">
                 <div class="border-b border-[#1F2937]/60 pb-1.5">
                   <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">Lunes a Viernes</span>
                   <span class="text-white font-mono font-bold text-[11.5px] sm:text-xs xl:text-[12.5px] block mt-0.5 tracking-tight" id="schedule-hero-weekdays">9:30 a 13:15 | 16:00 a 19:30 hs</span>
@@ -495,6 +497,105 @@
   </section>
 
 
+
+  <!-- ═══════════════════════════════════════════════════════════════
+       B.2 SECCIÓN RÁPIDA: CÓMO PEDIR EN 3 PASOS
+       ═══════════════════════════════════════════════════════════════ -->
+  <section id="como-pedir" class="py-16 bg-gradient-to-b from-[#0B0F19] via-[#0E1524] to-[#0B0F19] border-y border-[#1F2937]/70 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan text-[11px] font-bold uppercase tracking-wider mb-3">
+          <span class="w-2 h-2 rounded-full bg-brand-cyan animate-pulse"></span>
+          Proceso Simple &amp; Sin Esperas
+        </div>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-display text-white tracking-tight">
+          Envianos tus archivos en <em class="text-brand-cyan not-italic">3 pasos simples</em>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-400 mt-2 font-body font-light">
+          Ahorrá tiempo. Mandanos tus documentos digitales de forma directa y retirá en el local listo para llevar.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Paso 1 -->
+        <div class="bento-card p-6 flex flex-col justify-between border border-[#1F2937] hover:border-brand-cyan/50 bg-[#111827]/90 relative group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="w-10 h-10 rounded-xl bg-brand-cyan/15 border border-brand-cyan/30 text-brand-cyan font-black font-mono text-base flex items-center justify-center">01</span>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 bg-white/5 px-2.5 py-1 rounded">Paso Inicial</span>
+            </div>
+            <h3 class="text-lg font-display text-white">1. Elegí tu trabajo</h3>
+            <p class="text-xs text-slate-300 font-body leading-relaxed">
+              Seleccioná el formato que necesitás: impresiones color o ByN, papeles especiales (fotográfico, opalina, filmilo adhesivo), anillados, plastificaciones o sello personalizado.
+            </p>
+            <div class="flex flex-wrap gap-1.5 pt-1">
+              <span class="bento-chip">A4 / Oficio / A3</span>
+              <span class="bento-chip">75gr a 180gr</span>
+              <span class="bento-chip">Anillados</span>
+              <span class="bento-chip">Sellos</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paso 2 -->
+        <div class="bento-card p-6 flex flex-col justify-between border border-[#1F2937] hover:border-emerald-500/50 bg-[#111827]/90 relative group shadow-lg shadow-emerald-950/20">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="w-10 h-10 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 font-black font-mono text-base flex items-center justify-center">02</span>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-300 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded">Envío Digital</span>
+            </div>
+            <h3 class="text-lg font-display text-white">2. Envianos tu archivo</h3>
+            <p class="text-xs text-slate-300 font-body leading-relaxed">
+              Mandanos tus PDFs, fotos o documentos listos por WhatsApp o por correo electrónico indicando cantidad de copias y detalles de impresión.
+            </p>
+            <div class="space-y-2 pt-2">
+              <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Te%20env%C3%ADo%20un%20archivo%20para%20imprimir" target="_blank"
+                 class="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-md shadow-emerald-950/40 transition">
+                <svg class="w-4 h-4 fill-current flex-shrink-0" viewBox="5.8 5.8 12.4 12.4">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+                </svg>
+                <span>Enviar por WhatsApp</span>
+              </a>
+
+              <button id="btn-copy-email-step" type="button"
+                      class="w-full flex items-center justify-center gap-2 px-3.5 py-2.5 rounded-xl bg-[#0B0F19] hover:bg-[#151D2F] text-slate-300 hover:text-white border border-[#1F2937] hover:border-slate-500 font-bold text-xs transition">
+                <svg id="btn-copy-email-icon" class="w-4 h-4 text-brand-cyan flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                </svg>
+                <span id="btn-copy-email-text">Copiar Email (libu.impresiones@...)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paso 3 -->
+        <div class="bento-card p-6 flex flex-col justify-between border border-[#1F2937] hover:border-amber-500/50 bg-[#111827]/90 relative group">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <span class="w-10 h-10 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 font-black font-mono text-base flex items-center justify-center">03</span>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded">Retiro Express</span>
+            </div>
+            <h3 class="text-lg font-display text-white">3. Retirá en el local</h3>
+            <p class="text-xs text-slate-300 font-body leading-relaxed">
+              Te avisamos cuando tu trabajo esté listo. Pasás a retirar directamente por el mostrador en Valentín Alsina, sin demoras ni filas de espera.
+            </p>
+            <div class="p-3 bg-[#0B0F19] rounded-xl border border-[#1F2937] text-[11px] text-slate-300 font-mono space-y-1">
+              <div class="flex items-center gap-1.5 text-white font-bold">
+                <svg class="w-3.5 h-3.5 text-brand-cyan flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                <span>Av. Pte. Perón 3502, V. Alsina</span>
+              </div>
+              <div class="text-slate-400 text-[10px]">Lun a Vie 9:30-13:15 / 16:00-19:30 · Sáb 10-13 / 16:30-19</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
   <!-- ═══════════════════════════════════════════════════════════════
        C. CATÁLOGO DE SERVICIOS GRÁFICOS — GRID EDITORIAL
        ═══════════════════════════════════════════════════════════════ -->
@@ -520,55 +621,44 @@
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 items-stretch">
         
         <!-- 1. Azul: Impresiones ByN y Color -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-cyan/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #00A3E0">
-          <div>
-            <div class="w-12 h-12 bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan flex items-center justify-center mb-5">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-              </svg>
+        <div class="bento-card p-7 border border-[#1F2937] hover:border-brand-cyan/60 transition-all duration-300 flex flex-col justify-between h-full min-h-[480px] md:col-span-1 lg:col-span-2 group relative" style="--card-accent: #00A3E0">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/20 px-2 py-0.5 rounded">Tiradas Cortas &amp; Volumen</span>
             </div>
-            <h3 class="text-lg font-display text-white mb-3 group-hover:text-brand-cyan transition">
+
+            <h3 class="text-xl font-display text-white group-hover:text-brand-cyan transition">
               Impresiones ByN y Color
             </h3>
-            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body space-y-1.5">
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Resma A4 Report 75gr</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Papel Fotográfico Autoadhesivo Brillante 115gr</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Papel Fotográfico Brillante 140gr</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Papel Mate Autoadhesivo 108gr</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Papel Opalina 120gr</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Papel Opalina 180gr</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Papel Filmilo Adhesivo Blanco Reluciente</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-cyan flex-shrink-0 mt-1.5"></span>
-                <span>Papel Filmilo Adhesivo Niebla Translúcida</span>
-              </li>
-            </ul>
+            
+            <p class="text-xs text-slate-400 font-body leading-relaxed">
+              Impresión láser y digital de alta definición sobre amplia variedad de sustratos y gramajes para trabajos académicos, comerciales y publicitarios.
+            </p>
+
+            <!-- Categoría Papeles y Sustratos en Chips -->
+            <div class="space-y-2 pt-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-body">Papeles y Gramajes Disponibles:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bento-chip">📄 Resma A4 Report 75gr</span>
+                <span class="bento-chip">✨ Fotográfico Brillante 115gr / 140gr</span>
+                <span class="bento-chip">📜 Opalina 120gr / 180gr</span>
+                <span class="bento-chip">🏷️ Papel Mate Autoadhesivo 108gr</span>
+                <span class="bento-chip">🌫️ Filmilo Translúcido Niebla</span>
+                <span class="bento-chip">💎 Filmilo Blanco Reluciente</span>
+                <span class="bento-chip">📐 Formatos A4, Oficio y A3</span>
+              </div>
+            </div>
           </div>
-          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
-            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Tiradas cortas y por volumen</span>
+
+          <div class="pt-5 mt-4 border-t border-[#1F2937] flex items-center justify-between">
+            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Desde 1 copia</span>
             <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quisiera%20consultar%20por%20impresiones" target="_blank"
-               class="text-xs font-bold text-brand-cyan hover:text-cyan-300 flex items-center gap-1 tracking-wide">
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan hover:text-[#0B0F19] font-bold text-xs transition-all duration-200">
               <span>Cotizar</span>
               <span>&rarr;</span>
             </a>
@@ -576,55 +666,44 @@
         </div>
 
         <!-- 2. Verde: Encuadernación de impresiones/fotocopias -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #22C55E">
-          <div>
-            <div class="w-12 h-12 bg-emerald-600/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mb-5">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
+        <div class="bento-card p-7 border border-[#1F2937] hover:border-emerald-500/60 transition-all duration-300 flex flex-col justify-between h-full min-h-[480px] md:col-span-1 lg:col-span-2 group relative" style="--card-accent: #22C55E">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-emerald-600/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded">Terminación Prolija</span>
             </div>
-            <h3 class="text-lg font-display text-white mb-3 group-hover:text-emerald-400 transition">
-              Encuadernación de impresiones/fotocopias
+
+            <h3 class="text-xl font-display text-white group-hover:text-emerald-400 transition">
+              Encuadernación &amp; Anillados
             </h3>
-            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body space-y-1.5">
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Anillados plásticos de alta resistencia</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Espiralados metálicos y continuos</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Tapas de polipropileno cristal, opacas y de color</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Tamaños A4, Carta, Oficio y formatos a medida</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Encuadernación para apuntes, tesis, manuales y balances</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Perforado de precisión milimétrica</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Terminaciones profesionales con corte limpio y prolijo</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Desde 1 ejemplar hasta grandes volúmenes</span>
-              </li>
-            </ul>
+            
+            <p class="text-xs text-slate-400 font-body leading-relaxed">
+              Organización duradera para apuntes universitarios, tesis académicas, balances contables y manuales operativos de empresas.
+            </p>
+
+            <!-- Características en Chips -->
+            <div class="space-y-2 pt-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-body">Formatos &amp; Materiales:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bento-chip">🌀 Anillados Plásticos HD</span>
+                <span class="bento-chip">🔩 Espiralados Metálicos</span>
+                <span class="bento-chip">📘 Tapas Cristal &amp; Opacas</span>
+                <span class="bento-chip">📐 A4, Carta y Oficio</span>
+                <span class="bento-chip">🎓 Apuntes, Tesis &amp; Balances</span>
+                <span class="bento-chip">⚡ Perforado de Alta Precisión</span>
+                <span class="bento-chip">📦 Desde 1 unidad</span>
+              </div>
+            </div>
           </div>
-          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
-            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Desde 1 ejemplar</span>
+
+          <div class="pt-5 mt-4 border-t border-[#1F2937] flex items-center justify-between">
+            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Entrega en el día</span>
             <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20consultar%20por%20anillados%20y%20encuadernaci%C3%B3n" target="_blank"
-               class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 tracking-wide">
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500 hover:text-[#0B0F19] font-bold text-xs transition-all duration-200">
               <span>Cotizar</span>
               <span>&rarr;</span>
             </a>
@@ -632,94 +711,89 @@
         </div>
 
         <!-- 3. Morado: Fabricación de Sellos Personalizados -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-purple/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #7C3AED">
-          <div>
-            <div class="w-12 h-12 bg-brand-purple/10 border border-brand-purple/30 text-purple-300 flex items-center justify-center mb-5">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
+        <div class="bento-card p-7 border border-[#1F2937] hover:border-brand-purple/60 transition-all duration-300 flex flex-col justify-between h-full min-h-[480px] md:col-span-1 lg:col-span-2 group relative" style="--card-accent: #7C3AED">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-brand-purple/10 border border-brand-purple/30 text-purple-300 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-300 bg-brand-purple/15 border border-purple-500/30 px-2 py-0.5 rounded">Configurador en Vivo</span>
             </div>
-            <h3 class="text-lg font-display text-white mb-3 group-hover:text-purple-300 transition">
-              Fabricación de Sellos Personalizados
+
+            <h3 class="text-xl font-display text-white group-hover:text-purple-300 transition">
+              Sellos Personalizados
             </h3>
-            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body space-y-1.5">
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Diseñá online tu Sello con vista previa inmediata</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Aparatos automáticos auto-entintables tipo Trodat</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Sellos de bolsillo portátiles y ultracompactos</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Cabos de madera noble clásicos y tradicionales</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Fechadores y foliadores comerciales de alta precisión</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Sellos textiles y para tinta indeleble</span>
-              </li>
-            </ul>
+            
+            <p class="text-xs text-slate-400 font-body leading-relaxed">
+              Grabado láser en goma sintética de alta resolución para profesionales médicos, abogados, docentes, comercios y empresas.
+            </p>
+
+            <!-- Tipos de Sellos en Chips -->
+            <div class="space-y-2 pt-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-body">Modelos &amp; Opciones:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bento-chip">⚡ Automáticos Auto-entintables</span>
+                <span class="bento-chip">🪵 Cabos de Madera Clásicos</span>
+                <span class="bento-chip">👝 Sellos Portátiles de Bolsillo</span>
+                <span class="bento-chip">📅 Fechadores &amp; Foliadores</span>
+                <span class="bento-chip">👕 Tinta Indeleble &amp; Textil</span>
+                <span class="bento-chip">🎨 168 Dibujos Oficiales</span>
+                <span class="bento-chip">🖥️ Previsualizador Digital</span>
+              </div>
+            </div>
           </div>
-          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
-            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Diseñador interactivo</span>
+
+          <div class="pt-5 mt-4 border-t border-[#1F2937] flex items-center justify-between">
+            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Diseño online</span>
             <a href="#cotizador-sellos" 
-               class="text-xs font-bold text-brand-purple hover:text-purple-300 flex items-center gap-1 tracking-wide">
-              <span>Diseñar ahora</span>
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-purple/15 text-purple-300 hover:bg-brand-purple hover:text-white font-bold text-xs transition-all duration-200">
+              <span>Diseñar</span>
               <span>&rarr;</span>
             </a>
           </div>
         </div>
 
         <!-- 4. Amarillo: Plastificaciones -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2 lg:col-start-2" style="--card-accent: #FFD100">
-          <div>
-            <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-5">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+        <div class="bento-card p-7 border border-[#1F2937] hover:border-amber-500/60 transition-all duration-300 flex flex-col justify-between h-full min-h-[480px] md:col-span-1 lg:col-span-2 lg:col-start-2 group relative" style="--card-accent: #FFD100">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-amber-300 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded">Protección Total</span>
             </div>
-            <h3 class="text-lg font-display text-white mb-3 group-hover:text-amber-400 transition">
+
+            <h3 class="text-xl font-display text-white group-hover:text-amber-400 transition">
               Plastificaciones
             </h3>
-            <ul class="text-xs text-slate-300 leading-relaxed mb-4 font-body space-y-1.5">
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0 mt-1.5"></span>
-                <span>Plastificados en Caliente y en Frío</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0 mt-1.5"></span>
-                <span>Plancha en caliente en tamaño Oficio u A4</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0 mt-1.5"></span>
-                <span>Plancha en Frío en tamaño A3</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0 mt-1.5"></span>
-                <span>Terminación brillante y mate antirreflejo</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0 mt-1.5"></span>
-                <span>Sellado hermético anti-desgaste y humedad</span>
-              </li>
-            </ul>
-            <p class="text-xs text-slate-400 leading-relaxed mb-6 font-body">
-              Ideal para proteger documentos importantes, carnets, credenciales de eventos, cartas y menús para restaurantes y fichas técnicas.
+            
+            <p class="text-xs text-slate-400 font-body leading-relaxed">
+              Sellado hermético contra humedad, desgaste, grasa y paso del tiempo. Ideal para credenciales, carnets, menús gastronómicos y certificados.
             </p>
+
+            <!-- Opciones de Plastificado en Chips -->
+            <div class="space-y-2 pt-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-body">Formatos &amp; Acabados:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bento-chip">🔥 Plancha en Caliente (A4 / Oficio)</span>
+                <span class="bento-chip">❄️ Plancha en Frío (A3)</span>
+                <span class="bento-chip">🪪 Carnets &amp; Credenciales</span>
+                <span class="bento-chip">🍽️ Menús &amp; Cartas para Gastronomía</span>
+                <span class="bento-chip">✨ Terminación Brillante</span>
+                <span class="bento-chip">🛡️ Mate Antirreflejo</span>
+                <span class="bento-chip">💧 100% Impermeable</span>
+              </div>
+            </div>
           </div>
-          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
-            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Carnet, A4, Oficio y A3</span>
+
+          <div class="pt-5 mt-4 border-t border-[#1F2937] flex items-center justify-between">
+            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Carnet hasta A3</span>
             <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20plastificar%20documentos" target="_blank"
-               class="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1 tracking-wide">
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-amber-500/10 text-amber-400 hover:bg-amber-500 hover:text-[#0B0F19] font-bold text-xs transition-all duration-200">
               <span>Cotizar</span>
               <span>&rarr;</span>
             </a>
@@ -727,47 +801,43 @@
         </div>
 
         <!-- 5. Rosa: Diseño Gráfico Personalizado -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-magenta/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #E5007D">
-          <div>
-            <div class="w-12 h-12 bg-brand-magenta/10 border border-brand-magenta/30 text-brand-magenta flex items-center justify-center mb-5">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-              </svg>
+        <div class="bento-card p-7 border border-[#1F2937] hover:border-brand-magenta/60 transition-all duration-300 flex flex-col justify-between h-full min-h-[480px] md:col-span-1 lg:col-span-2 group relative" style="--card-accent: #E5007D">
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="w-12 h-12 rounded-xl bg-brand-magenta/10 border border-brand-magenta/30 text-brand-magenta flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+                </svg>
+              </div>
+              <span class="text-[10px] font-mono font-bold uppercase tracking-wider text-pink-300 bg-brand-magenta/15 border border-pink-500/30 px-2 py-0.5 rounded">Asesoramiento Creativo</span>
             </div>
-            <h3 class="text-lg font-display text-white mb-3 group-hover:text-brand-magenta transition">
+
+            <h3 class="text-xl font-display text-white group-hover:text-brand-magenta transition">
               Diseño Gráfico Personalizado
             </h3>
-            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body space-y-1.5">
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-magenta flex-shrink-0 mt-1.5"></span>
-                <span>Arreglo y puesta a punto de diseños para impresión</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-magenta flex-shrink-0 mt-1.5"></span>
-                <span>Creación de tarjetas personales y comerciales</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-magenta flex-shrink-0 mt-1.5"></span>
-                <span>Diseño de folletos, volantes, flyers y catálogos</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-magenta flex-shrink-0 mt-1.5"></span>
-                <span>Papelería comercial, membretes y comprobantes</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-magenta flex-shrink-0 mt-1.5"></span>
-                <span>Vectorización y adaptación de logotipos</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-brand-magenta flex-shrink-0 mt-1.5"></span>
-                <span>Revisión técnica de márgenes, sangrías y resolución</span>
-              </li>
-            </ul>
+            
+            <p class="text-xs text-slate-400 font-body leading-relaxed">
+              Asistencia técnica y creativa para que tus archivos salgan impresos con los colores, márgenes y resolución exactos sin errores de producción.
+            </p>
+
+            <!-- Servicios de Diseño en Chips -->
+            <div class="space-y-2 pt-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block font-body">Servicios Gráficos:</span>
+              <div class="flex flex-wrap gap-1.5">
+                <span class="bento-chip">🖨️ Puesta a Punto para Imprenta</span>
+                <span class="bento-chip">💼 Tarjetas Personales &amp; Comerciales</span>
+                <span class="bento-chip">📢 Folletos, Volantes &amp; Flyers</span>
+                <span class="bento-chip">📋 Papelería &amp; Membretes</span>
+                <span class="bento-chip">🎯 Vectorización de Logotipos</span>
+                <span class="bento-chip">🔍 Revisión de Márgenes &amp; Sangría</span>
+              </div>
+            </div>
           </div>
-          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
-            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Asesoramiento profesional</span>
+
+          <div class="pt-5 mt-4 border-t border-[#1F2937] flex items-center justify-between">
+            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Consultoría visual</span>
             <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Necesito%20un%20diseño%20gráfico" target="_blank"
-               class="text-xs font-bold text-brand-magenta hover:text-pink-300 flex items-center gap-1 tracking-wide">
+               class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-magenta/15 text-brand-magenta hover:bg-brand-magenta hover:text-white font-bold text-xs transition-all duration-200">
               <span>Consultar</span>
               <span>&rarr;</span>
             </a>
@@ -779,6 +849,13 @@
   </section>
 
   <!-- Separador Editorial con Marca de Registro -->
+  <div class="flex items-center justify-center gap-4 py-3 bg-[#0B0F19]">
+    <hr class="editorial-rule flex-1 max-w-xs">
+    <div class="reg-mark"></div>
+    <div class="cmyk-bar-editorial w-24"><span class="bg-brand-cyan"></span><span class="bg-brand-magenta"></span><span class="bg-brand-yellow"></span><span class="bg-[#1F2937]"></span></div>
+    <div class="reg-mark"></div>
+    <hr class="editorial-rule flex-1 max-w-xs">
+  </div>
   <div class="flex items-center justify-center gap-4 py-3 bg-[#0B0F19]">
     <hr class="editorial-rule flex-1 max-w-xs">
     <div class="reg-mark"></div>
@@ -813,10 +890,10 @@
       </div>
 
       <!-- Módulo de 2 Columnas -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         <!-- Formulario (Izq) -->
-        <div class="lg:col-span-7 bg-[#111827] text-white p-6 sm:p-8 border border-[#1F2937] space-y-7">
+        <div class="lg:col-span-7 order-last lg:order-first bg-[#111827] text-white p-6 sm:p-8 border border-[#1F2937] space-y-7 rounded-2xl shadow-xl">
           
           <!-- CATEGORÍA ÚNICA: SELLO PERSONALIZADO -->
           <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-5 border-b border-[#1F2937] gap-3">
@@ -1088,46 +1165,59 @@
         </div>
 
         <!-- Columna Derecha: Live Preview Superior, Resumen y Live Preview Emojis -->
-        <div class="lg:col-span-5 flex flex-col justify-between space-y-6">
+        <div class="lg:col-span-5 order-first lg:order-last flex flex-col space-y-6">
           
           <!-- Bloque Superior: Vista Previa 1 + Resumen Técnico -->
           <div class="space-y-6">
-            <div class="bg-[#111827] p-6 border border-[#1F2937]">
-              <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#1F2937] flex-wrap gap-2">
+            <!-- Panel Sticky de Vista Previa (Arriba en móvil para ver cambios en vivo) -->
+            <div id="stamp-preview-sticky-card" class="bg-[#111827] p-5 sm:p-6 border border-[#1F2937] rounded-2xl sticky top-20 z-30 shadow-2xl backdrop-blur-md">
+              <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#1F2937] flex-wrap gap-2">
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   <h4 id="stamp-mode-badge" class="text-[10px] font-bold tracking-[0.3em] text-slate-300 uppercase font-body">Personalizado</h4>
                 </div>
                 <div class="flex items-center gap-2">
-                  <div class="inline-flex p-0.5 bg-[#0B0F19] border border-[#1F2937]">
+                  <div class="inline-flex p-0.5 bg-[#0B0F19] border border-[#1F2937] rounded">
                     <button type="button" data-preview-orient="horizontal" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-brand-cyan text-[#0B0F19] transition" title="Formato Horizontal">↔ Horiz.</button>
                     <button type="button" data-preview-orient="vertical" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-white transition" title="Formato Vertical">↕ Vert.</button>
                   </div>
-                  <span id="stamp-dimension-badge" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937]">
+                  <span id="stamp-dimension-badge" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937] rounded">
                     47 x 18 mm (Aprox.)
                   </span>
                 </div>
               </div>
 
-              <!-- Recuadro simulador de huella -->
-              <div id="stamp-live-preview-box" class="stamp-paper-bg rounded-lg border border-slate-300 min-h-[220px] flex items-center justify-center p-4 overflow-hidden shadow-inner">
-                <div id="stamp-inner-frame" class="p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-dashed border-slate-400 rounded-sm">
+              <!-- Recuadro simulador de huella con fondo de papel texturado y marco de corte técnico -->
+              <div id="stamp-live-preview-box" class="stamp-paper-bg rounded-xl border border-slate-300 min-h-[220px] sm:min-h-[240px] flex items-center justify-center p-4 sm:p-6 overflow-hidden shadow-inner relative">
+                <!-- Regla milimétrica visual superior -->
+                <div class="absolute top-1.5 left-4 right-4 flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 select-none pointer-events-none opacity-70">
+                  <span>| 0mm</span>
+                  <span>↔ Ancho aprox. 47 mm</span>
+                  <span>47mm |</span>
+                </div>
+
+                <div id="stamp-inner-frame" class="stamp-cutting-frame p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all bg-white/40 rounded-sm">
                   <div id="stamp-live-text-content" class="stamp-ink-effect font-stamp-01 text-center space-y-1 w-full">
-                    <!-- Inyectado por JS -->
+                    <!-- Inyectado dinámicamente por app.js -->
                   </div>
+                </div>
+
+                <!-- Regla milimétrica visual inferior -->
+                <div class="absolute bottom-1.5 right-4 text-[9px] font-mono font-bold text-slate-400 select-none pointer-events-none opacity-70">
+                  ↕ Alto aprox. 18 mm
                 </div>
               </div>
 
               <div class="mt-3 flex items-center justify-between text-[11px] text-slate-400">
                 <span id="stamp-apparatus-badge" class="font-medium text-slate-300 font-body">Aparato Automático</span>
-                <span class="italic text-slate-500 font-body">Grabado en goma sintética HD</span>
+                <span class="italic text-slate-400 font-body">Grabado en goma HD · Tinta nítida</span>
               </div>
             </div>
 
 
 
             <!-- Resumen y Enlace a WhatsApp -->
-            <div class="bg-[#111827] p-6 border border-[#1F2937] space-y-5">
+            <div class="bg-[#111827] p-6 border border-[#1F2937] space-y-5 rounded-2xl shadow-xl">
               <div class="flex items-center justify-between">
                 <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brand-cyan font-body">Resumen del Pedido</span>
                 <span class="text-[10px] text-slate-500 tracking-wider uppercase font-body">Valentín Alsina</span>

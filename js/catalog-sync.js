@@ -16,6 +16,8 @@
   document.addEventListener('DOMContentLoaded', async () => {
     setupCatalogFilters();
     fetchSchedule();
+    updateLiveScheduleStatus();
+    setInterval(updateLiveScheduleStatus, 30000);
     await fetchCatalogProducts();
     renderFeaturedProducts();
   });
@@ -337,6 +339,120 @@
     }
   }
 
+
+  /**
+   * Calcula e inyecta el estado en tiempo real (Abierto/Cerrado) usando America/Argentina/Buenos_Aires
+   * Horarios:
+   * Lun a Vie: 09:30 a 13:15 y 16:00 a 19:30 hs
+   * Sábados: 10:00 a 13:00 y 16:30 a 19:00 hs
+   * Domingos: Cerrado
+   */
+  function updateLiveScheduleStatus() {
+    const topbarEl = document.getElementById('topbar-live-status');
+    const heroBadgeEl = document.getElementById('hero-live-schedule-badge');
+
+    if (!topbarEl && !heroBadgeEl) return;
+
+    try {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Argentina/Buenos_Aires',
+        hour12: false,
+        weekday: 'short',
+        hour: 'numeric',
+        minute: 'numeric'
+      });
+
+      const parts = formatter.formatToParts(now);
+      const map = {};
+      parts.forEach(p => map[p.type] = p.value);
+
+      const hour = parseInt(map.hour, 10);
+      const minute = parseInt(map.minute, 10);
+      const currentMinutes = hour * 60 + minute;
+      const daysMap = { 'Sun': 0, 'Mon': 1, 'Tue': 2, 'Wed': 3, 'Thu': 4, 'Fri': 5, 'Sat': 6 };
+      const day = daysMap[map.weekday] ?? 0;
+
+      let isOpen = false;
+      let statusTitle = '';
+      let statusSubtitle = '';
+
+      if (day >= 1 && day <= 5) { // Lunes a Viernes
+        if (currentMinutes >= 570 && currentMinutes < 795) { // 09:30 - 13:15
+          isOpen = true;
+          statusTitle = 'Abierto ahora';
+          statusSubtitle = 'Cierra 13:15 hs';
+        } else if (currentMinutes >= 960 && currentMinutes < 1170) { // 16:00 - 19:30
+          isOpen = true;
+          statusTitle = 'Abierto ahora';
+          statusSubtitle = 'Cierra 19:30 hs';
+        } else if (currentMinutes < 570) {
+          isOpen = false;
+          statusTitle = 'Cerrado ahora';
+          statusSubtitle = 'Abre hoy a las 09:30 hs';
+        } else if (currentMinutes >= 795 && currentMinutes < 960) {
+          isOpen = false;
+          statusTitle = 'Cerrado al mediodía';
+          statusSubtitle = 'Abre hoy a las 16:00 hs';
+        } else {
+          isOpen = false;
+          statusTitle = 'Cerrado por hoy';
+          statusSubtitle = day === 5 ? 'Abre mañana a las 10:00 hs' : 'Abre mañana a las 09:30 hs';
+        }
+      } else if (day === 6) { // Sábado
+        if (currentMinutes >= 600 && currentMinutes < 780) { // 10:00 - 13:00
+          isOpen = true;
+          statusTitle = 'Abierto ahora';
+          statusSubtitle = 'Cierra 13:00 hs';
+        } else if (currentMinutes >= 990 && currentMinutes < 1140) { // 16:30 - 19:00
+          isOpen = true;
+          statusTitle = 'Abierto ahora';
+          statusSubtitle = 'Cierra 19:00 hs';
+        } else if (currentMinutes < 600) {
+          isOpen = false;
+          statusTitle = 'Cerrado ahora';
+          statusSubtitle = 'Abre hoy a las 10:00 hs';
+        } else if (currentMinutes >= 780 && currentMinutes < 990) {
+          isOpen = false;
+          statusTitle = 'Cerrado al mediodía';
+          statusSubtitle = 'Abre hoy a las 16:30 hs';
+        } else {
+          isOpen = false;
+          statusTitle = 'Cerrado';
+          statusSubtitle = 'Abre el lunes a las 09:30 hs';
+        }
+      } else { // Domingo
+        isOpen = false;
+        statusTitle = 'Cerrado hoy domingo';
+        statusSubtitle = 'Abre el lunes a las 09:30 hs';
+      }
+
+      // 1. Actualizar indicador Topbar
+      if (topbarEl) {
+        if (isOpen) {
+          topbarEl.className = 'inline-flex items-center gap-2 text-[11px] font-semibold text-emerald-300 font-mono';
+          topbarEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>' + statusTitle + ' · ' + statusSubtitle + '</span>';
+        } else {
+          topbarEl.className = 'inline-flex items-center gap-2 text-[11px] font-semibold text-rose-300 font-mono';
+          topbarEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500"></span><span>' + statusTitle + ' (' + statusSubtitle + ')</span>';
+        }
+      }
+
+      // 2. Actualizar badge Hero
+      if (heroBadgeEl) {
+        if (isOpen) {
+          heroBadgeEl.className = 'mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 shadow-md shadow-emerald-950/40 font-body';
+          heroBadgeEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse flex-shrink-0"></span><span>' + statusTitle + ' (' + statusSubtitle + ')</span>';
+        } else {
+          heroBadgeEl.className = 'mt-2 mb-2 inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/15 text-rose-300 border border-rose-500/30 shadow-md shadow-rose-950/40 font-body';
+          heroBadgeEl.innerHTML = '<span class="w-2 h-2 rounded-full bg-rose-500 flex-shrink-0"></span><span>' + statusTitle + ' · ' + statusSubtitle + '</span>';
+        }
+      }
+    } catch (e) {
+      console.warn('Error al calcular horario en vivo:', e);
+    }
+  }
+
   function escapeHTML(str) {
     if (typeof str !== 'string') return '';
     return str
@@ -350,6 +466,7 @@
   window.catalogSync = {
     fetchCatalogProducts,
     fetchSchedule,
+    updateLiveScheduleStatus,
     getProducts: () => dynamicProducts
   };
 })();

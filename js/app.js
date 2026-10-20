@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initStampDesigner();
   initWhatsAppFloating();
+  initCopyEmailStep();
 });
 
 /* ==========================================================================
@@ -1459,6 +1460,10 @@ function initMobileMenu() {
   toggleBtn.addEventListener('click', openMenu);
   if (closeBtn) closeBtn.addEventListener('click', closeMenu);
 
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target === mobileMenu) closeMenu();
+  });
+
   links.forEach(link => {
     link.addEventListener('click', closeMenu);
   });
@@ -1467,6 +1472,42 @@ function initMobileMenu() {
 /* ==========================================================================
    5. BOTÓN FLOTANTE Y NOTIFICACIONES TOAST
    ========================================================================== */
+
+/* ==========================================================================
+   5b. COPIAR EMAIL DE CONTACTO / ENVÍO DE ARCHIVOS
+   ========================================================================== */
+function initCopyEmailStep() {
+  const btn = document.getElementById('btn-copy-email-step');
+  if (!btn) return;
+
+  btn.addEventListener('click', async () => {
+    const email = 'libu.impresiones@gmail.com';
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(email);
+      } else {
+        const temp = document.createElement('input');
+        temp.value = email;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+      }
+      const textEl = document.getElementById('btn-copy-email-text');
+      const orig = textEl ? textEl.textContent : 'Copiar email';
+      if (textEl) textEl.textContent = '¡Copiado! ✓';
+      btn.classList.add('bg-emerald-500/20', 'border-emerald-500/50', 'text-emerald-300');
+      showToast('¡Correo libu.impresiones@gmail.com copiado!');
+      setTimeout(() => {
+        if (textEl) textEl.textContent = orig;
+        btn.classList.remove('bg-emerald-500/20', 'border-emerald-500/50', 'text-emerald-300');
+      }, 2500);
+    } catch (e) {
+      showToast('libu.impresiones@gmail.com');
+    }
+  });
+}
+
 function initWhatsAppFloating() {
   const floatingBtn = document.getElementById('floating-whatsapp');
   if (floatingBtn) {

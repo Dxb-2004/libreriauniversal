@@ -32,7 +32,7 @@ const adminState = {
 // =============================================================================
 // 1. INICIALIZACIÓN Y PROTECCIÓN DE SESIÓN
 // =============================================================================
-document.addEventListener('DOMContentLoaded', async () => {
+const startAdmin = async () => {
   // 1. Verificar credenciales almacenadas con validación criptográfica AES-GCM
   let token = null;
   let storedUser = null;
@@ -91,7 +91,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadProducts(),
     loadSchedule()
   ]);
-});
+};
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startAdmin);
+} else {
+  startAdmin();
+}
 
 // =============================================================================
 // 2. GESTIÓN DE EVENTOS DE INTERFAZ

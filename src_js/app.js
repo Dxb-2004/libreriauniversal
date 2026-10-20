@@ -103,11 +103,16 @@ const stampState = {
 // Catálogo de productos de librería organizado por categorías
 const stationeryProducts = [];
 // Inicialización cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', () => {
+const startApp = () => {
   initMobileMenu();
   initStampDesigner();
   initWhatsAppFloating();
-});
+};
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', startApp);
+} else {
+  startApp();
+}
 
 /* ==========================================================================
    1. DISEÑADOR INTERACTIVO DE SELLOS (SELLO PERSONALIZADO)

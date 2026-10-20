@@ -6,7 +6,7 @@
 (function() {
   'use strict';
 
-  document.addEventListener('DOMContentLoaded', async () => {
+  const startLogin = async () => {
     // Purga criptográfica de sesiones previas en pantalla de login
     if (typeof window.CryptoStorage !== 'undefined') {
       window.CryptoStorage.removeItem('lu_admin_token', true);
@@ -222,5 +222,11 @@
         }
       });
     }
-  });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startLogin);
+  } else {
+    startLogin();
+  }
 })();

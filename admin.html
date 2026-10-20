@@ -8,8 +8,13 @@
   <link rel="icon" type="image/png" href="favicon.png" />
   <link rel="apple-touch-icon" href="favicon.png" />
 
-  <!-- Trusted Dynamic Script Loader (Google CSP Level 3 Strict-Dynamic) -->
-  <script id="app-loader" data-scripts="js/security-shield.js,js/vendor/tailwindcss.js,js/tailwind-config.js,js/crypto-storage.js,js/admin-guard.js,js/admin.js">(function(){var l=document.getElementById('app-loader');if(!l)return;if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy('default',{createHTML:function(s){return s;},createScript:function(s){return s;},createScriptURL:function(s){return s;}});}catch(e){}}var list=l.getAttribute('data-scripts').split(',');list.forEach(function(u){var el=document.createElement('script');el.src=u;el.async=false;document.head.appendChild(el);});})();</script>
+  
+    <!-- Escudo Activo de Ciberseguridad & Anti-Tampering -->
+  <script src="js/security-shield.js"></script>
+  <script src="js/vendor/tailwindcss.js"></script>
+  <script src="js/tailwind-config.js"></script>
+  <script src="js/crypto-storage.js"></script>
+  <script src="js/admin-guard.js"></script>
 
   <!-- Google Fonts & Tailwind CDN -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -937,5 +942,6 @@
   <!-- ═══════════════════════════════════════════════════════════════════════
        9. SCRIPTS DE CONTROL Y CRUD REACTIVO (ADMIN.JS)
        ═══════════════════════════════════════════════════════════════════════ -->
-  </body>
+    <script src="js/admin.js"></script>
+</body>
 </html>

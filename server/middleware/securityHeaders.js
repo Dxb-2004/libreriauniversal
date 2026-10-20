@@ -40,12 +40,7 @@ const helmetSecurityHeaders = helmet({
     useDefaults: false,
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'sha256-whIMcdrL/1PNoOV9NGzq7HWwQxNhaDJh/FZcoQWVe78='",
-        "'strict-dynamic'",
-        "'unsafe-inline'",
-        "https:"
-      ],
+      scriptSrc: ["'self'"],
       styleSrc: [
         "'self'",
         "'unsafe-inline'",

@@ -13,14 +13,19 @@
   /**
    * Inicializa la sincronización de productos al cargar la página
    */
-  document.addEventListener('DOMContentLoaded', async () => {
+  const startCatalogSync = async () => {
     setupCatalogFilters();
     fetchSchedule();
     updateLiveScheduleStatus();
     setInterval(updateLiveScheduleStatus, 30000);
     await fetchCatalogProducts();
     renderFeaturedProducts();
-  });
+  };
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', startCatalogSync);
+  } else {
+    startCatalogSync();
+  }
 
   // Re-sincronizar horarios al volver a la pestaña (por si se editaron en el admin)
   window.addEventListener('focus', () => {

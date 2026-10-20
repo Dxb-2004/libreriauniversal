@@ -10,10 +10,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="img/logo-libreria-universal.png?v=2">
   <link rel="shortcut icon" href="favicon.ico?v=2">
   <link rel="apple-touch-icon" href="img/logo-libreria-universal.png?v=2">
+
+  <!-- Escudo Activo de Ciberseguridad & Anti-Tampering -->
+  <script src="js/security-shield.js"></script>
+
+  <!-- Tailwind CSS Local (Zero Third-Party Allowlist) -->
+  <script src="js/vendor/tailwindcss.js"></script>
+  <script src="js/tailwind-config.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="js/vendor/lucide.min.js"></script>
   
-  <!-- Trusted Dynamic Script Loader (Google CSP Level 3 Strict-Dynamic) -->
-  <script id="app-loader" data-scripts="js/security-shield.js,js/vendor/tailwindcss.js,js/tailwind-config.js,js/vendor/lucide.min.js,js/crypto-storage.js,js/stamp-data.js,js/app.js,js/catalog-sync.js">(function(){var l=document.getElementById('app-loader');if(!l)return;if(window.trustedTypes&&window.trustedTypes.createPolicy&&!window.trustedTypes.defaultPolicy){try{window.trustedTypes.createPolicy('default',{createHTML:function(s){return s;},createScript:function(s){return s;},createScriptURL:function(s){return s;}});}catch(e){}}var list=l.getAttribute('data-scripts').split(',');list.forEach(function(u){var el=document.createElement('script');el.src=u;el.async=false;document.head.appendChild(el);});})();</script>
-  
+    
   <!-- Tailwind CSS CDN -->
     
   <!-- Google Fonts: DM Serif Display (NUEVO editorial) + todas las existentes -->
@@ -1516,5 +1524,10 @@
   <!-- Scripts -->
         
 
+  <!-- Scripts de Negocio & Catálogos -->
+  <script src="js/crypto-storage.js"></script>
+  <script src="js/stamp-data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/catalog-sync.js"></script>
 </body>
 </html>

@@ -48,7 +48,7 @@ const stampState = {
   ],
   lineBolds: [true, false, false, false],
   lineItalics: [false, false, false, false],
-  sameFontForAll: true,
+  sameFontForAll: false,
   fontFamily: 'font-stamp-01', // 'font-stamp-01' a 'font-stamp-23'
   alignment: 'center',          // 'left' | 'center' | 'right'
   inkColor: '#111827',          // '#111827' (Negro), '#1e40af' (Azul), '#dc2626' (Rojo), '#6d28d9' (Violeta)

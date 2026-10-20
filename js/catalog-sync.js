@@ -24,11 +24,11 @@
    */
   async function fetchCatalogProducts() {
     try {
-      const response = await fetch('/api/products');
+      const response = await fetch('/api/products?t=' + Date.now(), { cache: 'no-store' });
       if (!response.ok) throw new Error('API offline');
       
       const data = await response.json();
-      if (data && data.success && Array.isArray(data.products) && data.products.length > 0) {
+      if (data && data.success && Array.isArray(data.products)) {
         dynamicProducts = data.products;
         renderDynamicStationeryGrid();
       }

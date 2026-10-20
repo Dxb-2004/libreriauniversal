@@ -43,7 +43,8 @@ const {
 } = require('./middleware/validator');
 const {
   uploadMiddleware,
-  validateAndPersistFile
+  validateAndPersistFile,
+  UPLOAD_DIR
 } = require('./middleware/fileUpload');
 const {
   encryptSensitiveData,
@@ -98,7 +99,7 @@ const publicPath = path.resolve(__dirname, '..');
 const uploadsPath = path.resolve(__dirname, '../secure_uploads');
 
 // Servir archivos subidos de forma segura
-app.use('/uploads', express.static(uploadsPath, {
+app.use('/uploads', express.static(UPLOAD_DIR, {
   dotfiles: 'ignore',
   maxAge: '7d'
 }));
@@ -664,7 +665,7 @@ app.post(
         message: 'Archivo verificado por Magic Bytes y almacenado con UUID seguro.',
         file: {
           savedName: fileInfo.savedName,
-          url: `/uploads/${fileInfo.savedName}`,
+          url: fileInfo.url || `/uploads/${fileInfo.savedName}`,
           mimeType: fileInfo.mimeType,
           sizeBytes: fileInfo.sizeBytes,
           sha256: fileInfo.sha256

@@ -115,6 +115,12 @@ function initEventListeners() {
   // Botón Abrir Modal de Creación
   document.getElementById('btn-open-create-modal').addEventListener('click', openCreateModal);
 
+  // Botón Vaciar Catálogo Completo
+  const btnClearCatalog = document.getElementById('btn-clear-catalog');
+  if (btnClearCatalog) {
+    btnClearCatalog.addEventListener('click', handleClearCatalog);
+  }
+
   // Cerrar y Cancelar Modal
   document.getElementById('btn-close-modal').addEventListener('click', closeModal);
   document.getElementById('btn-cancel-modal').addEventListener('click', closeModal);
@@ -174,12 +180,17 @@ function initEventListeners() {
     const reader = new FileReader();
     reader.onload = (event) => {
       updateImagePreview(event.target.result);
+      // Pre-cargar la imagen en urlInput para que siempre se guarde incluso si la red o API fallan
+      if (!urlInput.value || urlInput.value.startsWith('data:')) {
+        urlInput.value = event.target.result;
+      }
     };
     reader.readAsDataURL(file);
 
     // Subida al servidor mediante el endpoint blindado
     const formData = new FormData();
     formData.append('file', file);
+    formData.append('document', file);
 
     try {
       showToast('Subiendo archivo al servidor...', 'info');
@@ -195,9 +206,11 @@ function initEventListeners() {
       if (res.ok && data.success && data.file?.url) {
         urlInput.value = data.file.url;
         showToast('Imagen verificada y subida con éxito', 'success');
+      } else {
+        console.warn('Aviso al subir imagen remota:', data.message);
       }
     } catch (err) {
-      console.error('Error al subir imagen:', err);
+      console.warn('Error al subir imagen remota, se conservará la versión local:', err);
     }
   });
 
@@ -327,7 +340,7 @@ function updateImagePreview(src) {
 // =============================================================================
 async function loadProducts() {
   try {
-    const res = await fetch('/api/products');
+    const res = await fetch('/api/products?t=' + Date.now(), { cache: 'no-store' });
     const data = await res.json();
 
     if (!res.ok || !data.success) {
@@ -754,6 +767,35 @@ async function handleConfirmDelete() {
   } finally {
     btnConfirm.disabled = false;
     btnConfirm.textContent = 'Sí, Eliminar';
+  }
+}
+
+/**
+ * Vacía todos los productos del catálogo para permitir carga limpia desde cero
+ */
+async function handleClearCatalog() {
+  const confirmClear = confirm('⚠️ ¿Estás seguro de que deseas vaciar y eliminar TODOS los productos del catálogo?\n\nEsta acción te permitirá cargar tus productos desde cero sin los datos de muestra. ¿Deseas continuar?');
+  if (!confirmClear) return;
+
+  try {
+    showToast('Vaciando catálogo...', 'info');
+    const res = await fetch('/api/products', {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${adminState.token}`
+      }
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || 'No se pudo vaciar el catálogo.');
+    }
+
+    showToast('Catálogo vaciado correctamente. Ya puedes cargar tus propios productos.', 'success');
+    await loadProducts();
+  } catch (err) {
+    console.error('Error al vaciar catálogo:', err);
+    showToast(err.message || 'Error al conectar con el servidor', 'error');
   }
 }
 

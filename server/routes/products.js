@@ -1,6 +1,6 @@
 /**
  * LIBRERÍA UNIVERSAL - RUTAS Y CONTROLADOR DE PRODUCTOS (CRUD)
- * Arquitectura heredada de tesla-computacion con blindaje de ciberseguridad.
+ * Persistencia real en la nube con Vercel Blob y fallback a disco local.
  */
 
 const fs = require('fs');
@@ -14,6 +14,7 @@ const { db } = require('../db/client');
 
 const router = Router();
 const PRODUCTS_DATA_PATH = path.resolve(__dirname, '../data/products.json');
+const BLOB_PRODUCTS_KEY = 'data/products.json';
 
 // Categorías oficiales según especificación
 const ALLOWED_CATEGORIES = [
@@ -53,12 +54,33 @@ try {
 let inMemoryProducts = null;
 
 /**
- * Carga los productos desde el archivo persistente o memoria
+ * Carga los productos desde Vercel Blob (Nube), archivo persistente o memoria
  */
-function readProductsFromFile() {
+async function getProducts() {
   if (inMemoryProducts !== null) {
     return inMemoryProducts;
   }
+
+  // 1. Intentar cargar desde Vercel Blob (Persistencia Real en la Nube de Vercel)
+  try {
+    const { list } = require('@vercel/blob');
+    const { blobs } = await list({ prefix: BLOB_PRODUCTS_KEY });
+    const productBlob = blobs.find(b => b.pathname === BLOB_PRODUCTS_KEY);
+    if (productBlob) {
+      const resp = await fetch(productBlob.url + '?t=' + Date.now(), { cache: 'no-store' });
+      if (resp.ok) {
+        const data = await resp.json();
+        if (Array.isArray(data)) {
+          inMemoryProducts = data;
+          return inMemoryProducts;
+        }
+      }
+    }
+  } catch (blobErr) {
+    // Si no está disponible Blob (desarrollo local sin credenciales), continuamos al archivo local
+  }
+
+  // 2. Intentar cargar desde archivo local (desarrollo o fallback inicial)
   try {
     if (fs.existsSync(PRODUCTS_DATA_PATH)) {
       const data = fs.readFileSync(PRODUCTS_DATA_PATH, 'utf8');
@@ -66,17 +88,34 @@ function readProductsFromFile() {
       return inMemoryProducts;
     }
   } catch (err) {
-    console.error('Error al leer archivo de productos:', err);
+    console.error('Error al leer archivo local de productos:', err);
   }
+
+  // 3. Fallback a semilla inicial
   inMemoryProducts = Array.isArray(seedProducts) && seedProducts.length > 0 ? [...seedProducts] : [];
   return inMemoryProducts;
 }
 
 /**
- * Guarda los productos en el archivo persistente y memoria
+ * Guarda los productos en Vercel Blob (Nube), archivo persistente y memoria
  */
-function writeProductsToFile(products) {
+async function saveProducts(products) {
   inMemoryProducts = products;
+
+  // 1. Persistir en Vercel Blob (Persistencia Real en la Nube)
+  try {
+    const { put } = require('@vercel/blob');
+    await put(BLOB_PRODUCTS_KEY, JSON.stringify(products, null, 2), {
+      access: 'public',
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: 'application/json'
+    });
+  } catch (blobErr) {
+    console.warn('Aviso: No se pudo guardar en Vercel Blob:', blobErr.message);
+  }
+
+  // 2. Persistir en disco local si el entorno lo permite
   try {
     const dir = path.dirname(PRODUCTS_DATA_PATH);
     if (!fs.existsSync(dir)) {
@@ -84,7 +123,7 @@ function writeProductsToFile(products) {
     }
     fs.writeFileSync(PRODUCTS_DATA_PATH, JSON.stringify(products, null, 2), 'utf8');
   } catch (err) {
-    // En entornos serverless con sistema de archivos de solo lectura, la memoria mantiene el estado
+    // En filesystem de solo lectura (serverless) es normal que falle
   }
 }
 
@@ -96,8 +135,11 @@ function writeProductsToFile(products) {
  */
 router.get('/', async (req, res) => {
   try {
+    // Evitar caché stale en proxies y navegadores
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
+
     const { categoria, search, destacado, stock } = req.query;
-    let products = readProductsFromFile();
+    let products = await getProducts();
 
     // Filtro por categoría
     if (categoria && categoria !== 'Todas') {
@@ -153,7 +195,8 @@ router.get('/', async (req, res) => {
  */
 router.get('/:id', async (req, res) => {
   try {
-    const products = readProductsFromFile();
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    const products = await getProducts();
     const product = products.find(p => p.id === req.params.id);
 
     if (!product) {
@@ -197,12 +240,12 @@ router.post(
         updated_at: now
       };
 
-      // 1. Persistir en archivo JSON
-      const products = readProductsFromFile();
+      // Persistir en Vercel Blob y memoria
+      const products = await getProducts();
       products.unshift(newProduct);
-      writeProductsToFile(products);
+      await saveProducts(products);
 
-      // 2. Persistir en base de datos PostgreSQL si está conectada
+      // Persistir en base de datos PostgreSQL si está conectada
       try {
         await db.query(
           `INSERT INTO public.products (id, nombre, categoria, precio, descripcion, imagen_url, stock, destacado, created_at, updated_at)
@@ -240,7 +283,7 @@ router.put(
     try {
       const { id } = req.params;
       const { nombre, categoria, precio, descripcion, imagen_url, stock, destacado } = req.body;
-      const products = readProductsFromFile();
+      const products = await getProducts();
       const index = products.findIndex(p => p.id === id);
 
       if (index === -1) {
@@ -260,7 +303,7 @@ router.put(
       };
 
       products[index] = updatedProduct;
-      writeProductsToFile(products);
+      await saveProducts(products);
 
       // Actualizar en base de datos relacional si está activa
       try {
@@ -299,7 +342,7 @@ router.patch(
   async (req, res) => {
     try {
       const { id } = req.params;
-      const products = readProductsFromFile();
+      const products = await getProducts();
       const index = products.findIndex(p => p.id === id);
 
       if (index === -1) {
@@ -308,7 +351,7 @@ router.patch(
 
       products[index].stock = !products[index].stock;
       products[index].updated_at = new Date().toISOString();
-      writeProductsToFile(products);
+      await saveProducts(products);
 
       try {
         await db.query(
@@ -332,8 +375,39 @@ router.patch(
 
 /**
  * ══════════════════════════════════════════════════════════════════════════════
+ * DELETE /api/products
+ * Vaciar todo el catálogo de productos (Protegido: Solo Admin)
+ * ══════════════════════════════════════════════════════════════════════════════
+ */
+router.delete(
+  '/',
+  requireAuth,
+  requireRole(['admin']),
+  async (req, res) => {
+    try {
+      await saveProducts([]);
+
+      try {
+        await db.query('DELETE FROM public.products');
+      } catch (dbErr) {
+        // Fallback
+      }
+
+      res.json({
+        success: true,
+        message: 'Catálogo vaciado exitosamente. Ahora puedes cargar tus propios productos desde cero.'
+      });
+    } catch (err) {
+      console.error('Error al vaciar catálogo:', err);
+      res.status(500).json({ error: 'InternalServerError', message: 'No se pudo vaciar el catálogo.' });
+    }
+  }
+);
+
+/**
+ * ══════════════════════════════════════════════════════════════════════════════
  * DELETE /api/products/:id
- * Eliminar producto del catálogo (Protegido: Solo Admin)
+ * Eliminar producto individual del catálogo (Protegido: Solo Admin)
  * ══════════════════════════════════════════════════════════════════════════════
  */
 router.delete(
@@ -343,7 +417,7 @@ router.delete(
   async (req, res) => {
     try {
       const { id } = req.params;
-      let products = readProductsFromFile();
+      let products = await getProducts();
       const exists = products.some(p => p.id === id);
 
       if (!exists) {
@@ -351,7 +425,7 @@ router.delete(
       }
 
       products = products.filter(p => p.id !== id);
-      writeProductsToFile(products);
+      await saveProducts(products);
 
       try {
         await db.query('DELETE FROM public.products WHERE id = $1', [id]);

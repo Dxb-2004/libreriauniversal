@@ -203,17 +203,31 @@
         </p>
       </div>
 
-      <!-- Botón Primario para Nuevo Producto -->
-      <button 
-        type="button" 
-        id="btn-open-create-modal"
-        class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] font-bold text-sm shadow-lg shadow-brand-cyan/20 hover:shadow-brand-cyan/30 transition duration-200 active:scale-[0.99] self-start md:self-auto"
-      >
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
-        </svg>
-        <span>Nuevo Producto</span>
-      </button>
+      <!-- Botones de Acción Catálogo -->
+      <div class="flex flex-wrap items-center gap-2.5 self-start md:self-auto">
+        <button 
+          type="button" 
+          id="btn-open-create-modal"
+          class="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] font-bold text-sm shadow-lg shadow-brand-cyan/20 hover:shadow-brand-cyan/30 transition duration-200 active:scale-[0.99]"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span>Nuevo Producto</span>
+        </button>
+
+        <button 
+          type="button" 
+          id="btn-clear-catalog"
+          class="inline-flex items-center justify-center gap-2 px-3.5 py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white border border-rose-500/30 transition duration-200 text-xs font-bold"
+          title="Eliminar todos los productos para cargar los tuyos desde cero"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          <span>Vaciar Todo</span>
+        </button>
+      </div>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════

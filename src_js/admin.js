@@ -192,10 +192,27 @@ function initEventListeners() {
   // Botón Abrir Modal de Creación
   document.getElementById('btn-open-create-modal').addEventListener('click', openCreateModal);
 
-  // Botón Vaciar Catálogo Completo
-  const btnClearCatalog = document.getElementById('btn-clear-catalog');
-  if (btnClearCatalog) {
-    btnClearCatalog.addEventListener('click', handleClearCatalog);
+  // Toggle para crear nueva categoría en el modal
+  const btnToggleNewCat = document.getElementById('btn-toggle-new-category');
+  const btnCancelNewCat = document.getElementById('btn-cancel-new-category');
+  const newCatWrapper = document.getElementById('new-category-input-wrapper');
+  const newCatInput = document.getElementById('form-nueva-categoria');
+
+  if (btnToggleNewCat) {
+    btnToggleNewCat.addEventListener('click', () => {
+      if (newCatWrapper) newCatWrapper.classList.toggle('hidden');
+      if (newCatInput && !newCatWrapper.classList.contains('hidden')) {
+        newCatInput.value = '';
+        newCatInput.focus();
+      }
+    });
+  }
+
+  if (btnCancelNewCat) {
+    btnCancelNewCat.addEventListener('click', () => {
+      if (newCatWrapper) newCatWrapper.classList.add('hidden');
+      if (newCatInput) newCatInput.value = '';
+    });
   }
 
   // Cerrar y Cancelar Modal
@@ -430,11 +447,67 @@ async function loadProducts() {
     }
 
     adminState.products = data.products || [];
+    updateCategoryDropdowns();
     applyFilters();
     updateDashboardStats();
   } catch (err) {
     console.error('Error al cargar productos:', err);
     showToast('Error al conectar con la base de datos de productos', 'error');
+  }
+}
+
+/**
+ * Actualiza dinámicamente las listas de categorías en formularios y filtros
+ */
+function updateCategoryDropdowns() {
+  const defaultCategories = [
+    'Librería Comercial',
+    'Librería Escolar',
+    'Servicios de Imprenta',
+    'Sellos',
+    'Sellos de corrección docente',
+    'Insumos / Otros'
+  ];
+
+  const existingCategories = (adminState.products || []).map(p => p.categoria).filter(Boolean);
+  const allCategories = Array.from(new Set([...defaultCategories, ...existingCategories])).sort();
+
+  // 1. Selector de Categoría en Formulario
+  const formSelect = document.getElementById('form-categoria');
+  if (formSelect) {
+    const currentVal = formSelect.value;
+    formSelect.replaceChildren();
+    allCategories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      formSelect.appendChild(opt);
+    });
+    if (currentVal && allCategories.includes(currentVal)) {
+      formSelect.value = currentVal;
+    }
+  }
+
+  // 2. Selector de Filtro en Tabla
+  const filterSelect = document.getElementById('category-filter');
+  if (filterSelect) {
+    const currentFilter = filterSelect.value || 'Todas';
+    filterSelect.replaceChildren();
+    const allOpt = document.createElement('option');
+    allOpt.value = 'Todas';
+    allOpt.textContent = 'Todas las Categorías';
+    filterSelect.appendChild(allOpt);
+
+    allCategories.forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat;
+      opt.textContent = cat;
+      filterSelect.appendChild(opt);
+    });
+
+    if (currentFilter && (currentFilter === 'Todas' || allCategories.includes(currentFilter))) {
+      filterSelect.value = currentFilter;
+    }
   }
 }
 
@@ -659,6 +732,11 @@ function getCategoryBadgeHTML(categoria) {
  */
 function openCreateModal() {
   adminState.currentEditId = null;
+  const newCatWrapper = document.getElementById('new-category-input-wrapper');
+  const newCatInput = document.getElementById('form-nueva-categoria');
+  if (newCatWrapper) newCatWrapper.classList.add('hidden');
+  if (newCatInput) newCatInput.value = '';
+  updateCategoryDropdowns();
   document.getElementById('modal-title').textContent = 'Nuevo Producto / Servicio';
   document.getElementById('save-btn-text').textContent = 'Guardar y Publicar';
   document.getElementById('form-product-id').value = '';
@@ -691,7 +769,22 @@ function openEditModal(id) {
   document.getElementById('save-btn-text').textContent = 'Actualizar Cambios';
   document.getElementById('form-product-id').value = product.id;
   document.getElementById('form-nombre').value = product.nombre;
-  document.getElementById('form-categoria').value = product.categoria;
+  const newCatWrapper = document.getElementById('new-category-input-wrapper');
+  const newCatInput = document.getElementById('form-nueva-categoria');
+  if (newCatWrapper) newCatWrapper.classList.add('hidden');
+  if (newCatInput) newCatInput.value = '';
+  updateCategoryDropdowns();
+  const formCat = document.getElementById('form-categoria');
+  if (formCat && product.categoria) {
+    let exists = Array.from(formCat.options).some(o => o.value === product.categoria);
+    if (!exists) {
+      const opt = document.createElement('option');
+      opt.value = product.categoria;
+      opt.textContent = product.categoria;
+      formCat.appendChild(opt);
+    }
+    formCat.value = product.categoria;
+  }
   
   const isZeroPrice = !product.precio || Number(product.precio) === 0;
   document.getElementById('form-consultar-precio').checked = isZeroPrice;
@@ -726,7 +819,12 @@ async function handleSaveProduct(e) {
   e.preventDefault();
 
   const nombre = document.getElementById('form-nombre').value.trim();
-  const categoria = document.getElementById('form-categoria').value;
+  let categoria = document.getElementById('form-categoria')?.value;
+  const newCatInput = document.getElementById('form-nueva-categoria');
+  const newCatWrapper = document.getElementById('new-category-input-wrapper');
+  if (newCatWrapper && !newCatWrapper.classList.contains('hidden') && newCatInput && newCatInput.value.trim()) {
+    categoria = newCatInput.value.trim();
+  }
   const consultarPrecio = document.getElementById('form-consultar-precio').checked;
   const precio = consultarPrecio ? 0 : parseFloat(document.getElementById('form-precio').value) || 0;
   const descripcion = document.getElementById('form-descripcion').value.trim();

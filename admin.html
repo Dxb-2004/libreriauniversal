@@ -222,17 +222,7 @@
           <span>Nuevo Producto</span>
         </button>
 
-        <button 
-          type="button" 
-          id="btn-clear-catalog"
-          class="inline-flex items-center justify-center gap-2 px-3.5 py-3 rounded-xl bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white border border-rose-500/30 transition duration-200 text-xs font-bold"
-          title="Eliminar todos los productos para cargar los tuyos desde cero"
-        >
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
-          </svg>
-          <span>Vaciar Todo</span>
-        </button>
+
       </div>
     </div>
 
@@ -683,21 +673,46 @@
           </div>
 
           <div>
-            <label for="form-categoria" class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
-              Categoría Oficial <span class="text-brand-magenta">*</span>
-            </label>
-            <select 
-              id="form-categoria" 
-              required 
-              class="glass-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-white rounded-lg outline-none cursor-pointer"
-            >
-              <option value="Librería Comercial">Librería Comercial</option>
-              <option value="Librería Escolar">Librería Escolar</option>
-              <option value="Servicios de Imprenta">Servicios de Imprenta</option>
-              <option value="Sellos">Sellos</option>
-              <option value="Sellos de corrección docente">Sellos de corrección docente</option>
-              <option value="Insumos / Otros">Insumos / Otros</option>
-            </select>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="form-categoria" class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                Categoría <span class="text-brand-magenta">*</span>
+              </label>
+              <button type="button" id="btn-toggle-new-category" class="text-[11px] text-brand-cyan hover:underline font-semibold flex items-center gap-1">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                <span>+ Nueva Categoría</span>
+              </button>
+            </div>
+            
+            <div id="category-select-wrapper">
+              <select 
+                id="form-categoria" 
+                class="glass-input w-full px-3.5 py-2.5 text-xs sm:text-sm text-white rounded-lg outline-none cursor-pointer"
+              >
+                <option value="Librería Comercial">Librería Comercial</option>
+                <option value="Librería Escolar">Librería Escolar</option>
+                <option value="Servicios de Imprenta">Servicios de Imprenta</option>
+                <option value="Sellos">Sellos</option>
+                <option value="Sellos de corrección docente">Sellos de corrección docente</option>
+                <option value="Insumos / Otros">Insumos / Otros</option>
+              </select>
+            </div>
+
+            <!-- Input para Escribir Nueva Categoría -->
+            <div id="new-category-input-wrapper" class="hidden mt-2 space-y-1">
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="form-nueva-categoria" 
+                  maxlength="60"
+                  placeholder="Nombre de la nueva categoría (Ej: Papelería Fina)..." 
+                  class="glass-input w-full pl-3.5 pr-20 py-2.5 text-xs sm:text-sm text-white rounded-lg outline-none border-brand-cyan/60"
+                />
+                <button type="button" id="btn-cancel-new-category" class="absolute inset-y-0 right-0 pr-3 flex items-center text-xs text-slate-400 hover:text-rose-400 font-bold">
+                  Cancelar
+                </button>
+              </div>
+              <p class="text-[10px] text-slate-400">Se agregará automáticamente al catálogo y a los filtros.</p>
+            </div>
           </div>
         </div>
 

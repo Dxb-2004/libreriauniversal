@@ -7,7 +7,7 @@
 (function () {
   const BUSINESS_PHONE = "5491126097125";
   let dynamicProducts = [];
-  let currentCategory = 'Librería Comercial';
+  let currentCategory = 'all';
   let currentSearch = '';
 
   /**
@@ -66,6 +66,7 @@
       console.info('Aviso al sincronizar catálogo:', err.message);
       dynamicProducts = [];
     } finally {
+      renderCategoryTabs();
       renderDynamicStationeryGrid();
       renderFeaturedProducts();
     }
@@ -92,41 +93,65 @@
   }
 
   /**
-   * Configura los filtros de pestañas y búsqueda de la sección de Librería
+   * Renderiza dinámicamente las pestañas de categorías según los productos disponibles
+   */
+  function renderCategoryTabs() {
+    const container = document.getElementById('stationery-category-tabs');
+    if (!container) return;
+
+    const rawCategories = dynamicProducts.map(p => p.categoria).filter(Boolean);
+    const uniqueCategories = Array.from(new Set(rawCategories));
+
+    container.replaceChildren();
+
+    // Pestaña "Todos los Productos"
+    const allBtn = document.createElement('button');
+    allBtn.type = 'button';
+    const isAllActive = currentCategory === 'all';
+    allBtn.className = `px-4 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all ${
+      isAllActive 
+        ? 'bg-brand-cyan text-[#0B0F19] shadow-md font-bold' 
+        : 'bg-[#111827] text-slate-300 hover:bg-[#1F2937] hover:text-white'
+    }`;
+    allBtn.textContent = 'Todos los Productos';
+    allBtn.addEventListener('click', () => {
+      currentCategory = 'all';
+      renderCategoryTabs();
+      renderDynamicStationeryGrid();
+    });
+    container.appendChild(allBtn);
+
+    // Pestañas individuales para cada categoría existente
+    uniqueCategories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      const isActive = currentCategory.toLowerCase() === cat.toLowerCase();
+      btn.className = `px-4 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all ${
+        isActive 
+          ? 'bg-brand-cyan text-[#0B0F19] shadow-md font-bold' 
+          : 'bg-[#111827] text-slate-300 hover:bg-[#1F2937] hover:text-white'
+      }`;
+      btn.textContent = cat;
+      btn.addEventListener('click', () => {
+        currentCategory = cat;
+        renderCategoryTabs();
+        renderDynamicStationeryGrid();
+      });
+      container.appendChild(btn);
+    });
+  }
+
+  /**
+   * Configura los filtros y búsqueda de la sección de Librería
    */
   function setupCatalogFilters() {
     const searchInput = document.getElementById('stationery-search-input');
-    const tabButtons = document.querySelectorAll('[data-stationery-tab]');
-
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         currentSearch = e.target.value.toLowerCase().trim();
         renderDynamicStationeryGrid();
       });
     }
-
-    tabButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        tabButtons.forEach(b => {
-          b.classList.remove('bg-brand-cyan', 'text-[#0B0F19]', 'shadow-md');
-          b.classList.add('bg-[#111827]', 'text-slate-300');
-        });
-
-        btn.classList.remove('bg-[#111827]', 'text-slate-300');
-        btn.classList.add('bg-brand-cyan', 'text-[#0B0F19]', 'shadow-md');
-
-        const tab = btn.getAttribute('data-stationery-tab');
-        if (tab === 'comercial') currentCategory = 'Librería Comercial';
-        else if (tab === 'escolar') currentCategory = 'Librería Escolar';
-        else if (tab === 'tecnica' || tab === 'imprenta') currentCategory = 'Servicios de Imprenta';
-        else if (tab === 'docente' || tab === 'sellos_docentes') currentCategory = 'Sellos de corrección docente';
-        else if (tab === 'sellos') currentCategory = 'Sellos';
-        else if (tab === 'todos' || tab === 'todas' || tab === 'all') currentCategory = 'all';
-        else currentCategory = 'all';
-
-        renderDynamicStationeryGrid();
-      });
-    });
   }
 
   /**
@@ -164,7 +189,7 @@
     let filtered = dynamicProducts;
 
     if (currentCategory !== 'all') {
-      filtered = filtered.filter(p => p.categoria === currentCategory);
+      filtered = filtered.filter(p => p.categoria && p.categoria.toLowerCase() === currentCategory.toLowerCase());
     }
 
     if (currentSearch) {

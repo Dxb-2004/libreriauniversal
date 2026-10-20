@@ -29,16 +29,7 @@ const ALLOWED_CATEGORIES = [
 // Esquema Zod de Validación para Creación / Edición
 const productSchema = z.object({
   nombre: z.string().min(2, 'El nombre debe tener al menos 2 caracteres').max(200),
-  categoria: z.enum([
-    'Librería Comercial',
-    'Librería Escolar',
-    'Servicios de Imprenta',
-    'Sellos',
-    'Sellos de corrección docente',
-    'Insumos / Otros'
-  ], {
-    errorMap: () => ({ message: 'Categoría no válida. Seleccione una de las categorías oficiales.' })
-  }),
+  categoria: z.string().trim().min(2, 'La categoría debe tener al menos 2 caracteres').max(100),
   precio: z.coerce.number().min(0, 'El precio no puede ser negativo').default(0),
   descripcion: z.string().max(2000).optional().default(''),
   imagen_url: z.string().optional().default(''),
@@ -186,6 +177,32 @@ router.get('/', async (req, res) => {
   } catch (err) {
     console.error('Error al listar productos:', err);
     res.status(500).json({ error: 'InternalServerError', message: 'No se pudieron recuperar los productos.' });
+  }
+});
+
+/**
+ * ══════════════════════════════════════════════════════════════════════════════
+ * GET /api/products/categories
+ * Lista de todas las categorías disponibles (oficiales y personalizadas)
+ * ══════════════════════════════════════════════════════════════════════════════
+ */
+router.get('/categories', async (req, res) => {
+  try {
+    res.set('Cache-Control', 'no-store, no-cache, must-revalidate');
+    const products = await getProducts();
+    const defaultCategories = [
+      'Librería Comercial',
+      'Librería Escolar',
+      'Servicios de Imprenta',
+      'Sellos',
+      'Sellos de corrección docente',
+      'Insumos / Otros'
+    ];
+    const existing = products.map(p => p.categoria).filter(Boolean);
+    const allCategories = Array.from(new Set([...defaultCategories, ...existing])).sort();
+    res.json({ success: true, categories: allCategories });
+  } catch (err) {
+    res.status(500).json({ error: 'InternalServerError', message: 'Error al consultar categorías.' });
   }
 });
 

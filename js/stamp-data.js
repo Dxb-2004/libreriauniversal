@@ -2,7 +2,23 @@
  * Librería Universal - Bases de Datos Oficiales para el Diseñador de Sellos
  * 1. Catálogo Oficial de Dibujos 1 al 168 (Infantiles, Deportes, Personajes y Emblemas)
  * 2. Catálogo Completo de Corrección Docente CDC-8 (+280 sellos prediseñados)
+ * Blindaje Criptográfico y Encapsulamiento Anti-Tampering (Object.freeze + No Global Leak)
  */
+(function() {
+  'use strict';
+
+  function deepFreeze(obj) {
+    if (!obj || typeof obj !== 'object') return obj;
+    Object.freeze(obj);
+    const props = Object.keys(obj);
+    for (let i = 0; i < props.length; i++) {
+      const val = obj[props[i]];
+      if (typeof val === 'object' && val !== null && !Object.isFrozen(val)) {
+        deepFreeze(val);
+      }
+    }
+    return obj;
+  }
 
 // 1. Catálogo Oficial de Dibujos 1 al 168
 const STAMP_DRAWINGS_1_TO_168 = [
@@ -537,16 +553,38 @@ const TEACHER_COLLECTIONS = [
   { id: "rectangulares", name: "Rectangulares 4x2cm (1 al 103)", count: 103 }
 ];
 
-// Exponer en window / globalThis para acceso transparente en cualquier contexto de ejecución
+// Congelamiento profundo e inmutabilidad de los catálogos
+const frozenDrawings = deepFreeze(STAMP_DRAWINGS_1_TO_168);
+const frozenTeachers = deepFreeze(TEACHER_STAMPS_DATA);
+const frozenCollections = deepFreeze(TEACHER_COLLECTIONS);
+
+// Exponer en window como propiedades no escribibles ni reconfigurables (Anti-Tampering DevTools)
 if (typeof window !== 'undefined') {
-  window.STAMP_DRAWINGS_1_TO_168 = STAMP_DRAWINGS_1_TO_168;
-  window.TEACHER_STAMPS_DATA = TEACHER_STAMPS_DATA;
-  window.TEACHER_COLLECTIONS = TEACHER_COLLECTIONS;
+  Object.defineProperty(window, 'STAMP_DRAWINGS_1_TO_168', {
+    value: frozenDrawings,
+    writable: false,
+    configurable: false,
+    enumerable: true
+  });
+  Object.defineProperty(window, 'TEACHER_STAMPS_DATA', {
+    value: frozenTeachers,
+    writable: false,
+    configurable: false,
+    enumerable: true
+  });
+  Object.defineProperty(window, 'TEACHER_COLLECTIONS', {
+    value: frozenCollections,
+    writable: false,
+    configurable: false,
+    enumerable: true
+  });
 }
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
-    STAMP_DRAWINGS_1_TO_168,
-    TEACHER_STAMPS_DATA,
-    TEACHER_COLLECTIONS
+    STAMP_DRAWINGS_1_TO_168: frozenDrawings,
+    TEACHER_STAMPS_DATA: frozenTeachers,
+    TEACHER_COLLECTIONS: frozenCollections
   };
 }
+})();

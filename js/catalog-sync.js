@@ -226,7 +226,7 @@
       <div>
         <!-- Foto del Producto con efecto hover (Fondo blanco para fotos de stock y PNGs) -->
         <div class="w-full h-48 sm:h-52 rounded-xl bg-white border border-slate-200/80 mb-4 overflow-hidden relative flex items-center justify-center p-3 group/img shadow-sm">
-          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="max-w-full max-h-full object-contain group-hover/img:scale-105 transition-transform duration-300" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=300&auto=format&fit=crop&q=80'" />
+          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="max-w-full max-h-full object-contain group-hover/img:scale-105 transition-transform duration-300" loading="lazy" />
           
           ${product.destacado ? `
             <span class="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-brand-magenta text-white shadow-md z-10">
@@ -266,8 +266,8 @@
           </span>
         </div>
 
-        <!-- Botón Consultar por WhatsApp Requerido -->
-        <a href="${waUrl}" target="_blank" 
+        <!-- Botón Consultar por WhatsApp Requerido (Anti-Tabnabbing) -->
+        <a href="${waUrl}" target="_blank" rel="noopener noreferrer"
            class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold bg-[#159A5C] hover:bg-[#12804d] text-white rounded-lg shadow-md hover:shadow-emerald-900/30 transition-all duration-200 flex-shrink-0"
            title="Consultar por WhatsApp">
           <svg class="w-4 h-4 fill-current flex-shrink-0" viewBox="5.8 5.8 12.4 12.4">
@@ -277,6 +277,13 @@
         </a>
       </div>
     `;
+
+    const imgEl = card.querySelector('img');
+    if (imgEl) {
+      imgEl.addEventListener('error', () => {
+        imgEl.src = 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=300&auto=format&fit=crop&q=80';
+      }, { once: true });
+    }
 
     return card;
   }

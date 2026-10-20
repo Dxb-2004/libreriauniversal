@@ -33,3 +33,20 @@ Thumbs.db
 Desktop.ini
 
 .env*
+
+# Backups y volcados sensibles (CWE-530 / CWE-552)
+*.bak
+*.backup
+*.old
+*.tmp
+*.temp
+*.swp
+*~
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+scratch/
+secure_uploads/

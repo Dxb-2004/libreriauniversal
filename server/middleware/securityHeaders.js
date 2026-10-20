@@ -42,7 +42,6 @@ const helmetSecurityHeaders = helmet({
       defaultSrc: ["'self'"],
       scriptSrc: [
         "'self'",
-        "'unsafe-inline'", // Necesario para la configuración inline de Tailwind y scripts de interfaz
         "https://cdn.tailwindcss.com",
         "https://unpkg.com",
         "https://challenges.cloudflare.com"
@@ -72,6 +71,8 @@ const helmetSecurityHeaders = helmet({
       ],
       frameSrc: [
         "'self'",
+        "https://www.google.com",
+        "https://maps.google.com",
         "https://challenges.cloudflare.com"
       ],
       objectSrc: ["'none'"],
@@ -82,6 +83,8 @@ const helmetSecurityHeaders = helmet({
     }
   },
   crossOriginEmbedderPolicy: false,
+  crossOriginOpenerPolicy: { policy: 'same-origin' },
+  crossOriginResourcePolicy: { policy: 'same-origin' },
   xFrameOptions: { action: 'deny' }, // Punto 18: X-Frame-Options: DENY
   xContentTypeOptions: true, // Punto 18: nosniff
   referrerPolicy: { policy: 'strict-origin-when-cross-origin' }, // Punto 18

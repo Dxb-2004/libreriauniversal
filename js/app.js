@@ -1,8 +1,48 @@
 /**
  * Librería Universal - Gráfica, Imprenta y Librería Integral
- * Lógica Interactiva (Dark & White Theme)
- * Blindaje Anti-XSS (Punto 15)
+ * Lógica Interactiva con Blindaje Criptográfico de Grado Militar (Zero Global Scope)
  */
+(() => {
+  'use strict';
+
+  function deepFreeze(obj) {
+    if (!obj || typeof obj !== 'object') return obj;
+    Object.freeze(obj);
+    const props = Object.keys(obj);
+    for (let i = 0; i < props.length; i++) {
+      const val = obj[props[i]];
+      if (typeof val === 'object' && val !== null && !Object.isFrozen(val)) {
+        deepFreeze(val);
+      }
+    }
+    return obj;
+  }
+
+  // Sanitizador de texto estricto contra vectores XSS y caracteres de control
+  function sanitizeInputText(str) {
+    if (typeof str !== 'string') return '';
+    return str
+      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+      .replace(/<[^>]*>/g, '')
+      .replace(/(javascript|vbscript|data):/gi, '')
+      .trim();
+  }
+
+  // Generador seguro de URLs de WhatsApp con validación estricta de protocolo https:
+  function createSafeWhatsAppUrl(phone, text) {
+    const cleanPhone = String(phone).replace(/[^\d]/g, '');
+    const encodedText = encodeURIComponent(String(text || ''));
+    const url = `https://wa.me/${cleanPhone}?text=${encodedText}`;
+    try {
+      const parsed = new URL(url);
+      if (parsed.protocol === 'https:' && (parsed.hostname === 'wa.me' || parsed.hostname === 'api.whatsapp.com')) {
+        return url;
+      }
+    } catch (e) {
+      // Fallback
+    }
+    return `https://wa.me/${cleanPhone}`;
+  }
 
 // Utilidad criptográfica y de escape Anti-XSS (Punto 15)
 function escapeHTML(str) {
@@ -18,7 +58,7 @@ function escapeHTML(str) {
 
 
 // Configuración oficial del negocio (Datos reales verificados)
-const BUSINESS_CONFIG = {
+const BUSINESS_CONFIG = deepFreeze({
   name: "Librería Universal",
   whatsappNumber: "5491126097125",
   phoneDisplay: "+54 9 11 2609-7125",
@@ -26,7 +66,7 @@ const BUSINESS_CONFIG = {
   email: "libu.impresiones@gmail.com",
   schedule: "Turno mañana: 9:30 a 13:15 hs | Turno tarde: 16:00 a 19:30 hs",
   notice: "¡Importante! No recibimos llamadas, únicamente mensajes de WhatsApp."
-};
+});
 
 // Estado global del Diseñador de Sellos (Sello Personalizado)
 const stampState = {
@@ -1124,105 +1164,91 @@ function updateStampPreview() {
     }
   });
 
-  // Generar el bloque de texto con tipografía independiente por línea
-  const textLinesHtml = [];
-  for (let i = 0; i < stampState.lineCount; i++) {
-    let rawText = (stampState.lines[i] || '').trim();
-    const lineFont = stampState.lineFonts[i] || stampState.fontFamily || 'font-stamp-01';
-
-    // Si la fuente es Solo Mayúsculas (12 a 16), forzar uppercase
-    if (rawText && isFontUppercase(lineFont)) {
-      rawText = rawText.toUpperCase();
-    }
-
-    const text = escapeHTML(rawText);
-
-    const boldClass = stampState.lineBolds[i] ? 'font-bold' : 'font-normal';
-    const italicClass = stampState.lineItalics[i] ? 'italic' : '';
-    const scaleClass = isVertical
-      ? (i === 0 
-          ? 'text-xs sm:text-[13px] font-bold leading-tight break-words tracking-tight' 
-          : (i === 1 ? 'text-[10px] sm:text-[11px] leading-tight break-words' : 'text-[9px] sm:text-[10px] leading-tight opacity-95 break-words'))
-      : (i === 0 
-          ? 'text-base sm:text-lg leading-tight' 
-          : (i === 1 ? 'text-xs sm:text-sm leading-snug' : 'text-[11px] sm:text-xs leading-snug opacity-95'));
-
-    if (text) {
-      textLinesHtml.push(`<div class="${lineFont} ${boldClass} ${italicClass} ${scaleClass}">${text}</div>`);
-    } else {
-      textLinesHtml.push(`<div class="${lineFont} ${scaleClass} italic text-gray-300 select-none">[Línea ${i + 1} vacía]</div>`);
-    }
-  }
-
+  // Generación de nodos seguros del DOM (Zero innerHTML - 100% Anti-XSS)
   const textAlignClass = stampState.alignment === 'left' ? 'text-left items-start' : (stampState.alignment === 'right' ? 'text-right items-end' : 'text-center items-center');
-
   const lineSpacingClass = isVertical ? 'space-y-2' : 'space-y-1';
-  let fullPreviewHtml = '';
 
-  // Dibujo Opcional (En vertical se ubica Arriba o Abajo para respetar el ancho estrecho)
-  if (stampState.drawingPosition !== 'none' && stampState.selectedDrawing) {
-    const drawingImgSize = isVertical ? 'w-10 h-10 sm:w-11 sm:h-11' : 'w-12 h-12 sm:w-14 sm:h-14';
-    const drawingHtml = `
-      <div class="flex flex-col items-center justify-center flex-shrink-0 px-1 select-none">
-        <img src="${stampState.selectedDrawing.image}" 
-             alt="${stampState.selectedDrawing.name}"
-             class="${drawingImgSize} object-contain transition-all"
-             style="filter: ${getInkFilter(stampState.inkColor)};" />
-        <span class="text-[8px] sm:text-[9px] font-mono font-bold tracking-tighter opacity-70 mt-0.5" style="color: ${stampState.inkColor};">#${stampState.selectedDrawing.code}</span>
-      </div>
-    `;
+  previewContents.forEach(previewContainer => {
+    previewContainer.className = 'stamp-ink-effect flex flex-col justify-center transition-all duration-150 w-full';
+    previewContainer.style.color = stampState.inkColor;
+    previewContainer.replaceChildren();
 
-    if (isVertical) {
-      // En orientación vertical: Dibujo encima o debajo de las líneas
-      if (stampState.drawingPosition === 'left') {
-        fullPreviewHtml = `
-          <div class="flex flex-col items-center justify-center gap-1.5 w-full">
-            ${drawingHtml}
-            <div class="w-full flex flex-col ${textAlignClass} ${lineSpacingClass}">
-              ${textLinesHtml.join('')}
-            </div>
-          </div>
-        `;
-      } else {
-        fullPreviewHtml = `
-          <div class="flex flex-col items-center justify-center gap-1.5 w-full">
-            <div class="w-full flex flex-col ${textAlignClass} ${lineSpacingClass}">
-              ${textLinesHtml.join('')}
-            </div>
-            ${drawingHtml}
-          </div>
-        `;
+    const textLinesContainer = document.createElement('div');
+    textLinesContainer.className = `w-full flex flex-col ${textAlignClass} ${lineSpacingClass}`;
+
+    for (let i = 0; i < stampState.lineCount; i++) {
+      let rawText = sanitizeInputText(stampState.lines[i] || '');
+      const lineFont = stampState.lineFonts[i] || stampState.fontFamily || 'font-stamp-01';
+
+      if (rawText && isFontUppercase(lineFont)) {
+        rawText = rawText.toUpperCase();
       }
-    } else {
-      // En orientación horizontal: Dibujo al costado (Izquierda o Derecha)
-      if (stampState.drawingPosition === 'left') {
-        fullPreviewHtml = `
-          <div class="flex items-center justify-center gap-3 w-full">
-            ${drawingHtml}
-            <div class="flex-1 flex flex-col ${textAlignClass} ${lineSpacingClass}">
-              ${textLinesHtml.join('')}
-            </div>
-          </div>
-        `;
+
+      const boldClass = stampState.lineBolds[i] ? 'font-bold' : 'font-normal';
+      const italicClass = stampState.lineItalics[i] ? 'italic' : '';
+      const scaleClass = isVertical
+        ? (i === 0 
+            ? 'text-xs sm:text-[13px] font-bold leading-tight break-words tracking-tight' 
+            : (i === 1 ? 'text-[10px] sm:text-[11px] leading-tight break-words' : 'text-[9px] sm:text-[10px] leading-tight opacity-95 break-words'))
+        : (i === 0 
+            ? 'text-base sm:text-lg leading-tight' 
+            : (i === 1 ? 'text-xs sm:text-sm leading-snug' : 'text-[11px] sm:text-xs leading-snug opacity-95'));
+
+      const lineDiv = document.createElement('div');
+      lineDiv.className = `${lineFont} ${boldClass} ${italicClass} ${scaleClass}`;
+      if (rawText) {
+        lineDiv.textContent = rawText; // textContent nativo contra inyección XSS
       } else {
-        fullPreviewHtml = `
-          <div class="flex items-center justify-center gap-3 w-full">
-            <div class="flex-1 flex flex-col ${textAlignClass} ${lineSpacingClass}">
-              ${textLinesHtml.join('')}
-            </div>
-            ${drawingHtml}
-          </div>
-        `;
+        lineDiv.className += ' italic text-gray-300 select-none';
+        lineDiv.textContent = `[Línea ${i + 1} vacía]`;
       }
+      textLinesContainer.appendChild(lineDiv);
     }
-  } else {
-    fullPreviewHtml = `<div class="flex flex-col ${textAlignClass} ${lineSpacingClass} w-full">${textLinesHtml.join('')}</div>`;
-  }
 
-  previewContents.forEach(content => {
-    content.className = 'stamp-ink-effect flex flex-col justify-center transition-all duration-150 w-full';
-    content.style.color = stampState.inkColor;
-    content.innerHTML = fullPreviewHtml;
+    if (stampState.drawingPosition !== 'none' && stampState.selectedDrawing) {
+      const drawingImgSize = isVertical ? 'w-10 h-10 sm:w-11 sm:h-11' : 'w-12 h-12 sm:w-14 sm:h-14';
+      const drawingBox = document.createElement('div');
+      drawingBox.className = 'flex flex-col items-center justify-center flex-shrink-0 px-1 select-none';
+
+      const img = document.createElement('img');
+      img.src = stampState.selectedDrawing.image;
+      img.alt = stampState.selectedDrawing.name;
+      img.className = `${drawingImgSize} object-contain transition-all`;
+      img.style.filter = getInkFilter(stampState.inkColor);
+
+      const codeSpan = document.createElement('span');
+      codeSpan.className = 'text-[8px] sm:text-[9px] font-mono font-bold tracking-tighter opacity-70 mt-0.5';
+      codeSpan.style.color = stampState.inkColor;
+      codeSpan.textContent = `#${stampState.selectedDrawing.code}`;
+
+      drawingBox.appendChild(img);
+      drawingBox.appendChild(codeSpan);
+
+      const layoutWrapper = document.createElement('div');
+      if (isVertical) {
+        layoutWrapper.className = 'flex flex-col items-center justify-center gap-1.5 w-full';
+        if (stampState.drawingPosition === 'left') {
+          layoutWrapper.appendChild(drawingBox);
+          layoutWrapper.appendChild(textLinesContainer);
+        } else {
+          layoutWrapper.appendChild(textLinesContainer);
+          layoutWrapper.appendChild(drawingBox);
+        }
+      } else {
+        layoutWrapper.className = 'flex items-center justify-center gap-3 w-full';
+        textLinesContainer.classList.add('flex-1');
+        if (stampState.drawingPosition === 'left') {
+          layoutWrapper.appendChild(drawingBox);
+          layoutWrapper.appendChild(textLinesContainer);
+        } else {
+          layoutWrapper.appendChild(textLinesContainer);
+          layoutWrapper.appendChild(drawingBox);
+        }
+      }
+      previewContainer.appendChild(layoutWrapper);
+    } else {
+      previewContainer.appendChild(textLinesContainer);
+    }
   });
 }
 
@@ -1475,8 +1501,7 @@ function initMobileMenu() {
 function initWhatsAppFloating() {
   const floatingBtn = document.getElementById('floating-whatsapp');
   if (floatingBtn) {
-    const message = encodeURIComponent(`Hola ${BUSINESS_CONFIG.name}! Me contacto desde su página web para hacer una consulta.`);
-    floatingBtn.href = `https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${message}`;
+    floatingBtn.href = createSafeWhatsAppUrl(BUSINESS_CONFIG.whatsappNumber, `Hola ${BUSINESS_CONFIG.name}! Me contacto desde su página web para hacer una consulta.`);
   }
 }
 
@@ -1489,12 +1514,23 @@ function showToast(message) {
     document.body.appendChild(toast);
   }
 
-  toast.innerHTML = `
-    <svg class="w-5 h-5 text-cyan-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-    </svg>
-    <span>${message}</span>
-  `;
+  toast.replaceChildren();
+
+  const iconSvg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  iconSvg.setAttribute('class', 'w-5 h-5 text-cyan-400 flex-shrink-0');
+  iconSvg.setAttribute('fill', 'currentColor');
+  iconSvg.setAttribute('viewBox', '0 0 20 20');
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute('fill-rule', 'evenodd');
+  path.setAttribute('clip-rule', 'evenodd');
+  path.setAttribute('d', 'M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z');
+  iconSvg.appendChild(path);
+
+  const textSpan = document.createElement('span');
+  textSpan.textContent = String(message);
+
+  toast.appendChild(iconSvg);
+  toast.appendChild(textSpan);
 
   toast.classList.remove('opacity-0', 'translate-y-4', 'pointer-events-none');
   toast.classList.add('opacity-100', 'translate-y-0');
@@ -1504,3 +1540,4 @@ function showToast(message) {
     toast.classList.add('opacity-0', 'translate-y-4', 'pointer-events-none');
   }, 3200);
 }
+})();

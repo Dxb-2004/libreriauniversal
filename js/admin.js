@@ -33,9 +33,16 @@ const adminState = {
 // 1. INICIALIZACIÓN Y PROTECCIÓN DE SESIÓN
 // =============================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-  // 1. Verificar credenciales almacenadas (soporta sessionStorage y localStorage)
-  const token = sessionStorage.getItem('lu_admin_token') || localStorage.getItem('lu_admin_token');
-  const storedUser = sessionStorage.getItem('lu_admin_user') || localStorage.getItem('lu_admin_user');
+  // 1. Verificar credenciales almacenadas con validación criptográfica AES-GCM
+  let token = null;
+  let storedUser = null;
+  if (typeof window.CryptoStorage !== 'undefined') {
+    token = await window.CryptoStorage.getItem('lu_admin_token', true) || await window.CryptoStorage.getItem('lu_admin_token', false);
+    storedUser = await window.CryptoStorage.getItem('lu_admin_user', true) || await window.CryptoStorage.getItem('lu_admin_user', false);
+  } else {
+    token = sessionStorage.getItem('lu_admin_token') || localStorage.getItem('lu_admin_token');
+    storedUser = sessionStorage.getItem('lu_admin_user') || localStorage.getItem('lu_admin_user');
+  }
 
   if (!token || !storedUser) {
     window.location.replace('login.html');
@@ -162,10 +169,17 @@ function initEventListeners() {
         // Continuar con limpieza
       }
 
-      sessionStorage.removeItem('lu_admin_token');
-      sessionStorage.removeItem('lu_admin_user');
-      localStorage.removeItem('lu_admin_token');
-      localStorage.removeItem('lu_admin_user');
+      if (typeof window.CryptoStorage !== 'undefined') {
+        window.CryptoStorage.removeItem('lu_admin_token', true);
+        window.CryptoStorage.removeItem('lu_admin_user', true);
+        window.CryptoStorage.removeItem('lu_admin_token', false);
+        window.CryptoStorage.removeItem('lu_admin_user', false);
+      } else {
+        sessionStorage.removeItem('lu_admin_token');
+        sessionStorage.removeItem('lu_admin_user');
+        localStorage.removeItem('lu_admin_token');
+        localStorage.removeItem('lu_admin_user');
+      }
       window.location.replace('login.html');
     });
   }
@@ -352,11 +366,16 @@ function initEventListeners() {
           throw new Error(data.message || 'Error al actualizar contraseña.');
         }
 
-        // Actualizar token en memoria y sesión
+        // Actualizar token en memoria y almacenamiento cifrado
         if (data.token) {
           adminState.token = data.token;
-          sessionStorage.setItem('lu_admin_token', data.token);
-          localStorage.setItem('lu_admin_token', data.token);
+          if (typeof window.CryptoStorage !== 'undefined') {
+            await window.CryptoStorage.setItem('lu_admin_token', data.token, true);
+            await window.CryptoStorage.setItem('lu_admin_token', data.token, false);
+          } else {
+            sessionStorage.setItem('lu_admin_token', data.token);
+            localStorage.setItem('lu_admin_token', data.token);
+          }
         }
 
         closePwdModal();
@@ -506,7 +525,7 @@ function renderProductsTable() {
       <!-- Foto -->
       <td class="py-3 px-4">
         <div class="w-12 h-12 rounded-lg bg-white border border-[#1E2638] overflow-hidden flex items-center justify-center p-0.5 shadow-sm">
-          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition duration-200" onerror="this.src='https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=200&auto=format&fit=crop&q=80'" />
+          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition duration-200" />
         </div>
       </td>
 
@@ -534,7 +553,7 @@ function renderProductsTable() {
       <td class="py-3 px-4 text-center whitespace-nowrap">
         <button 
           type="button" 
-          onclick="toggleProductStock('${product.id}')"
+          data-action="toggle-stock"
           class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold transition ${product.stock ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 hover:bg-emerald-500/25' : 'bg-brand-yellow/15 text-brand-yellow border border-brand-yellow/30 hover:bg-brand-yellow/25'}"
           title="Haga clic para cambiar disponibilidad"
         >
@@ -558,7 +577,7 @@ function renderProductsTable() {
           <!-- Botón Editar -->
           <button 
             type="button" 
-            onclick="openEditModal('${product.id}')"
+            data-action="edit-product"
             class="p-2 rounded-lg bg-brand-yellow/10 text-brand-yellow hover:bg-brand-yellow hover:text-[#080B10] border border-brand-yellow/30 hover:border-brand-yellow transition duration-150"
             title="Editar producto"
           >
@@ -570,7 +589,7 @@ function renderProductsTable() {
           <!-- Botón Eliminar -->
           <button 
             type="button" 
-            onclick="openDeleteModal('${product.id}', '${escapeHTML(product.nombre).replace(/'/g, "\\'")}')"
+            data-action="delete-product"
             class="p-2 rounded-lg bg-brand-magenta/10 text-brand-magenta hover:bg-brand-magenta hover:text-white border border-brand-magenta/30 hover:border-brand-magenta transition duration-150"
             title="Eliminar producto"
           >
@@ -582,6 +601,23 @@ function renderProductsTable() {
         </div>
       </td>
     `;
+
+    // Adjuntar event listeners seguros (CSP Compliance sin inline events)
+    const imgEl = tr.querySelector('img');
+    if (imgEl) {
+      imgEl.addEventListener('error', () => {
+        imgEl.src = 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=200&auto=format&fit=crop&q=80';
+      }, { once: true });
+    }
+
+    const btnStock = tr.querySelector('[data-action="toggle-stock"]');
+    if (btnStock) btnStock.addEventListener('click', () => toggleProductStock(product.id));
+
+    const btnEdit = tr.querySelector('[data-action="edit-product"]');
+    if (btnEdit) btnEdit.addEventListener('click', () => openEditModal(product.id));
+
+    const btnDelete = tr.querySelector('[data-action="delete-product"]');
+    if (btnDelete) btnDelete.addEventListener('click', () => openDeleteModal(product.id, product.nombre));
 
     tbody.appendChild(tr);
   });
@@ -868,10 +904,17 @@ async function logout() {
   } catch (e) {
     // Continuar con limpieza local
   }
-  sessionStorage.removeItem('lu_admin_token');
-  sessionStorage.removeItem('lu_admin_user');
-  localStorage.removeItem('lu_admin_token');
-  localStorage.removeItem('lu_admin_user');
+  if (typeof window.CryptoStorage !== 'undefined') {
+    window.CryptoStorage.removeItem('lu_admin_token', true);
+    window.CryptoStorage.removeItem('lu_admin_user', true);
+    window.CryptoStorage.removeItem('lu_admin_token', false);
+    window.CryptoStorage.removeItem('lu_admin_user', false);
+  } else {
+    sessionStorage.removeItem('lu_admin_token');
+    sessionStorage.removeItem('lu_admin_user');
+    localStorage.removeItem('lu_admin_token');
+    localStorage.removeItem('lu_admin_user');
+  }
   window.location.replace('login.html');
 }
 
@@ -1030,7 +1073,7 @@ function renderFilesTable() {
       <td class="py-3 px-4 whitespace-nowrap">
         <button 
           type="button" 
-          onclick="copyFileUrl('${escapeHTML(file.url)}')"
+          data-action="copy-file-url"
           class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0B0E14] text-brand-cyan hover:bg-brand-cyan hover:text-[#080B10] border border-brand-cyan/30 text-xs font-semibold transition"
           title="Copiar enlace para WhatsApp o web"
         >
@@ -1061,7 +1104,7 @@ function renderFilesTable() {
           <!-- Eliminar de la nube -->
           <button 
             type="button" 
-            onclick="handleDeleteFile('${file.id}', '${escapeHTML(file.name).replace(/'/g, "\\'")}')"
+            data-action="delete-file"
             class="p-2 rounded-lg bg-brand-magenta/10 text-brand-magenta hover:bg-brand-magenta hover:text-white border border-brand-magenta/30 transition"
             title="Eliminar de la nube"
           >
@@ -1073,6 +1116,12 @@ function renderFilesTable() {
         </div>
       </td>
     `;
+
+    const btnCopy = tr.querySelector('[data-action="copy-file-url"]');
+    if (btnCopy) btnCopy.addEventListener('click', () => copyFileUrl(file.url));
+
+    const btnDel = tr.querySelector('[data-action="delete-file"]');
+    if (btnDel) btnDel.addEventListener('click', () => handleDeleteFile(file.id, file.name));
 
     tbody.appendChild(tr);
   });

@@ -15,6 +15,7 @@
    */
   document.addEventListener('DOMContentLoaded', async () => {
     setupCatalogFilters();
+    fetchSchedule();
     await fetchCatalogProducts();
     renderFeaturedProducts();
   });
@@ -272,6 +273,64 @@
     return card;
   }
 
+  /**
+   * Sincroniza los horarios de atención al público desde la API REST (/api/schedule)
+   */
+  async function fetchSchedule() {
+    try {
+      const response = await fetch('/api/schedule?t=' + Date.now(), { cache: 'no-store' });
+      if (!response.ok) return;
+      const data = await response.json();
+      if (!data || !data.success || !data.schedule) return;
+
+      const { weekdays, saturdays, sundays, holidays, specialNotice } = data.schedule;
+
+      // Elementos de la Portada (Hero)
+      const heroWeekdays = document.getElementById('schedule-hero-weekdays');
+      const heroSaturdays = document.getElementById('schedule-hero-saturdays');
+      const heroSundays = document.getElementById('schedule-hero-sundays');
+      const heroHolidays = document.getElementById('schedule-hero-holidays');
+      const heroNotice = document.getElementById('schedule-hero-notice');
+
+      if (heroWeekdays && weekdays) heroWeekdays.textContent = weekdays;
+      if (heroSaturdays && saturdays) heroSaturdays.textContent = saturdays;
+      if (heroSundays && sundays) heroSundays.textContent = sundays;
+      if (heroHolidays && holidays) heroHolidays.textContent = holidays;
+
+      if (heroNotice) {
+        if (specialNotice && specialNotice.trim()) {
+          heroNotice.textContent = '📢 ' + specialNotice.trim();
+          heroNotice.classList.remove('hidden');
+        } else {
+          heroNotice.classList.add('hidden');
+        }
+      }
+
+      // Elementos del Pie de Página (Footer)
+      const footerWeekdays = document.getElementById('schedule-footer-weekdays');
+      const footerSaturdays = document.getElementById('schedule-footer-saturdays');
+      const footerSundays = document.getElementById('schedule-footer-sundays');
+      const footerHolidays = document.getElementById('schedule-footer-holidays');
+      const footerNotice = document.getElementById('schedule-footer-notice');
+
+      if (footerWeekdays && weekdays) footerWeekdays.textContent = 'Lun a Vie: ' + weekdays;
+      if (footerSaturdays && saturdays) footerSaturdays.textContent = 'Sábados: ' + saturdays;
+      if (footerSundays && sundays) footerSundays.textContent = 'Domingos: ' + sundays;
+      if (footerHolidays && holidays) footerHolidays.textContent = holidays;
+
+      if (footerNotice) {
+        if (specialNotice && specialNotice.trim()) {
+          footerNotice.textContent = '📢 ' + specialNotice.trim();
+          footerNotice.classList.remove('hidden');
+        } else {
+          footerNotice.classList.add('hidden');
+        }
+      }
+    } catch (err) {
+      // Si falla la red se mantienen los valores estáticos
+    }
+  }
+
   function escapeHTML(str) {
     if (typeof str !== 'string') return '';
     return str
@@ -284,6 +343,7 @@
 
   window.catalogSync = {
     fetchCatalogProducts,
+    fetchSchedule,
     getProducts: () => dynamicProducts
   };
 })();

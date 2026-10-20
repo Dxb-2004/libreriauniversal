@@ -216,6 +216,17 @@
         <span>Archivos & Catálogos</span>
         <span id="files-badge-count" class="px-1.5 py-0.5 text-[10px] rounded-full bg-[#1E2638] text-slate-300 font-mono">0</span>
       </button>
+
+      <button 
+        type="button" 
+        id="tab-btn-schedule" 
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0B0E14] text-slate-400 hover:text-white border border-[#1E2638] hover:border-slate-600 transition"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+        </svg>
+        <span>Horarios de Atención</span>
+      </button>
     </div>
 
     <!-- ═══════════════════════════════════════════════════════════════════
@@ -557,6 +568,228 @@
       </div>
 
     </div> <!-- Fin #view-files -->
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         VISTA 3: GESTIÓN DE HORARIOS DE ATENCIÓN (EDITABLE SIN CÓDIGO)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div id="view-schedule" class="hidden space-y-8">
+      
+      <!-- Encabezado de la Sección de Horarios -->
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-2xl sm:text-3xl font-display font-bold text-white tracking-tight flex items-center gap-3">
+            <span>Gestor de Horarios de Atención</span>
+            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/30">
+              En Vivo
+            </span>
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl font-light">
+            Modificá los días y horarios que se muestran a tus clientes en la página web oficial. Los cambios se sincronizan en la nube automáticamente sin necesidad de tocar código.
+          </p>
+        </div>
+
+        <button 
+          type="button" 
+          id="btn-refresh-schedule" 
+          class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-[#121722] hover:bg-[#1E2638] text-slate-300 hover:text-white border border-[#1E2638] transition flex-shrink-0"
+        >
+          <svg class="w-4 h-4 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+          <span>Recargar Horarios</span>
+        </button>
+      </div>
+
+      <!-- Grid de 2 Columnas: Formulario a la Izquierda vs Previsualizador en Vivo a la Derecha -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Columna 1: Formulario de Configuración (7 cols) -->
+        <div class="lg:col-span-7 bg-[#121722] border border-[#1E2638] rounded-2xl p-6 sm:p-8 shadow-xl relative overflow-hidden">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-brand-yellow via-brand-cyan to-brand-magenta"></div>
+
+          <form id="schedule-edit-form" class="space-y-6">
+            
+            <!-- Campo 1: Lunes a Viernes -->
+            <div class="space-y-2">
+              <label for="schedule-weekdays" class="block text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between">
+                <span>Lunes a Viernes</span>
+                <span class="text-[10px] text-brand-cyan font-normal">Días Hábiles</span>
+              </label>
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="schedule-weekdays" 
+                  name="weekdays"
+                  placeholder="Ej: 9:30 a 13:15 | 16:00 a 19:30 hs"
+                  class="glass-input w-full px-4 py-3 text-sm text-white rounded-xl outline-none font-mono"
+                  required
+                />
+              </div>
+              <p class="text-[11px] text-slate-500">Horarios para la semana laboral.</p>
+            </div>
+
+            <!-- Campo 2: Sábados -->
+            <div class="space-y-2">
+              <label for="schedule-saturdays" class="block text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between">
+                <span>Sábados</span>
+                <span class="text-[10px] text-amber-400 font-normal">Fin de Semana</span>
+              </label>
+              <div class="relative">
+                <input 
+                  type="text" 
+                  id="schedule-saturdays" 
+                  name="saturdays"
+                  placeholder="Ej: 10:00 a 13:00 | 16:30 a 19:00 hs"
+                  class="glass-input w-full px-4 py-3 text-sm text-white rounded-xl outline-none font-mono"
+                  required
+                />
+              </div>
+              <p class="text-[11px] text-slate-500">Horarios de atención de sábados.</p>
+            </div>
+
+            <!-- Grid de 2 campos: Domingos y Feriados -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              
+              <!-- Campo 3: Domingos -->
+              <div class="space-y-2">
+                <label for="schedule-sundays" class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                  Domingos
+                </label>
+                <input 
+                  type="text" 
+                  id="schedule-sundays" 
+                  name="sundays"
+                  placeholder="Ej: Cerrado o 10:00 a 13:00 hs"
+                  class="glass-input w-full px-4 py-3 text-sm text-white rounded-xl outline-none font-mono"
+                  value="Cerrado"
+                  required
+                />
+              </div>
+
+              <!-- Campo 4: Feriados -->
+              <div class="space-y-2">
+                <label for="schedule-holidays" class="block text-xs font-bold uppercase tracking-wider text-slate-300">
+                  Feriados
+                </label>
+                <input 
+                  type="text" 
+                  id="schedule-holidays" 
+                  name="holidays"
+                  placeholder="Ej: Consultar por WhatsApp"
+                  class="glass-input w-full px-4 py-3 text-sm text-white rounded-xl outline-none font-mono"
+                  value="Consultar por WhatsApp"
+                  required
+                />
+              </div>
+
+            </div>
+
+            <!-- Campo 5: Aviso Especial / Feriados / Vacaciones (Opcional) -->
+            <div class="space-y-2 pt-2 border-t border-[#1E2638]">
+              <label for="schedule-notice" class="block text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center justify-between">
+                <span>Aviso Especial / Mensaje en Vivo (Opcional)</span>
+                <span class="text-[10px] text-amber-400 font-normal">Feriados, balances, avisos</span>
+              </label>
+              <textarea 
+                id="schedule-notice" 
+                name="specialNotice"
+                rows="2"
+                placeholder="Ej: Este feriado 25 de Mayo abrimos de 10:00 a 13:00 hs. / Cerrado por balance el martes por la mañana."
+                class="glass-input w-full px-4 py-2.5 text-xs sm:text-sm text-white rounded-xl outline-none"
+              ></textarea>
+              <p class="text-[11px] text-slate-500">Si escribes un mensaje, aparecerá destacado en amarillo en el bloque de horarios de la web. Dejalo vacío si no hay avisos especiales.</p>
+            </div>
+
+            <!-- Botones de Acción -->
+            <div class="pt-4 border-t border-[#1E2638] flex items-center justify-between gap-4">
+              <span id="schedule-last-updated" class="text-[11px] text-slate-500 font-mono">
+                Cargando estado...
+              </span>
+
+              <button 
+                type="submit" 
+                id="btn-save-schedule" 
+                class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white shadow-lg shadow-emerald-950/50 hover:shadow-emerald-500/25 transition-all duration-200 transform hover:-translate-y-0.5 cursor-pointer"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>Guardar Horarios en Vivo</span>
+              </button>
+            </div>
+
+          </form>
+
+        </div>
+
+        <!-- Columna 2: Previsualizador en Vivo (5 cols) -->
+        <div class="lg:col-span-5 space-y-6">
+          
+          <div class="bg-[#121722] border border-[#1E2638] rounded-2xl p-6 shadow-xl relative overflow-hidden">
+            <div class="flex items-center justify-between mb-4 border-b border-[#1E2638] pb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Previsualización en Vivo
+              </span>
+              <span class="text-[10px] text-slate-500 font-mono">Se actualiza mientras escribes</span>
+            </div>
+
+            <!-- Replica del bloque de la portada web -->
+            <div class="bg-[#0B0E14] border border-[#1E2638] rounded-xl p-5 relative">
+              <div class="flex items-start gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center flex-shrink-0 text-amber-400">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+                <div class="w-full">
+                  <span class="text-xs font-bold tracking-wider uppercase text-slate-400 block font-body">Horarios de Atención</span>
+                  
+                  <div class="mt-2 space-y-2 font-body">
+                    <div class="border-b border-[#1E2638] pb-1.5">
+                      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Lunes a Viernes</span>
+                      <span class="text-white font-mono font-bold text-xs block mt-0.5" id="preview-weekdays">9:30 a 13:15 | 16:00 a 19:30 hs</span>
+                    </div>
+
+                    <div class="border-b border-[#1E2638] pb-1.5">
+                      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Sábados</span>
+                      <span class="text-white font-mono font-bold text-xs block mt-0.5" id="preview-saturdays">10:00 a 13:00 | 16:30 a 19:00 hs</span>
+                    </div>
+
+                    <div class="border-b border-[#1E2638] pb-1.5 flex justify-between items-center gap-2">
+                      <span class="text-[10px] font-bold text-rose-400 uppercase tracking-wider block">Feriados</span>
+                      <span class="text-xs text-emerald-400 font-bold" id="preview-holidays">Consultar por WhatsApp</span>
+                    </div>
+
+                    <div class="flex items-center justify-between pt-1">
+                      <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Domingos</span>
+                      <span class="text-rose-400 font-bold text-xs uppercase tracking-wider" id="preview-sundays">Cerrado</span>
+                    </div>
+
+                    <!-- Aviso especial preview -->
+                    <div id="preview-notice" class="hidden mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-300 font-medium leading-snug">
+                      📢 <span id="preview-notice-text"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Explicativo de funcionamiento -->
+            <div class="mt-4 p-3 rounded-xl bg-brand-cyan/5 border border-brand-cyan/20 text-xs text-slate-300 flex items-start gap-2.5">
+              <span class="text-brand-cyan text-sm flex-shrink-0">💡</span>
+              <p class="leading-relaxed text-[11px]">
+                <strong>Autónomo y en tiempo real:</strong> Al presionar <em>Guardar Horarios en Vivo</em>, los clientes verán los nuevos horarios inmediatamente tanto en computadoras como en celulares sin necesidad de ayuda técnica.
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div> <!-- Fin #view-schedule -->
 
   </main>
 

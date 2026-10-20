@@ -68,6 +68,7 @@ const {
 const { db } = require('./db/client');
 const productsRouter = require('./routes/products');
 const filesRouter = require('./routes/files');
+const scheduleRouter = require('./routes/schedule');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -167,6 +168,7 @@ app.get(['/api/config', '/config'], (req, res) => {
  */
 app.use(['/api/products', '/products'], productsRouter);
 app.use(['/api/files', '/files'], filesRouter);
+app.use(['/api/schedule', '/schedule'], scheduleRouter);
 
 /**
  * Punto 10, 11, 12, 14: Registro de Usuario Seguro

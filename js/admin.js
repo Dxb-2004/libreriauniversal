@@ -8,6 +8,7 @@ const adminState = {
   products: [],
   filteredProducts: [],
   files: [],
+  schedule: null,
   categories: [
     'Librería Comercial',
     'Librería Escolar',
@@ -77,11 +78,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // 3. Inicializar eventos y cargar catálogo y archivos
+  // 3. Inicializar eventos y cargar catálogo, archivos y horarios
   initEventListeners();
   await Promise.all([
     loadProducts(),
-    loadFiles()
+    loadFiles(),
+    loadSchedule()
   ]);
 });
 
@@ -89,11 +91,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 // 2. GESTIÓN DE EVENTOS DE INTERFAZ
 // =============================================================================
 function initEventListeners() {
-  // Pestañas Principales (Catálogo vs Archivos & Catálogos)
+  // Pestañas Principales (Catálogo vs Archivos & Catálogos vs Horarios)
   const tabBtnProducts = document.getElementById('tab-btn-products');
   const tabBtnFiles = document.getElementById('tab-btn-files');
+  const tabBtnSchedule = document.getElementById('tab-btn-schedule');
   if (tabBtnProducts) tabBtnProducts.addEventListener('click', () => switchTab('products'));
   if (tabBtnFiles) tabBtnFiles.addEventListener('click', () => switchTab('files'));
+  if (tabBtnSchedule) tabBtnSchedule.addEventListener('click', () => switchTab('schedule'));
+
+  // Gestión de Horarios de Atención
+  const btnRefreshSchedule = document.getElementById('btn-refresh-schedule');
+  if (btnRefreshSchedule) btnRefreshSchedule.addEventListener('click', () => loadSchedule(true));
+
+  const scheduleForm = document.getElementById('schedule-edit-form');
+  if (scheduleForm) scheduleForm.addEventListener('submit', handleSaveSchedule);
+
+  // Previsualización en vivo mientras se escriben los horarios
+  ['schedule-weekdays', 'schedule-saturdays', 'schedule-sundays', 'schedule-holidays', 'schedule-notice'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener('input', updateSchedulePreview);
+  });
 
   // Gestión de Archivos & Catálogos
   const btnRefreshFiles = document.getElementById('btn-refresh-files');
@@ -904,34 +921,27 @@ function escapeHTML(str) {
 }
 
 // =============================================================================
-// 8. CONTROLADOR DE PESTAÑAS (PRODUCTOS VS ARCHIVOS & CATÁLOGOS)
+// 8. CONTROLADOR DE PESTAÑAS (PRODUCTOS VS ARCHIVOS VS HORARIOS)
 // =============================================================================
 function switchTab(tab) {
   adminState.activeTab = tab;
   const viewProducts = document.getElementById('view-products');
   const viewFiles = document.getElementById('view-files');
+  const viewSchedule = document.getElementById('view-schedule');
   const btnProducts = document.getElementById('tab-btn-products');
   const btnFiles = document.getElementById('tab-btn-files');
+  const btnSchedule = document.getElementById('tab-btn-schedule');
 
-  if (tab === 'products') {
-    if (viewProducts) viewProducts.classList.remove('hidden');
-    if (viewFiles) viewFiles.classList.add('hidden');
-    if (btnProducts) {
-      btnProducts.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-cyan text-[#080B10] shadow-md shadow-brand-cyan/20 transition';
-    }
-    if (btnFiles) {
-      btnFiles.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0B0E14] text-slate-400 hover:text-white border border-[#1E2638] hover:border-slate-600 transition';
-    }
-  } else {
-    if (viewProducts) viewProducts.classList.add('hidden');
-    if (viewFiles) viewFiles.classList.remove('hidden');
-    if (btnFiles) {
-      btnFiles.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-cyan text-[#080B10] shadow-md shadow-brand-cyan/20 transition';
-    }
-    if (btnProducts) {
-      btnProducts.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0B0E14] text-slate-400 hover:text-white border border-[#1E2638] hover:border-slate-600 transition';
-    }
-  }
+  const activeClass = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-cyan text-[#080B10] shadow-md shadow-brand-cyan/20 transition';
+  const inactiveClass = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0B0E14] text-slate-400 hover:text-white border border-[#1E2638] hover:border-slate-600 transition';
+
+  if (viewProducts) viewProducts.classList.toggle('hidden', tab !== 'products');
+  if (viewFiles) viewFiles.classList.toggle('hidden', tab !== 'files');
+  if (viewSchedule) viewSchedule.classList.toggle('hidden', tab !== 'schedule');
+
+  if (btnProducts) btnProducts.className = tab === 'products' ? activeClass : inactiveClass;
+  if (btnFiles) btnFiles.className = tab === 'files' ? activeClass : inactiveClass;
+  if (btnSchedule) btnSchedule.className = tab === 'schedule' ? activeClass : inactiveClass;
 }
 
 // =============================================================================
@@ -1251,4 +1261,179 @@ function formatBytes(bytes, decimals = 1) {
   const sizes = ['Bytes', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+}
+
+// =============================================================================
+// 10. GESTIÓN DE HORARIOS DE ATENCIÓN EN VIVO (API REST Y VERCEL BLOB)
+// =============================================================================
+
+/**
+ * Carga los horarios vigentes desde la API (/api/schedule)
+ */
+async function loadSchedule(showToastFeedback = false) {
+  try {
+    const res = await fetch('/api/schedule?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+
+    if (!res.ok || !data.success || !data.schedule) {
+      throw new Error(data.message || 'Error al obtener horarios');
+    }
+
+    adminState.schedule = data.schedule;
+
+    const weekdaysInput = document.getElementById('schedule-weekdays');
+    const saturdaysInput = document.getElementById('schedule-saturdays');
+    const sundaysInput = document.getElementById('schedule-sundays');
+    const holidaysInput = document.getElementById('schedule-holidays');
+    const noticeInput = document.getElementById('schedule-notice');
+
+    if (weekdaysInput) weekdaysInput.value = data.schedule.weekdays || '';
+    if (saturdaysInput) saturdaysInput.value = data.schedule.saturdays || '';
+    if (sundaysInput) sundaysInput.value = data.schedule.sundays || '';
+    if (holidaysInput) holidaysInput.value = data.schedule.holidays || '';
+    if (noticeInput) noticeInput.value = data.schedule.specialNotice || '';
+
+    updateSchedulePreview();
+
+    const lastUpdatedEl = document.getElementById('schedule-last-updated');
+    if (lastUpdatedEl && data.schedule.updatedAt) {
+      const dateFormatted = new Date(data.schedule.updatedAt).toLocaleDateString('es-AR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      lastUpdatedEl.textContent = `Actualizado: ${dateFormatted}`;
+    }
+
+    if (showToastFeedback) {
+      showToast('Horarios sincronizados con éxito desde la nube', 'info');
+    }
+  } catch (err) {
+    console.error('Error al cargar horarios:', err);
+    if (showToastFeedback) {
+      showToast('Error al conectar con el servidor de horarios', 'error');
+    }
+  }
+}
+
+/**
+ * Actualiza la tarjeta de previsualización en vivo en el panel mientras el usuario escribe
+ */
+function updateSchedulePreview() {
+  const weekdays = document.getElementById('schedule-weekdays')?.value || '9:30 a 13:15 | 16:00 a 19:30 hs';
+  const saturdays = document.getElementById('schedule-saturdays')?.value || '10:00 a 13:00 | 16:30 a 19:00 hs';
+  const sundays = document.getElementById('schedule-sundays')?.value || 'Cerrado';
+  const holidays = document.getElementById('schedule-holidays')?.value || 'Consultar por WhatsApp';
+  const notice = document.getElementById('schedule-notice')?.value.trim() || '';
+
+  const prevWeekdays = document.getElementById('preview-weekdays');
+  const prevSaturdays = document.getElementById('preview-saturdays');
+  const prevSundays = document.getElementById('preview-sundays');
+  const prevHolidays = document.getElementById('preview-holidays');
+  const prevNotice = document.getElementById('preview-notice');
+  const prevNoticeText = document.getElementById('preview-notice-text');
+
+  if (prevWeekdays) prevWeekdays.textContent = weekdays;
+  if (prevSaturdays) prevSaturdays.textContent = saturdays;
+  if (prevSundays) prevSundays.textContent = sundays;
+  if (prevHolidays) prevHolidays.textContent = holidays;
+
+  if (prevNotice && prevNoticeText) {
+    if (notice) {
+      prevNoticeText.textContent = notice;
+      prevNotice.classList.remove('hidden');
+    } else {
+      prevNotice.classList.add('hidden');
+      prevNoticeText.textContent = '';
+    }
+  }
+}
+
+/**
+ * Guarda los horarios actualizados en el servidor y Vercel Blob
+ */
+async function handleSaveSchedule(e) {
+  e.preventDefault();
+
+  const weekdays = document.getElementById('schedule-weekdays')?.value.trim();
+  const saturdays = document.getElementById('schedule-saturdays')?.value.trim();
+  const sundays = document.getElementById('schedule-sundays')?.value.trim() || 'Cerrado';
+  const holidays = document.getElementById('schedule-holidays')?.value.trim() || 'Consultar por WhatsApp';
+  const specialNotice = document.getElementById('schedule-notice')?.value.trim() || '';
+
+  if (!weekdays) {
+    showToast('El horario de Lunes a Viernes es obligatorio', 'warning');
+    document.getElementById('schedule-weekdays')?.focus();
+    return;
+  }
+  if (!saturdays) {
+    showToast('El horario de Sábados es obligatorio', 'warning');
+    document.getElementById('schedule-saturdays')?.focus();
+    return;
+  }
+
+  const btnSubmit = document.getElementById('btn-save-schedule');
+  const originalHTML = btnSubmit ? btnSubmit.innerHTML : '';
+
+  if (btnSubmit) {
+    btnSubmit.disabled = true;
+    btnSubmit.innerHTML = `
+      <svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+      </svg>
+      <span>Guardando cambios en la web...</span>
+    `;
+  }
+
+  try {
+    showToast('Guardando nuevos horarios en la web...', 'info');
+
+    const res = await fetch('/api/schedule', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${adminState.token}`
+      },
+      body: JSON.stringify({
+        weekdays,
+        saturdays,
+        sundays,
+        holidays,
+        specialNotice
+      })
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || 'Error al guardar horarios');
+    }
+
+    adminState.schedule = data.schedule;
+
+    const lastUpdatedEl = document.getElementById('schedule-last-updated');
+    if (lastUpdatedEl && data.schedule.updatedAt) {
+      const dateFormatted = new Date(data.schedule.updatedAt).toLocaleDateString('es-AR', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      lastUpdatedEl.textContent = `Actualizado: ${dateFormatted}`;
+    }
+
+    updateSchedulePreview();
+    showToast('¡Horarios actualizados con éxito en toda la página web!', 'success');
+  } catch (err) {
+    console.error('Error al guardar horarios:', err);
+    showToast(err.message || 'No se pudieron guardar los horarios', 'error');
+  } finally {
+    if (btnSubmit) {
+      btnSubmit.disabled = false;
+      btnSubmit.innerHTML = originalHTML;
+    }
+  }
 }

@@ -40,12 +40,7 @@ const helmetSecurityHeaders = helmet({
     useDefaults: false,
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: [
-        "'self'",
-        "https://cdn.tailwindcss.com",
-        "https://unpkg.com",
-        "https://challenges.cloudflare.com"
-      ],
+      scriptSrc: ["'self'"],
       styleSrc: [
         "'self'",
         "'unsafe-inline'",
@@ -66,13 +61,13 @@ const helmetSecurityHeaders = helmet({
       ],
       connectSrc: [
         "'self'",
-        "https://challenges.cloudflare.com",
         "https://*.supabase.co"
       ],
       frameSrc: [
         "'self'",
         "https://www.google.com",
-        "https://maps.google.com",
+        "https://maps.google.com"
+      ],
         "https://challenges.cloudflare.com"
       ],
       objectSrc: ["'none'"],

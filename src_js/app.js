@@ -534,6 +534,14 @@ function bindPersonalizedControls() {
     }
   });
 
+  // Botones Agregar Sello al Carrito de Compras Unificado
+  ['btn-add-stamp-cart', 'btn-add-stamp-cart-2'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener('click', handleAddStampToCart);
+    }
+  });
+
   // Botón Copiar Configuración al Portapapeles
   const btnCopyDetails = document.getElementById('btn-copy-stamp-details');
   if (btnCopyDetails) {
@@ -1323,6 +1331,53 @@ function updateStampSummary() {
     const firstLine = (stampState.lines[0] || '').trim();
     summaryContent.textContent = firstLine ? `"${firstLine}"` : `${stampState.lineCount} Líneas indicadas`;
   }
+}
+
+// ─── Agregar Sello al Carrito de Compras Unificado ───
+function handleAddStampToCart() {
+  if (!window.LibreriaCart) return;
+
+  const aparatoStr = stampState.apparatusType === 'automatico' ? 'Aparato Automático Auto-entintable' : 'Cabo de Madera Tradicional';
+  const orientStr = stampState.orientation === 'vertical' ? 'Vertical (18 x 47 mm)' : 'Horizontal (47 x 18 mm)';
+
+  const activeLines = [];
+  const activeFonts = [];
+  for (let i = 0; i < stampState.lineCount; i++) {
+    const txt = (stampState.lines[i] || '').trim();
+    if (txt) {
+      activeLines.push(txt);
+      activeFonts.push(stampState.lineFonts[i] || stampState.fontFamily || 'font-stamp-01');
+    }
+  }
+
+  if (activeLines.length === 0) {
+    showToast('Por favor ingrese al menos una línea de texto en el sello.');
+    return;
+  }
+
+  window.LibreriaCart.addItem({
+    id: 'stamp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 4),
+    type: 'stamp',
+    name: 'Sello Personalizado (' + (stampState.apparatusType === 'automatico' ? 'Automático' : 'Madera') + ')',
+    price: null,
+    priceFormatted: 'A cotizar',
+    quantity: 1,
+    category: 'Sellos Personalizados',
+    stampDetails: {
+      apparatus: aparatoStr,
+      orientation: orientStr,
+      lineCount: stampState.lineCount,
+      lines: activeLines,
+      fonts: activeFonts,
+      inkColor: 'Tinta Negra',
+      alignment: stampState.alignment,
+      drawing: stampState.drawingPosition !== 'none' && stampState.selectedDrawing ? {
+        code: stampState.selectedDrawing.code,
+        name: stampState.selectedDrawing.name
+      } : null,
+      drawingPosition: stampState.drawingPosition
+    }
+  });
 }
 
 // ─── Generador de Mensaje de WhatsApp Especializado ───

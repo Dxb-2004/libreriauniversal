@@ -400,3 +400,19 @@ html {
 #mobile-menu-drawer > div {
   transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+/* Transición suave para el Carrito de Compras Lateral */
+#cart-drawer {
+  transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+#cart-drawer-panel {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes bounceSubtle {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.animate-bounce-subtle {
+  animation: bounceSubtle 2.5s ease-in-out infinite;
+}

@@ -22,6 +22,12 @@
     renderFeaturedProducts();
   });
 
+  // Re-sincronizar horarios al volver a la pestaña (por si se editaron en el admin)
+  window.addEventListener('focus', () => {
+    fetchSchedule();
+    updateLiveScheduleStatus();
+  });
+
   /**
    * Obtiene los productos desde la API REST (/api/products)
    */
@@ -332,6 +338,33 @@
           footerNotice.classList.remove('hidden');
         } else {
           footerNotice.classList.add('hidden');
+        }
+      }
+
+      // Elementos de la Tarjeta Institucional (Cotizador de Sellos)
+      const stampWeekdays = document.getElementById('schedule-stamp-weekdays');
+      const stampSaturdays = document.getElementById('schedule-stamp-saturdays');
+      const stampSundays = document.getElementById('schedule-stamp-sundays');
+      const stampHolidays = document.getElementById('schedule-stamp-holidays');
+      const stampNotice = document.getElementById('schedule-stamp-notice');
+
+      if (stampWeekdays && weekdays) stampWeekdays.textContent = weekdays;
+      if (stampSaturdays && saturdays) stampSaturdays.textContent = saturdays;
+      if (stampSundays && sundays) stampSundays.textContent = sundays;
+      if (stampHolidays && holidays) {
+        if (holidays.trim().toLowerCase() === 'consultar por whatsapp') {
+          stampHolidays.textContent = 'Consultar en wsp';
+        } else {
+          stampHolidays.textContent = holidays;
+        }
+      }
+
+      if (stampNotice) {
+        if (specialNotice && specialNotice.trim()) {
+          stampNotice.textContent = '📢 ' + specialNotice.trim();
+          stampNotice.classList.remove('hidden');
+        } else {
+          stampNotice.classList.add('hidden');
         }
       }
     } catch (err) {

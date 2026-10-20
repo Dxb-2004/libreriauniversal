@@ -6,7 +6,6 @@
   "scripts": {
     "start": "node server/app.js",
     "dev": "node server/app.js",
-    "build": "node scripts/build_security.js",
     "encrypt": "node scripts/build_security.js",
     "test": "node scratch/verify_security.js && node scratch/verify_encryption.js"
   },

@@ -7,15 +7,18 @@
 const adminState = {
   products: [],
   filteredProducts: [],
+  files: [],
   categories: [
     'Librería Comercial',
     'Librería Escolar',
     'Servicios de Imprenta',
     'Sellos',
+    'Sellos de corrección docente',
     'Insumos / Otros'
   ],
   currentEditId: null,
   deleteTargetId: null,
+  activeTab: 'products',
   filters: {
     search: '',
     category: 'Todas',
@@ -74,15 +77,54 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  // 3. Inicializar eventos y cargar catálogo
+  // 3. Inicializar eventos y cargar catálogo y archivos
   initEventListeners();
-  await loadProducts();
+  await Promise.all([
+    loadProducts(),
+    loadFiles()
+  ]);
 });
 
 // =============================================================================
 // 2. GESTIÓN DE EVENTOS DE INTERFAZ
 // =============================================================================
 function initEventListeners() {
+  // Pestañas Principales (Catálogo vs Archivos & Catálogos)
+  const tabBtnProducts = document.getElementById('tab-btn-products');
+  const tabBtnFiles = document.getElementById('tab-btn-files');
+  if (tabBtnProducts) tabBtnProducts.addEventListener('click', () => switchTab('products'));
+  if (tabBtnFiles) tabBtnFiles.addEventListener('click', () => switchTab('files'));
+
+  // Gestión de Archivos & Catálogos
+  const btnRefreshFiles = document.getElementById('btn-refresh-files');
+  if (btnRefreshFiles) btnRefreshFiles.addEventListener('click', () => loadFiles(true));
+
+  const fileInputUpload = document.getElementById('file-input-upload');
+  const fileUploadForm = document.getElementById('file-upload-form');
+  const selectedFileLabel = document.getElementById('selected-file-label');
+  const btnUploadSubmit = document.getElementById('btn-upload-file-submit');
+
+  if (fileInputUpload) {
+    fileInputUpload.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        selectedFileLabel.textContent = `Archivo seleccionado: ${file.name} (${formatBytes(file.size)})`;
+        selectedFileLabel.classList.remove('hidden');
+        btnUploadSubmit.disabled = false;
+        btnUploadSubmit.classList.remove('opacity-50', 'cursor-not-allowed');
+      } else {
+        selectedFileLabel.textContent = '';
+        selectedFileLabel.classList.add('hidden');
+        btnUploadSubmit.disabled = true;
+        btnUploadSubmit.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+    });
+  }
+
+  if (fileUploadForm) {
+    fileUploadForm.addEventListener('submit', handleUploadFile);
+  }
+
   // Botón Cerrar Sesión Individual
   document.getElementById('btn-logout').addEventListener('click', logout);
 
@@ -542,6 +584,8 @@ function getCategoryBadgeHTML(categoria) {
       return `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-md bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30">Imprenta</span>`;
     case 'Sellos':
       return `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-md bg-purple-500/15 text-purple-400 border border-purple-500/30">Sellos</span>`;
+    case 'Sellos de corrección docente':
+      return `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-md bg-pink-500/15 text-pink-400 border border-pink-500/30">Sellos Docentes</span>`;
     case 'Insumos / Otros':
       return `<span class="inline-block px-2.5 py-1 text-[11px] font-bold rounded-md bg-amber-500/15 text-amber-400 border border-amber-500/30">Insumos</span>`;
     default:
@@ -857,4 +901,354 @@ function escapeHTML(str) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#x27;');
+}
+
+// =============================================================================
+// 8. CONTROLADOR DE PESTAÑAS (PRODUCTOS VS ARCHIVOS & CATÁLOGOS)
+// =============================================================================
+function switchTab(tab) {
+  adminState.activeTab = tab;
+  const viewProducts = document.getElementById('view-products');
+  const viewFiles = document.getElementById('view-files');
+  const btnProducts = document.getElementById('tab-btn-products');
+  const btnFiles = document.getElementById('tab-btn-files');
+
+  if (tab === 'products') {
+    if (viewProducts) viewProducts.classList.remove('hidden');
+    if (viewFiles) viewFiles.classList.add('hidden');
+    if (btnProducts) {
+      btnProducts.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-cyan text-[#080B10] shadow-md shadow-brand-cyan/20 transition';
+    }
+    if (btnFiles) {
+      btnFiles.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0B0E14] text-slate-400 hover:text-white border border-[#1E2638] hover:border-slate-600 transition';
+    }
+  } else {
+    if (viewProducts) viewProducts.classList.add('hidden');
+    if (viewFiles) viewFiles.classList.remove('hidden');
+    if (btnFiles) {
+      btnFiles.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-brand-cyan text-[#080B10] shadow-md shadow-brand-cyan/20 transition';
+    }
+    if (btnProducts) {
+      btnProducts.className = 'inline-flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm bg-[#0B0E14] text-slate-400 hover:text-white border border-[#1E2638] hover:border-slate-600 transition';
+    }
+  }
+}
+
+// =============================================================================
+// 9. GESTIÓN DE ARCHIVOS & CATÁLOGOS (API REST Y VERCEL BLOB)
+// =============================================================================
+async function loadFiles(showToastFeedback = false) {
+  try {
+    const res = await fetch('/api/files?t=' + Date.now(), { cache: 'no-store' });
+    const data = await res.json();
+
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || 'Error al obtener la lista de archivos');
+    }
+
+    adminState.files = data.files || [];
+    const countEl = document.getElementById('files-table-count');
+    const badgeCountEl = document.getElementById('files-badge-count');
+    if (countEl) countEl.textContent = adminState.files.length;
+    if (badgeCountEl) badgeCountEl.textContent = adminState.files.length;
+
+    renderFilesTable();
+
+    if (showToastFeedback) {
+      showToast('Lista de archivos actualizada', 'info');
+    }
+  } catch (err) {
+    console.error('Error al cargar archivos:', err);
+    showToast('Error al conectar con el servidor de archivos', 'error');
+  }
+}
+
+function renderFilesTable() {
+  const tbody = document.getElementById('files-table-body');
+  if (!tbody) return;
+
+  tbody.innerHTML = '';
+
+  if (adminState.files.length === 0) {
+    tbody.innerHTML = `
+      <tr>
+        <td colspan="6" class="py-12 text-center text-slate-500">
+          <svg class="w-12 h-12 mx-auto mb-2 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"/>
+          </svg>
+          <p class="text-sm font-semibold text-slate-300">No hay archivos ni catálogos subidos todavía.</p>
+          <p class="text-xs text-slate-500 mt-1">Sube tu primer catálogo PDF o lista de precios arriba.</p>
+        </td>
+      </tr>
+    `;
+    return;
+  }
+
+  adminState.files.forEach(file => {
+    const tr = document.createElement('tr');
+    tr.className = 'hover:bg-[#0B0E14]/60 transition-colors group';
+
+    const iconHTML = getFileIconHTML(file.mimeType, file.name);
+    const dateFormatted = file.created_at 
+      ? new Date(file.created_at).toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+      : 'Reciente';
+
+    tr.innerHTML = `
+      <!-- Ícono Tipo -->
+      <td class="py-3 px-4 text-center">
+        ${iconHTML}
+      </td>
+
+      <!-- Nombre -->
+      <td class="py-3 px-4 max-w-xs">
+        <a href="${escapeHTML(file.url)}" target="_blank" rel="noopener noreferrer" class="font-bold text-white text-sm hover:text-brand-cyan transition truncate block" title="${escapeHTML(file.name)}">
+          ${escapeHTML(file.name)}
+        </a>
+        <span class="text-[10px] text-slate-400 font-mono">${escapeHTML(file.mimeType || 'Desconocido')}</span>
+      </td>
+
+      <!-- Tamaño -->
+      <td class="py-3 px-4 whitespace-nowrap font-mono text-xs text-slate-300">
+        ${formatBytes(file.size)}
+      </td>
+
+      <!-- Fecha -->
+      <td class="py-3 px-4 whitespace-nowrap text-xs text-slate-400 font-mono">
+        ${dateFormatted}
+      </td>
+
+      <!-- Enlace Público / Copiar -->
+      <td class="py-3 px-4 whitespace-nowrap">
+        <button 
+          type="button" 
+          onclick="copyFileUrl('${escapeHTML(file.url)}')"
+          class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#0B0E14] text-brand-cyan hover:bg-brand-cyan hover:text-[#080B10] border border-brand-cyan/30 text-xs font-semibold transition"
+          title="Copiar enlace para WhatsApp o web"
+        >
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+          </svg>
+          <span>Copiar Enlace</span>
+        </button>
+      </td>
+
+      <!-- Acciones: Ver / Eliminar -->
+      <td class="py-3 px-4 text-right whitespace-nowrap">
+        <div class="inline-flex items-center gap-2">
+          
+          <!-- Ver / Abrir en pestaña nueva -->
+          <a 
+            href="${escapeHTML(file.url)}" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            class="p-2 rounded-lg bg-brand-cyan/10 text-brand-cyan hover:bg-brand-cyan hover:text-[#080B10] border border-brand-cyan/30 transition"
+            title="Abrir archivo"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </a>
+
+          <!-- Eliminar de la nube -->
+          <button 
+            type="button" 
+            onclick="handleDeleteFile('${file.id}', '${escapeHTML(file.name).replace(/'/g, "\\'")}')"
+            class="p-2 rounded-lg bg-brand-magenta/10 text-brand-magenta hover:bg-brand-magenta hover:text-white border border-brand-magenta/30 transition"
+            title="Eliminar de la nube"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+            </svg>
+          </button>
+
+        </div>
+      </td>
+    `;
+
+    tbody.appendChild(tr);
+  });
+}
+
+/**
+ * Retorna ícono visual según el formato del archivo
+ */
+function getFileIconHTML(mimeType, filename) {
+  const name = (filename || '').toLowerCase();
+  const mime = (mimeType || '').toLowerCase();
+
+  if (mime.includes('pdf') || name.endsWith('.pdf')) {
+    return `
+      <div class="w-8 h-8 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-400 flex items-center justify-center font-bold text-[10px]" title="PDF">
+        PDF
+      </div>
+    `;
+  }
+
+  if (mime.startsWith('image/') || /\.(png|jpe?g|webp|gif|svg)$/.test(name)) {
+    return `
+      <div class="w-8 h-8 rounded-lg bg-brand-cyan/15 border border-brand-cyan/30 text-brand-cyan flex items-center justify-center font-bold text-[10px]" title="Imagen">
+        IMG
+      </div>
+    `;
+  }
+
+  if (mime.includes('sheet') || mime.includes('excel') || /\.(xlsx?|csv)$/.test(name)) {
+    return `
+      <div class="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-400 flex items-center justify-center font-bold text-[10px]" title="Excel">
+        XLS
+      </div>
+    `;
+  }
+
+  if (mime.includes('word') || /\.(docx?)$/.test(name)) {
+    return `
+      <div class="w-8 h-8 rounded-lg bg-blue-500/15 border border-blue-500/30 text-blue-400 flex items-center justify-center font-bold text-[10px]" title="Word">
+        DOC
+      </div>
+    `;
+  }
+
+  return `
+    <div class="w-8 h-8 rounded-lg bg-slate-700/50 border border-[#1E2638] text-slate-400 flex items-center justify-center font-bold text-[10px]" title="Archivo">
+      DOC
+    </div>
+  `;
+}
+
+/**
+ * Subida de archivos (PDFs, Catálogos, Documentos) a Vercel Blob
+ */
+async function handleUploadFile(e) {
+  e.preventDefault();
+  const fileInput = document.getElementById('file-input-upload');
+  const file = fileInput ? fileInput.files[0] : null;
+
+  if (!file) {
+    showToast('Selecciona un archivo antes de presionar subir', 'warning');
+    return;
+  }
+
+  if (file.size > 25 * 1024 * 1024) {
+    showToast('El archivo supera el límite permitido de 25 MB', 'error');
+    return;
+  }
+
+  const submitBtn = document.getElementById('btn-upload-file-submit');
+  const spinner = document.getElementById('upload-file-spinner');
+  const btnText = document.getElementById('upload-file-btn-text');
+
+  submitBtn.disabled = true;
+  spinner.classList.remove('hidden');
+  btnText.textContent = 'Subiendo a la Nube...';
+
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('document', file);
+  formData.append('archivo', file);
+
+  try {
+    showToast('Subiendo archivo a la nube persistente...', 'info');
+    const res = await fetch('/api/files', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${adminState.token}`
+      },
+      body: formData
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || 'Error al subir archivo');
+    }
+
+    showToast('¡Archivo subido exitosamente a la nube!', 'success');
+    fileInput.value = '';
+    const label = document.getElementById('selected-file-label');
+    if (label) {
+      label.textContent = '';
+      label.classList.add('hidden');
+    }
+    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+    await loadFiles();
+  } catch (err) {
+    console.error('Error al subir archivo:', err);
+    showToast(err.message || 'Error al conectar con el servidor', 'error');
+  } finally {
+    submitBtn.disabled = false;
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Subir Archivo a la Nube';
+  }
+}
+
+/**
+ * Elimina un archivo de la nube
+ */
+async function handleDeleteFile(id, name) {
+  const confirmDelete = confirm(`¿Estás seguro de que deseas eliminar el archivo "${name}" de la nube? Esta acción no se puede deshacer.`);
+  if (!confirmDelete) return;
+
+  try {
+    showToast('Eliminando archivo de la nube...', 'info');
+    const res = await fetch(`/api/files/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${adminState.token}`
+      }
+    });
+
+    const data = await res.json();
+    if (!res.ok || !data.success) {
+      throw new Error(data.message || 'Error al eliminar archivo');
+    }
+
+    showToast('Archivo eliminado de la nube', 'magenta');
+    await loadFiles();
+  } catch (err) {
+    console.error('Error al borrar archivo:', err);
+    showToast(err.message || 'No se pudo eliminar el archivo', 'error');
+  }
+}
+
+/**
+ * Copia URL pública del archivo al portapapeles
+ */
+function copyFileUrl(url) {
+  if (!url) return;
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(url)
+      .then(() => showToast('¡Enlace copiado al portapapeles!', 'success'))
+      .catch(() => fallbackCopyTextToClipboard(url));
+  } else {
+    fallbackCopyTextToClipboard(url);
+  }
+}
+
+function fallbackCopyTextToClipboard(text) {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  try {
+    document.execCommand('copy');
+    showToast('¡Enlace copiado al portapapeles!', 'success');
+  } catch (err) {
+    showToast('No se pudo copiar el enlace', 'error');
+  }
+  document.body.removeChild(textArea);
+}
+
+/**
+ * Formatea bytes en KB, MB, etc.
+ */
+function formatBytes(bytes, decimals = 1) {
+  if (!bytes || bytes === 0) return '0 Bytes';
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }

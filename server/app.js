@@ -67,6 +67,7 @@ const {
 } = require('./security/authManager');
 const { db } = require('./db/client');
 const productsRouter = require('./routes/products');
+const filesRouter = require('./routes/files');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -165,6 +166,7 @@ app.get(['/api/config', '/config'], (req, res) => {
  * Catálogo de Productos y Servicios (CRUD)
  */
 app.use(['/api/products', '/products'], productsRouter);
+app.use(['/api/files', '/files'], filesRouter);
 
 /**
  * Punto 10, 11, 12, 14: Registro de Usuario Seguro

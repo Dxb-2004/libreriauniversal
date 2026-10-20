@@ -83,6 +83,7 @@
         if (tab === 'comercial') currentCategory = 'Librería Comercial';
         else if (tab === 'escolar') currentCategory = 'Librería Escolar';
         else if (tab === 'tecnica' || tab === 'imprenta') currentCategory = 'Servicios de Imprenta';
+        else if (tab === 'docente' || tab === 'sellos_docentes') currentCategory = 'Sellos de corrección docente';
         else currentCategory = 'all';
 
         renderDynamicStationeryGrid();

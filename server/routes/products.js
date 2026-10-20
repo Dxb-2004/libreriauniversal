@@ -22,6 +22,7 @@ const ALLOWED_CATEGORIES = [
   'Librería Escolar',
   'Servicios de Imprenta',
   'Sellos',
+  'Sellos de corrección docente',
   'Insumos / Otros'
 ];
 
@@ -33,9 +34,10 @@ const productSchema = z.object({
     'Librería Escolar',
     'Servicios de Imprenta',
     'Sellos',
+    'Sellos de corrección docente',
     'Insumos / Otros'
   ], {
-    errorMap: () => ({ message: 'Categoría no válida. Seleccione una de las 5 categorías oficiales.' })
+    errorMap: () => ({ message: 'Categoría no válida. Seleccione una de las categorías oficiales.' })
   }),
   precio: z.coerce.number().min(0, 'El precio no puede ser negativo').default(0),
   descripcion: z.string().max(2000).optional().default(''),

@@ -17,6 +17,7 @@ CREATE TABLE IF NOT EXISTS public.products (
             'Librería Escolar',
             'Servicios de Imprenta',
             'Sellos',
+            'Sellos de corrección docente',
             'Insumos / Otros'
         )
     ),

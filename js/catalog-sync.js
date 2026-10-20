@@ -7,22 +7,37 @@
 (function () {
   const BUSINESS_PHONE = "5491126097125";
   let dynamicProducts = [];
-  let currentCategory = 'all';
+  let currentCategory = 'Librería Comercial';
   let currentSearch = '';
 
   /**
    * Inicializa la sincronización de productos al cargar la página
    */
   document.addEventListener('DOMContentLoaded', async () => {
+    setupCatalogFilters();
     await fetchCatalogProducts();
     renderFeaturedProducts();
-    setupCatalogFilters();
   });
 
   /**
    * Obtiene los productos desde la API REST (/api/products)
    */
   async function fetchCatalogProducts() {
+    const container = document.getElementById('stationery-products-grid');
+    if (container && dynamicProducts.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full py-12 text-center text-slate-400">
+          <div class="inline-flex items-center gap-2">
+            <svg class="w-5 h-5 animate-spin text-brand-cyan" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span>Cargando catálogo en tiempo real...</span>
+          </div>
+        </div>
+      `;
+    }
+
     try {
       const response = await fetch('/api/products?t=' + Date.now(), { cache: 'no-store' });
       if (!response.ok) throw new Error('API offline');
@@ -30,25 +45,32 @@
       const data = await response.json();
       if (data && data.success && Array.isArray(data.products)) {
         dynamicProducts = data.products;
-        renderDynamicStationeryGrid();
+      } else {
+        dynamicProducts = [];
       }
     } catch (err) {
-      console.info('Catálogo conectado a datos locales de respaldo.');
+      console.info('Aviso al sincronizar catálogo:', err.message);
+      dynamicProducts = [];
+    } finally {
+      renderDynamicStationeryGrid();
+      renderFeaturedProducts();
     }
   }
 
   /**
-   * Renderiza la sección de Productos Destacados en Portada (#inicio)
+   * Renderiza la sección de Productos Destacados en Portada (#inicio) si existe el contenedor
    */
   function renderFeaturedProducts() {
     const container = document.getElementById('productos-destacados-grid');
     if (!container) return;
 
     const featured = dynamicProducts.filter(p => p.destacado === true);
-    if (featured.length === 0) return;
+    if (featured.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
 
     container.innerHTML = '';
-
     featured.slice(0, 6).forEach(product => {
       const card = createProductCardElement(product);
       container.appendChild(card);
@@ -84,6 +106,8 @@
         else if (tab === 'escolar') currentCategory = 'Librería Escolar';
         else if (tab === 'tecnica' || tab === 'imprenta') currentCategory = 'Servicios de Imprenta';
         else if (tab === 'docente' || tab === 'sellos_docentes') currentCategory = 'Sellos de corrección docente';
+        else if (tab === 'sellos') currentCategory = 'Sellos';
+        else if (tab === 'todos' || tab === 'todas' || tab === 'all') currentCategory = 'all';
         else currentCategory = 'all';
 
         renderDynamicStationeryGrid();
@@ -98,7 +122,29 @@
     const container = document.getElementById('stationery-products-grid');
     if (!container) return;
 
-    if (!dynamicProducts || dynamicProducts.length === 0) return;
+    // Si el catálogo está completamente vacío (ej: se vació desde admin)
+    if (!dynamicProducts || dynamicProducts.length === 0) {
+      container.innerHTML = `
+        <div class="col-span-full py-16 text-center bg-[#111827] rounded-2xl border border-[#1F2937] p-8">
+          <div class="w-16 h-16 rounded-2xl bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
+            </svg>
+          </div>
+          <h3 class="text-lg font-display font-bold text-white mb-2">Catálogo en proceso de carga</h3>
+          <p class="text-xs sm:text-sm text-slate-400 max-w-md mx-auto mb-6 font-body font-light">
+            Actualmente no hay artículos publicados en el catálogo. Si buscás un producto o presupuesto, escribinos directamente por WhatsApp.
+          </p>
+          <a href="https://wa.me/${BUSINESS_PHONE}?text=${encodeURIComponent('Hola Librería Universal! Quiero consultar por artículos de librería:')}" 
+             target="_blank" 
+             class="inline-flex items-center gap-2 px-6 py-3 bg-[#159A5C] hover:bg-[#12804d] text-white rounded-xl text-xs sm:text-sm font-bold shadow-lg shadow-emerald-900/30 transition">
+             <svg class="w-4 h-4 fill-current flex-shrink-0" viewBox="5.8 5.8 12.4 12.4"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/></svg>
+             <span>Consultar por WhatsApp</span>
+          </a>
+        </div>
+      `;
+      return;
+    }
 
     // Filtrar según categoría seleccionada y búsqueda
     let filtered = dynamicProducts;
@@ -117,16 +163,17 @@
 
     if (filtered.length === 0) {
       container.innerHTML = `
-        <div class="col-span-full py-12 text-center bg-[#111827] rounded-2xl border border-[#1F2937] p-8">
+        <div class="col-span-full py-14 text-center bg-[#111827] rounded-2xl border border-[#1F2937] p-8">
           <svg class="w-12 h-12 mx-auto text-slate-500 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
-          <p class="text-base font-semibold text-white">No encontramos productos en esta categoría.</p>
+          <p class="text-base font-semibold text-white">No encontramos productos cargados en esta categoría.</p>
           <p class="text-xs text-slate-400 mt-1">¡Consultanos directamente por WhatsApp! Disponemos de amplio stock en el local.</p>
-          <a href="https://wa.me/${BUSINESS_PHONE}?text=${encodeURIComponent('Hola Librería Universal! Busco un artículo:')}" 
+          <a href="https://wa.me/${BUSINESS_PHONE}?text=${encodeURIComponent('Hola Librería Universal! Busco un artículo de esta categoría:')}" 
              target="_blank" 
-             class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs sm:text-sm font-bold transition shadow-lg shadow-emerald-600/20">
-             Consultar por Mensaje de WhatsApp
+             class="inline-flex items-center gap-2 mt-4 px-5 py-2.5 bg-[#159A5C] hover:bg-[#12804d] text-white rounded-xl text-xs sm:text-sm font-bold transition shadow-lg shadow-emerald-900/30">
+             <svg class="w-4 h-4 fill-current flex-shrink-0" viewBox="5.8 5.8 12.4 12.4"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/></svg>
+             <span>Consultar por Mensaje de WhatsApp</span>
           </a>
         </div>
       `;
@@ -161,6 +208,7 @@
     if (product.categoria === 'Librería Escolar') categoryBadgeClass = 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30';
     if (product.categoria === 'Servicios de Imprenta') categoryBadgeClass = 'bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30';
     if (product.categoria === 'Sellos') categoryBadgeClass = 'bg-purple-500/15 text-purple-400 border border-purple-500/30';
+    if (product.categoria === 'Sellos de corrección docente') categoryBadgeClass = 'bg-pink-500/15 text-pink-400 border border-pink-500/30';
     if (product.categoria === 'Insumos / Otros') categoryBadgeClass = 'bg-amber-500/15 text-amber-400 border border-amber-500/30';
 
     const imgUrl = product.imagen_url || 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=300&auto=format&fit=crop&q=80';

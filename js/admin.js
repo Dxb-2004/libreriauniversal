@@ -82,7 +82,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initEventListeners();
   await Promise.all([
     loadProducts(),
-    loadFiles(),
     loadSchedule()
   ]);
 });

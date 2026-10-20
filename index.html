@@ -747,9 +747,9 @@
                 <h3 class="text-base sm:text-lg font-display text-white">Sello Personalizado</h3>
               </div>
             </div>
-            <button type="button" data-modal-open-tab="teacher" class="btn-open-catalog-modal inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 hover:bg-brand-cyan/20 hover:text-white transition self-start sm:self-auto font-body">
-              <span>👩‍🏫</span>
-              <span>Explorar Catálogo Docente CDC-8</span>
+            <button type="button" data-modal-open-tab="drawings" class="btn-open-catalog-modal inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 hover:bg-brand-cyan/20 hover:text-white transition self-start sm:self-auto font-body">
+              <span>🧸</span>
+              <span>Explorar Catálogo de Dibujos (1 al 168)</span>
             </button>
           </div>
 
@@ -861,14 +861,14 @@
               </div>
             </div>
 
-            <!-- PASO 3: Marco, Alineación y Tinta -->
+            <!-- PASO 3: Marco y Alineación -->
             <div class="pt-5 border-t border-[#1F2937] space-y-4">
               <div class="flex items-center justify-between mb-1">
                 <span class="text-[9px] font-body font-bold tracking-[0.3em] uppercase text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/30 px-2.5 py-0.5">Paso 3</span>
-                <span class="text-[10px] text-slate-500 font-medium tracking-wider uppercase">Marco, Alineación & Tinta</span>
+                <span class="text-[10px] text-slate-500 font-medium tracking-wider uppercase">Marco & Alineación</span>
               </div>
               <h3 class="text-base sm:text-lg font-display text-white">
-                Marco, Alineación & Color de Tinta
+                Marco & Alineación del Texto
               </h3>
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -900,15 +900,15 @@
                 </div>
               </div>
 
-              <!-- Color de Tinta -->
+              <!-- Color de Tinta (Solo Negro) -->
               <div class="pt-1">
                 <span class="block text-[10px] font-bold text-slate-400 mb-1.5 tracking-wider uppercase font-body">Color de Tinta de la Huella:</span>
                 <div class="flex items-center gap-2.5 pt-1">
-                  <button type="button" data-ink-color="#111827" title="Tinta Negra Clásica" class="w-7 h-7 rounded-full bg-slate-900 border border-slate-600 ring-4 ring-offset-2 ring-brand-cyan ring-offset-[#111827] transition-all"></button>
-                  <button type="button" data-ink-color="#1e40af" title="Tinta Azul Institucional" class="w-7 h-7 rounded-full bg-blue-700 hover:scale-110 transition-all"></button>
-                  <button type="button" data-ink-color="#dc2626" title="Tinta Roja Notarial" class="w-7 h-7 rounded-full bg-red-600 hover:scale-110 transition-all"></button>
-                  <button type="button" data-ink-color="#6d28d9" title="Tinta Violeta" class="w-7 h-7 rounded-full bg-purple-700 hover:scale-110 transition-all"></button>
-                  <span class="text-xs text-slate-400 font-body ml-2">Negro, Azul, Rojo o Violeta</span>
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 bg-[#0B0F19] border border-[#1F2937]">
+                    <span class="w-3.5 h-3.5 rounded-full bg-slate-950 border border-slate-600 ring-2 ring-brand-cyan flex-shrink-0"></span>
+                    <span class="text-xs font-bold text-white font-body">Tinta Negra</span>
+                  </div>
+                  <span class="text-xs text-slate-400 font-body">Tinta oficial estándar</span>
                 </div>
               </div>
             </div>
@@ -929,11 +929,8 @@
                 </div>
 
                 <div class="flex items-center gap-2 flex-wrap">
-                  <button type="button" data-modal-open-tab="drawings" class="btn-open-catalog-modal inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-brand-purple/10 text-purple-300 border border-brand-purple/30 hover:bg-brand-purple/20 hover:text-white transition">
-                    <span>🧸 Dibujos 1-168</span>
-                  </button>
-                  <button type="button" data-modal-open-tab="teacher" class="btn-open-catalog-modal inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 hover:bg-brand-cyan/20 hover:text-white transition">
-                    <span>👩‍🏫 Catálogo Docente CDC-8</span>
+                  <button type="button" data-modal-open-tab="drawings" class="btn-open-catalog-modal inline-flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-bold bg-brand-purple/10 text-purple-300 border border-brand-purple/30 hover:bg-brand-purple/20 hover:text-white transition">
+                    <span>🧸 Ver Catálogo de Dibujos (1 al 168)</span>
                   </button>
                 </div>
               </div>
@@ -1045,22 +1042,7 @@
               </div>
             </div>
 
-            <!-- Banner de Sello Docente Seleccionado -->
-            <div id="selected-teacher-stamp-banner" class="hidden mt-3 p-3 bg-brand-cyan/10 border border-brand-cyan/40 items-center justify-between text-xs gap-2">
-              <div class="flex items-center gap-2.5 overflow-hidden">
-                <span class="text-base flex-shrink-0">👩‍🏫</span>
-                <div class="min-w-0">
-                  <div class="flex items-center gap-1.5">
-                    <span id="teacher-banner-code" class="px-1.5 py-0.5 text-[10px] font-mono font-bold bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">#12M</span>
-                    <span class="text-[10px] text-brand-cyan font-semibold uppercase tracking-wider font-body">Catálogo CDC-8</span>
-                  </div>
-                  <p id="teacher-banner-phrase" class="text-xs font-bold text-white truncate mt-0.5 font-body">MESSIRVE</p>
-                </div>
-              </div>
-              <button type="button" id="btn-remove-teacher-stamp" class="text-[11px] font-bold text-rose-400 hover:text-rose-300 bg-rose-950/80 border border-rose-800/80 px-2.5 py-1.5 transition hover:bg-rose-900/80 flex-shrink-0 font-body">
-                ✕ Quitar sello docente
-              </button>
-            </div>
+
 
             <!-- Resumen y Enlace a WhatsApp -->
             <div class="bg-[#111827] p-6 border border-[#1F2937] space-y-5">
@@ -1229,22 +1211,7 @@
               <span class="italic text-slate-500 font-body">Grabado en goma sintética HD</span>
             </div>
 
-            <!-- Banner de Sello Docente Seleccionado (Tarjeta Derecha 2) -->
-            <div id="selected-teacher-stamp-banner-2" class="hidden p-3 bg-brand-cyan/10 border border-brand-cyan/40 items-center justify-between text-xs gap-2">
-              <div class="flex items-center gap-2.5 overflow-hidden">
-                <span class="text-base flex-shrink-0">👩‍🏫</span>
-                <div class="min-w-0">
-                  <div class="flex items-center gap-1.5">
-                    <span id="teacher-banner-code-2" class="px-1.5 py-0.5 text-[10px] font-mono font-bold bg-brand-cyan/20 text-brand-cyan border border-brand-cyan/30">#12M</span>
-                    <span class="text-[10px] text-brand-cyan font-semibold uppercase tracking-wider font-body">Catálogo CDC-8</span>
-                  </div>
-                  <p id="teacher-banner-phrase-2" class="text-xs font-bold text-white truncate mt-0.5 font-body">MESSIRVE</p>
-                </div>
-              </div>
-              <button type="button" id="btn-remove-teacher-stamp-2" class="text-[11px] font-bold text-rose-400 hover:text-rose-300 bg-rose-950/80 border border-rose-800/80 px-2.5 py-1.5 transition hover:bg-rose-900/80 flex-shrink-0 font-body">
-                ✕ Quitar sello docente
-              </button>
-            </div>
+
 
             <!-- Botón WhatsApp Directo debajo de la previsualización de emojis -->
             <button id="btn-whatsapp-stamp-order-2" type="button" 
@@ -1497,8 +1464,8 @@
       <!-- Modal Header -->
       <div class="p-4 sm:p-6 border-b border-[#1F2937] flex items-center justify-between gap-4 bg-[#0B0F19]/60">
         <div>
-          <span class="text-[9px] font-body font-bold tracking-[0.3em] uppercase text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/30 px-2 py-0.5">Catálogos Oficiales</span>
-          <h3 class="text-base sm:text-xl font-display text-white mt-1">Explorador de Dibujos & Sellos Docentes</h3>
+          <span class="text-[9px] font-body font-bold tracking-[0.3em] uppercase text-brand-cyan bg-brand-cyan/10 border border-brand-cyan/30 px-2 py-0.5">Catálogo Oficial</span>
+          <h3 class="text-base sm:text-xl font-display text-white mt-1">Explorador de Dibujos para Sellos (1 al 168)</h3>
         </div>
         <button type="button" id="btn-close-catalog-modal" class="w-9 h-9 bg-[#1F2937] hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center font-bold text-lg transition">
           ✕
@@ -1508,20 +1475,14 @@
       <!-- Modal Tabs & PDF Links -->
       <div class="px-4 sm:px-6 pt-3 pb-2 border-b border-[#1F2937] flex flex-wrap items-center justify-between gap-3 bg-[#111827]">
         <div class="flex items-center gap-2" id="modal-tabs">
-          <button type="button" data-modal-tab="drawings" class="modal-tab-btn px-3.5 py-1.5 text-xs font-bold bg-brand-cyan text-[#0B0F19] shadow transition">
-            🧸 Dibujos del Catálogo (1 al 168)
-          </button>
-          <button type="button" data-modal-tab="teacher" class="modal-tab-btn px-3.5 py-1.5 text-xs font-bold bg-[#1F2937] text-slate-300 hover:text-white transition">
-            👩‍🏫 Catálogo Docente CDC-8
-          </button>
+          <span class="px-3.5 py-1.5 text-xs font-bold bg-brand-cyan text-[#0B0F19] shadow">
+            🧸 Dibujos del Catálogo Oficial (1 al 168)
+          </span>
         </div>
 
         <div class="flex items-center gap-2 text-xs">
           <a href="catalogos/dibujitos-sellos-infantiles.pdf" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-purple/10 text-purple-300 border border-brand-purple/30 hover:bg-brand-purple/20 hover:text-white font-semibold transition">
-            <span>📥 PDF Dibujos 1 al 168</span>
-          </a>
-          <a href="catalogos/catalogo-docente-cdc8.pdf" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30 hover:bg-brand-cyan/20 hover:text-white font-semibold transition">
-            <span>📥 PDF Docente CDC-8 (19 pág.)</span>
+            <span>📥 Descargar PDF Dibujos (1 al 168)</span>
           </a>
         </div>
       </div>
@@ -1530,14 +1491,11 @@
       <div class="p-4 sm:px-6 bg-[#0B0F19]/40 border-b border-[#1F2937] flex items-center gap-3">
         <div class="relative flex-1">
           <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">🔍</span>
-          <input type="text" id="modal-search-input" placeholder="Buscar por número o palabra clave (ej: Messi, AFA, Stitch, Capybara, 12M, T25...)" class="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-[#0B0F19] text-white border border-[#1F2937] focus:ring-2 focus:ring-brand-cyan outline-none placeholder-slate-500 font-body">
+          <input type="text" id="modal-search-input" placeholder="Buscar dibujo por número o nombre (ej: Messi, AFA, Stitch, Capybara, Panda, Huella...)" class="w-full pl-9 pr-4 py-2 text-xs sm:text-sm bg-[#0B0F19] text-white border border-[#1F2937] focus:ring-2 focus:ring-brand-cyan outline-none placeholder-slate-500 font-body">
         </div>
         <span id="modal-items-count" class="text-xs text-slate-400 font-mono whitespace-nowrap">Cargando...</span>
       </div>
-      <!-- Barra de Filtros Rápidos de Colecciones Docentes (Pills) -->
-      <div id="modal-teacher-filters" class="hidden px-4 sm:px-6 py-2.5 bg-[#0B0F19]/70 border-b border-[#1F2937] overflow-x-auto catalog-scroll whitespace-nowrap gap-2 items-center">
-        <!-- Generado dinámicamente en app.js -->
-      </div>
+
 
       <!-- Modal Grid -->
       <div class="p-4 sm:p-6 overflow-y-auto max-h-[60vh] catalog-scroll bg-[#0B0F19]/60">

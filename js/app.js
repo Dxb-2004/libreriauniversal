@@ -55,12 +55,9 @@ const stampState = {
   borderStyle: 'dashed',        // 'dashed' | 'solid' | 'rounded' | 'none'
   drawingPosition: 'none',      // 'none' | 'left' | 'right'
   selectedDrawing: null,        // Objeto de STAMP_DRAWINGS_1_TO_168
-  selectedTeacherStamp: null,   // Objeto de TEACHER_STAMPS_DATA
-
   // Modal Lightbox
   modalTab: 'drawings',
-  modalSearchQuery: '',
-  modalTeacherCollection: 'todas'
+  modalSearchQuery: ''
 };
 
 // Catálogo de productos de librería organizado por categorías
@@ -650,18 +647,7 @@ function bindPersonalizedControls() {
     btnCopyDetails.addEventListener('click', handleCopyDetails);
   }
 
-  // Botón Volver a Líneas (quitar sello docente seleccionado en ambas tarjetas)
-  ['btn-remove-teacher-stamp', 'btn-remove-teacher-stamp-2'].forEach(id => {
-    const btn = document.getElementById(id);
-    if (btn) {
-      btn.addEventListener('click', () => {
-        stampState.selectedTeacherStamp = null;
-        updateStampPreview();
-        updateStampSummary();
-        showToast("Volviendo a diseño personalizado por líneas.");
-      });
-    }
-  });
+
 }
 
 // ─── Selector de Dibujos 1 al 168 (Modo Personalizado) ───
@@ -889,25 +875,8 @@ function initCatalogModal() {
 }
 
 function syncModalTabs() {
-  const tabBtns = document.querySelectorAll('.modal-tab-btn');
-  tabBtns.forEach(btn => {
-    const isTarget = btn.getAttribute('data-modal-tab') === stampState.modalTab;
-    btn.className = isTarget
-      ? 'modal-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-cyan-600 text-white shadow transition'
-      : 'modal-tab-btn px-3.5 py-1.5 rounded-xl text-xs font-bold bg-slate-800 text-slate-300 hover:text-white transition';
-  });
-
-  const teacherFiltersContainer = document.getElementById('modal-teacher-filters');
-  if (teacherFiltersContainer) {
-    if (stampState.modalTab === 'teacher') {
-      teacherFiltersContainer.classList.remove('hidden');
-      teacherFiltersContainer.classList.add('flex');
-      renderTeacherPills();
-    } else {
-      teacherFiltersContainer.classList.add('hidden');
-      teacherFiltersContainer.classList.remove('flex');
-    }
-  }
+  // Solo catálogo de dibujos activo
+  stampState.modalTab = 'drawings';
 }
 
 function renderTeacherPills() {
@@ -1226,56 +1195,6 @@ function renderModalGrid() {
         }
       });
     });
-
-  } else if (stampState.modalTab === 'teacher') {
-    if (typeof TEACHER_STAMPS_DATA === 'undefined') return;
-
-    const selectedCol = stampState.modalTeacherCollection || 'todas';
-    const items = TEACHER_STAMPS_DATA.filter(s => {
-      const matchCol = (selectedCol === 'todas' || s.collection === selectedCol);
-      const matchSearch = (!q || s.code.toLowerCase().includes(q) || s.phrase.toLowerCase().includes(q) || (s.subtext && s.subtext.toLowerCase().includes(q)));
-      return matchCol && matchSearch;
-    });
-
-    if (countEl) countEl.textContent = `${items.length} de ${TEACHER_STAMPS_DATA.length} sellos docentes`;
-
-    if (items.length === 0) {
-      container.className = 'w-full py-12 text-center text-xs text-slate-400';
-      container.innerHTML = `No encontramos sellos docentes con ese criterio de búsqueda.`;
-      return;
-    }
-
-    // Exact same 6 columns grid on desktop as drawings tab!
-    container.className = 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3';
-    container.innerHTML = items.map(item => `
-      <button type="button" data-modal-select-teacher="${item.code}"
-              class="p-2.5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-cyan-500 hover:bg-cyan-950/40 text-center transition group flex flex-col items-center justify-between gap-1.5 shadow min-h-[160px]">
-        <span class="text-xs font-mono font-bold text-cyan-400">#${item.code}</span>
-        <div class="w-full h-24 bg-white rounded-xl p-1.5 flex items-center justify-center shadow my-1 overflow-hidden group-hover:scale-[1.03] transition-transform select-none">
-          ${renderTeacherStampVisual(item, '#111827', 'thumb')}
-        </div>
-        <span class="text-xs font-bold text-white group-hover:text-cyan-200 line-clamp-2 leading-tight">${item.phrase}</span>
-        <span class="text-[10px] text-slate-400 truncate w-full">${getCollectionShortLabel(item.collection)} • ${item.size}cm</span>
-      </button>
-    `).join('');
-
-    container.querySelectorAll('[data-modal-select-teacher]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const code = btn.getAttribute('data-modal-select-teacher');
-        const found = TEACHER_STAMPS_DATA.find(s => s.code === code);
-        if (found) {
-          stampState.selectedTeacherStamp = found;
-          updateStampPreview();
-          updateStampSummary();
-          const modal = document.getElementById('catalog-lightbox-modal');
-          if (modal) {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-          }
-          showToast(`¡Sello docente #${found.code} (${found.phrase}) seleccionado!`);
-        }
-      });
-    });
   }
 }
 
@@ -1296,16 +1215,13 @@ function getInkFilter(hex) {
 
 // ─── Generación de Vista Previa en Vivo (Sincroniza ambas tarjetas) ───
 function updateStampPreview() {
+  stampState.inkColor = '#111827';
   const previewBoxes = [document.getElementById('stamp-live-preview-box'), document.getElementById('stamp-live-preview-box-2')].filter(Boolean);
   const innerFrames = [document.getElementById('stamp-inner-frame'), document.getElementById('stamp-inner-frame-2')].filter(Boolean);
   const previewContents = [document.getElementById('stamp-live-text-content'), document.getElementById('stamp-live-text-content-2')].filter(Boolean);
   const dimensionBadges = [document.getElementById('stamp-dimension-badge'), document.getElementById('stamp-dimension-badge-2')].filter(Boolean);
   const apparatusBadges = [document.getElementById('stamp-apparatus-badge'), document.getElementById('stamp-apparatus-badge-2')].filter(Boolean);
   const modeBadges = [document.getElementById('stamp-mode-badge'), document.getElementById('stamp-mode-badge-2')].filter(Boolean);
-  const teacherBanners = [document.getElementById('selected-teacher-stamp-banner'), document.getElementById('selected-teacher-stamp-banner-2')].filter(Boolean);
-  const teacherCodes = [document.getElementById('teacher-banner-code'), document.getElementById('teacher-banner-code-2')].filter(Boolean);
-  const teacherPhrases = [document.getElementById('teacher-banner-phrase'), document.getElementById('teacher-banner-phrase-2')].filter(Boolean);
-
   if (previewBoxes.length === 0 || innerFrames.length === 0 || previewContents.length === 0) return;
 
   const isVertical = stampState.orientation === 'vertical';
@@ -1334,39 +1250,7 @@ function updateStampPreview() {
     ? 'Aparato Automático (Auto-entintable)'
     : 'Cabo de Madera Tradicional (Grabado Láser)';
 
-  // Si hay un Sello Docente seleccionado del Catálogo CDC-8
-  if (stampState.selectedTeacherStamp) {
-    const teacher = stampState.selectedTeacherStamp;
-    teacherBanners.forEach(b => {
-      b.classList.remove('hidden');
-      b.classList.add('flex');
-    });
-    teacherCodes.forEach(c => { c.textContent = `#${teacher.code}`; });
-    teacherPhrases.forEach(p => { p.textContent = `${teacher.phrase} (${getCollectionShortLabel(teacher.collection)})`; });
 
-    modeBadges.forEach(b => { b.textContent = '👩‍🏫 Sello Docente CDC-8'; });
-    dimensionBadges.forEach(b => { b.textContent = `${teacher.size} cm (CDC-8)`; });
-    apparatusBadges.forEach(b => { b.textContent = appText; });
-
-    innerFrames.forEach(frame => {
-      frame.className = 'w-full flex items-center justify-center transition-all border-0 p-0';
-      frame.style.borderColor = 'transparent';
-    });
-
-    const teacherHtml = renderTeacherStampVisual(teacher, stampState.inkColor, 'preview');
-    previewContents.forEach(content => {
-      content.className = 'stamp-ink-effect flex flex-col items-center justify-center transition-all duration-150 w-full';
-      content.style.color = stampState.inkColor;
-      content.innerHTML = teacherHtml;
-    });
-    return;
-  }
-
-  // Si no hay sello docente seleccionado, ocultar banners
-  teacherBanners.forEach(b => {
-    b.classList.add('hidden');
-    b.classList.remove('flex');
-  });
 
   modeBadges.forEach(b => { b.textContent = '🏢 Sello Personalizado'; });
   dimensionBadges.forEach(b => { b.textContent = dimText; });
@@ -1506,16 +1390,7 @@ function updateStampSummary() {
   // Actualizar banner de dibujo seleccionado en Paso 4
   updateDrawingBanner();
 
-  if (stampState.selectedTeacherStamp) {
-    const teacher = stampState.selectedTeacherStamp;
-    if (summaryMode) summaryMode.textContent = 'Catálogo Docente CDC-8';
-    if (summaryDimensions) summaryDimensions.textContent = `${teacher.size} cm`;
-    if (summaryApparatus) summaryApparatus.textContent = stampState.apparatusType === 'automatico' ? 'Aparato Automático' : 'Cabo de Madera';
-    if (summaryFont) summaryFont.textContent = `${getCollectionShortLabel(teacher.collection)} (Diseño Oficial CDC-8)`;
-    if (summaryDrawing) summaryDrawing.textContent = `#${teacher.code} - ${teacher.phrase}`;
-    if (summaryContent) summaryContent.textContent = `Sello Prediseñado #${teacher.code}`;
-    return;
-  }
+
 
   if (summaryMode) summaryMode.textContent = 'Sello Personalizado';
 
@@ -1576,23 +1451,9 @@ function handleWhatsAppOrder() {
   let message = `👋 ¡Hola *${BUSINESS_CONFIG.name}*!\n\n`;
 
   const aparatoStr = stampState.apparatusType === 'automatico' ? 'Aparato Automático Auto-entintable' : 'Cabo de Madera Tradicional';
-  const colorStr = getInkColorName(stampState.inkColor);
+  const colorStr = 'Tinta Negra';
 
-  if (stampState.selectedTeacherStamp) {
-    const teacher = stampState.selectedTeacherStamp;
-    message += `Quiero solicitar *Presupuesto* para confeccionar un *Sello Prediseñado del Catálogo Docente CDC-8*:\n\n` +
-      `📌 *Código del Sello:* #${teacher.code}\n` +
-      `📝 *Frase / Título:* "${teacher.phrase}"\n` +
-      `📏 *Medida:* ${teacher.size} cm\n` +
-      `📚 *Colección:* ${getCollectionShortLabel(teacher.collection)}\n` +
-      `⚙️ *Tipo de Aparato:* ${aparatoStr}\n` +
-      `🎨 *Color de Tinta:* ${colorStr}\n\n` +
-      `¿Me confirmás el presupuesto y plazo de entrega para retirar por el local de Valentín Alsina? ¡Muchas gracias!`;
 
-    const encodedUrl = `https://wa.me/${BUSINESS_CONFIG.whatsappNumber}?text=${encodeURIComponent(message)}`;
-    window.open(encodedUrl, '_blank');
-    return;
-  }
 
   const alineacionStr = stampState.alignment === 'center' ? 'Centrado' : (stampState.alignment === 'left' ? 'Izquierda' : 'Derecha');
 
@@ -1634,24 +1495,7 @@ function handleWhatsAppOrder() {
 
 // ─── Copia las especificaciones al portapapeles ───
 function handleCopyDetails() {
-  if (stampState.selectedTeacherStamp) {
-    const teacher = stampState.selectedTeacherStamp;
-    let textoPlano = `PEDIDO DE SELLO - ${BUSINESS_CONFIG.name}\n` +
-      `Modalidad: Catálogo Docente CDC-8 (Prediseñado)\n` +
-      `Código: #${teacher.code}\n` +
-      `Frase: "${teacher.phrase}"\n` +
-      `Medida: ${teacher.size} cm\n` +
-      `Colección: ${getCollectionShortLabel(teacher.collection)}\n` +
-      `Aparato: ${stampState.apparatusType === 'automatico' ? 'Automático' : 'Madera'}\n` +
-      `Tinta: ${getInkColorName(stampState.inkColor)}\n`;
 
-    navigator.clipboard.writeText(textoPlano).then(() => {
-      showToast("¡Especificaciones del sello docente copiadas!");
-    }).catch(() => {
-      showToast("Diseño listo para enviar por WhatsApp.");
-    });
-    return;
-  }
 
   let textoPlano = `PEDIDO DE SELLO - ${BUSINESS_CONFIG.name}\n`;
 

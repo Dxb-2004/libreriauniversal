@@ -483,66 +483,10 @@
       </div>
 
       <!-- Grid de Servicios Editorial -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 gap-6 items-stretch">
         
-        <!-- 1. Encuadernación de impresiones/fotocopias -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px]" style="--card-accent: #22C55E">
-          <div>
-            <div class="w-12 h-12 bg-emerald-600/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mb-5">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-              </svg>
-            </div>
-            <h3 class="text-lg font-display text-white mb-3 group-hover:text-emerald-400 transition">
-              Encuadernación de impresiones/fotocopias
-            </h3>
-            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body space-y-1.5">
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Anillados plásticos de alta resistencia</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Espiralados metálicos y continuos</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Tapas de polipropileno cristal, opacas y de color</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Tamaños A4, Carta, Oficio y formatos a medida</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Encuadernación para apuntes, tesis, manuales y balances</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Perforado de precisión milimétrica</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Terminaciones profesionales con corte limpio y prolijo</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
-                <span>Desde 1 ejemplar hasta grandes volúmenes</span>
-              </li>
-            </ul>
-          </div>
-          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
-            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Desde 1 ejemplar</span>
-            <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20consultar%20por%20anillados%20y%20encuadernaci%C3%B3n" target="_blank"
-               class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 tracking-wide">
-              <span>Cotizar</span>
-              <span>&rarr;</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- 2. Impresiones ByN y Color -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-cyan/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px]" style="--card-accent: #00A3E0">
+        <!-- 1. Azul: Impresiones ByN y Color -->
+        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-cyan/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #00A3E0">
           <div>
             <div class="w-12 h-12 bg-brand-cyan/10 border border-brand-cyan/30 text-brand-cyan flex items-center justify-center mb-5">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -597,8 +541,112 @@
           </div>
         </div>
 
-        <!-- 3. Plastificaciones -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px]" style="--card-accent: #FFD100">
+        <!-- 2. Verde: Encuadernación de impresiones/fotocopias -->
+        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-emerald-500/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #22C55E">
+          <div>
+            <div class="w-12 h-12 bg-emerald-600/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-display text-white mb-3 group-hover:text-emerald-400 transition">
+              Encuadernación de impresiones/fotocopias
+            </h3>
+            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body space-y-1.5">
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Anillados plásticos de alta resistencia</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Espiralados metálicos y continuos</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Tapas de polipropileno cristal, opacas y de color</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Tamaños A4, Carta, Oficio y formatos a medida</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Encuadernación para apuntes, tesis, manuales y balances</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Perforado de precisión milimétrica</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Terminaciones profesionales con corte limpio y prolijo</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 flex-shrink-0 mt-1.5"></span>
+                <span>Desde 1 ejemplar hasta grandes volúmenes</span>
+              </li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
+            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Desde 1 ejemplar</span>
+            <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quiero%20consultar%20por%20anillados%20y%20encuadernaci%C3%B3n" target="_blank"
+               class="text-xs font-bold text-emerald-400 hover:text-emerald-300 flex items-center gap-1 tracking-wide">
+              <span>Cotizar</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 3. Morado: Fabricación de Sellos Personalizados -->
+        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-purple/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #7C3AED">
+          <div>
+            <div class="w-12 h-12 bg-brand-purple/10 border border-brand-purple/30 text-purple-300 flex items-center justify-center mb-5">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+              </svg>
+            </div>
+            <h3 class="text-lg font-display text-white mb-3 group-hover:text-purple-300 transition">
+              Fabricación de Sellos Personalizados
+            </h3>
+            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body space-y-1.5">
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
+                <span>Diseñá online tu Sello con vista previa inmediata</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
+                <span>Aparatos automáticos auto-entintables tipo Trodat</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
+                <span>Sellos de bolsillo portátiles y ultracompactos</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
+                <span>Cabos de madera noble clásicos y tradicionales</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
+                <span>Fechadores y foliadores comerciales de alta precisión</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
+                <span>Sellos textiles y para tinta indeleble</span>
+              </li>
+            </ul>
+          </div>
+          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
+            <span class="text-[10px] font-medium text-slate-500 tracking-wider uppercase">Diseñador interactivo</span>
+            <a href="#cotizador-sellos" 
+               class="text-xs font-bold text-brand-purple hover:text-purple-300 flex items-center gap-1 tracking-wide">
+              <span>Diseñar ahora</span>
+              <span>&rarr;</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4. Amarillo: Plastificaciones -->
+        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-amber-500/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2 lg:col-start-2" style="--card-accent: #FFD100">
           <div>
             <div class="w-12 h-12 bg-amber-500/10 border border-amber-500/30 text-amber-400 flex items-center justify-center mb-5">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -644,8 +692,8 @@
           </div>
         </div>
 
-        <!-- 4. Diseño Gráfico Personalizado -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-magenta/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px]" style="--card-accent: #E5007D">
+        <!-- 5. Rosa: Diseño Gráfico Personalizado -->
+        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-magenta/50 transition-all duration-300 flex flex-col justify-between h-full min-h-[470px] md:col-span-1 lg:col-span-2" style="--card-accent: #E5007D">
           <div>
             <div class="w-12 h-12 bg-brand-magenta/10 border border-brand-magenta/30 text-brand-magenta flex items-center justify-center mb-5">
               <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -687,54 +735,6 @@
             <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Necesito%20un%20diseño%20gráfico" target="_blank"
                class="text-xs font-bold text-brand-magenta hover:text-pink-300 flex items-center gap-1 tracking-wide">
               <span>Consultar</span>
-              <span>&rarr;</span>
-            </a>
-          </div>
-        </div>
-
-        <!-- 5. Fabricación de Sellos (span 2 cols) -->
-        <div class="editorial-card crop-marks bg-[#111827] p-7 border border-[#1F2937] hover:border-brand-purple/50 transition-all duration-300 flex flex-col justify-between md:col-span-2 lg:col-span-2 h-full min-h-[470px]" style="--card-accent: #7C3AED">
-          <div>
-            <div class="w-12 h-12 bg-brand-purple/10 border border-brand-purple/30 text-purple-300 flex items-center justify-center mb-5">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-              </svg>
-            </div>
-            <h3 class="text-lg font-display text-white mb-3 group-hover:text-purple-300 transition">
-              Fabricación de Sellos Personalizados
-            </h3>
-            <ul class="text-xs text-slate-300 leading-relaxed mb-6 font-body grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Diseñá online tu Sello con vista previa inmediata</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Aparatos automáticos auto-entintables tipo Trodat</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Sellos de bolsillo portátiles y ultracompactos</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Cabos de madera noble clásicos y tradicionales</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Fechadores y foliadores comerciales de alta precisión</span>
-              </li>
-              <li class="flex items-start gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-purple-400 flex-shrink-0 mt-1.5"></span>
-                <span>Sellos textiles y para tinta indeleble</span>
-              </li>
-            </ul>
-          </div>
-          <div class="pt-4 border-t border-[#1F2937] flex items-center justify-between">
-            <span class="text-xs font-semibold text-brand-cyan">¡Probá nuestro diseñador visual en vivo aquí abajo!</span>
-            <a href="#cotizador-sellos" 
-               class="text-xs font-bold text-brand-cyan hover:text-cyan-300 flex items-center gap-1 tracking-wide">
-              <span>Diseñar ahora</span>
               <span>&rarr;</span>
             </a>
           </div>

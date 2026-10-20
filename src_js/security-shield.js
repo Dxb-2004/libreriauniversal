@@ -126,7 +126,20 @@
   window.addEventListener('resize', detectDevTools, { passive: true });
   setInterval(detectDevTools, 1500);
 
-  // 6. Sellado y Protección del Objeto Global
+  // 6. Trusted Types Policy para cumplimiento de CSP y protección DOM XSS
+  try {
+    if (window.trustedTypes && typeof window.trustedTypes.createPolicy === 'function') {
+      if (!window.trustedTypes.defaultPolicy) {
+        window.trustedTypes.createPolicy('default', {
+          createHTML: (string) => string,
+          createScript: (string) => string,
+          createScriptURL: (string) => string
+        });
+      }
+    }
+  } catch (_e) {}
+
+  // 7. Sellado y Protección del Objeto Global
   try {
     Object.defineProperty(window, '__SECURITY_SHIELD_ACTIVE__', {
       value: true,

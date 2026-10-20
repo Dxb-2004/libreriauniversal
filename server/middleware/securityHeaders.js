@@ -68,13 +68,12 @@ const helmetSecurityHeaders = helmet({
         "https://www.google.com",
         "https://maps.google.com"
       ],
-        "https://challenges.cloudflare.com"
-      ],
       objectSrc: ["'none'"],
       baseUri: ["'self'"],
       formAction: ["'self'", "https://wa.me"],
       frameAncestors: ["'none'"], // Protección anti-clickjacking adicional
-      upgradeInsecureRequests: [] // Punto 19: Forzar actualización a HTTPS de todos los recursos
+      upgradeInsecureRequests: [], // Punto 19: Forzar actualización a HTTPS de todos los recursos
+      requireTrustedTypesFor: ["'script'"]
     }
   },
   crossOriginEmbedderPolicy: false,

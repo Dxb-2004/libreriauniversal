@@ -791,6 +791,24 @@
                   </div>
                 </div>
               </div>
+
+              <!-- Orientación de la Huella (Horizontal / Vertical) -->
+              <div class="mt-4 pt-4 border-t border-[#1F2937]/80">
+                <div class="flex items-center justify-between mb-2.5">
+                  <span class="block text-[10px] font-bold text-slate-400 tracking-wider uppercase font-body">Orientación de la Huella:</span>
+                  <span id="stamp-orientation-label" class="text-[10px] text-brand-cyan font-mono font-bold uppercase">Horizontal (47x18mm)</span>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <button type="button" data-orientation="horizontal" class="orientation-btn py-3 px-3 flex items-center justify-center gap-2.5 border-2 border-brand-cyan bg-brand-cyan/10 text-white font-bold text-xs transition">
+                    <span class="text-base">↔️</span>
+                    <span class="font-body">Horizontal (Apaisado)</span>
+                  </button>
+                  <button type="button" data-orientation="vertical" class="orientation-btn py-3 px-3 flex items-center justify-center gap-2.5 border-2 border-[#1F2937] bg-[#0B0F19] text-slate-400 hover:text-white font-bold text-xs transition">
+                    <span class="text-base">↕️</span>
+                    <span class="font-body">Vertical (Alto)</span>
+                  </button>
+                </div>
+              </div>
             </div>
 
             <!-- PASO 2: Cantidad de Líneas -->
@@ -991,14 +1009,20 @@
           <!-- Bloque Superior: Vista Previa 1 + Resumen Técnico -->
           <div class="space-y-6">
             <div class="bg-[#111827] p-6 border border-[#1F2937]">
-              <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#1F2937]">
+              <div class="flex items-center justify-between pb-3 mb-4 border-b border-[#1F2937] flex-wrap gap-2">
                 <div class="flex items-center gap-2">
                   <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                   <h4 id="stamp-mode-badge" class="text-[10px] font-bold tracking-[0.3em] text-slate-300 uppercase font-body">Personalizado</h4>
                 </div>
-                <span id="stamp-dimension-badge" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937]">
-                  47 x 18 mm (Aprox.)
-                </span>
+                <div class="flex items-center gap-2">
+                  <div class="inline-flex p-0.5 bg-[#0B0F19] border border-[#1F2937]">
+                    <button type="button" data-preview-orient="horizontal" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-brand-cyan text-[#0B0F19] transition" title="Formato Horizontal">↔ Horiz.</button>
+                    <button type="button" data-preview-orient="vertical" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-white transition" title="Formato Vertical">↕ Vert.</button>
+                  </div>
+                  <span id="stamp-dimension-badge" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937]">
+                    47 x 18 mm (Aprox.)
+                  </span>
+                </div>
               </div>
 
               <!-- Recuadro simulador de huella -->
@@ -1044,6 +1068,10 @@
                 <div class="flex justify-between items-center">
                   <span class="text-slate-500">Modalidad:</span>
                   <span id="summary-mode" class="font-bold text-brand-cyan">Personalizado</span>
+                </div>
+                <div class="flex justify-between items-center">
+                  <span class="text-slate-500">Orientación:</span>
+                  <span id="summary-orientation" class="font-bold text-brand-cyan bg-[#0B0F19] px-2 py-0.5 border border-[#1F2937]">Horizontal</span>
                 </div>
                 <div class="flex justify-between items-center">
                   <span class="text-slate-500">Medida Estimada:</span>
@@ -1166,14 +1194,20 @@
 
           <!-- Vista Previa en Vivo al lado derecho (A la altura de los emojis / dibujos) -->
           <div class="hidden lg:block bg-[#111827] p-6 border border-[#1F2937] shadow-xl space-y-4 lg:sticky lg:bottom-6">
-            <div class="flex items-center justify-between pb-3 border-b border-[#1F2937]">
+            <div class="flex items-center justify-between pb-3 border-b border-[#1F2937] flex-wrap gap-2">
               <div class="flex items-center gap-2">
                 <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
                 <h4 id="stamp-mode-badge-2" class="text-[10px] font-bold tracking-[0.3em] text-slate-300 uppercase font-body">Personalizado</h4>
               </div>
-              <span id="stamp-dimension-badge-2" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937]">
-                47 x 18 mm (Aprox.)
-              </span>
+              <div class="flex items-center gap-2">
+                <div class="inline-flex p-0.5 bg-[#0B0F19] border border-[#1F2937]">
+                  <button type="button" data-preview-orient="horizontal" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-brand-cyan text-[#0B0F19] transition" title="Formato Horizontal">↔ Horiz.</button>
+                  <button type="button" data-preview-orient="vertical" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-white transition" title="Formato Vertical">↕ Vert.</button>
+                </div>
+                <span id="stamp-dimension-badge-2" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937]">
+                  47 x 18 mm (Aprox.)
+                </span>
+              </div>
             </div>
 
             <!-- Recuadro simulador de huella -->

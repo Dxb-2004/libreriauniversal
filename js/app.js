@@ -32,6 +32,7 @@ const BUSINESS_CONFIG = {
 const stampState = {
   // Configuración de Sello Personalizado
   apparatusType: 'automatico', // 'automatico' | 'madera'
+  orientation: 'horizontal',   // 'horizontal' | 'vertical'
   lineCount: 3,
   lines: [
     "DR. MARTÍN G. HERRERA",
@@ -442,6 +443,55 @@ function updateLineValidations(i, card) {
 }
 
 function bindPersonalizedControls() {
+  // Selector de Orientación (Horizontal / Vertical)
+  function setStampOrientation(newOrient) {
+    stampState.orientation = newOrient;
+
+    // Botones de formulario en Paso 1
+    document.querySelectorAll('[data-orientation]').forEach(btn => {
+      const isThis = btn.getAttribute('data-orientation') === newOrient;
+      if (isThis) {
+        btn.classList.remove('border-[#1F2937]', 'bg-[#0B0F19]', 'text-slate-400');
+        btn.classList.add('border-brand-cyan', 'bg-brand-cyan/10', 'text-white');
+      } else {
+        btn.classList.remove('border-brand-cyan', 'bg-brand-cyan/10', 'text-white');
+        btn.classList.add('border-[#1F2937]', 'bg-[#0B0F19]', 'text-slate-400');
+      }
+    });
+
+    // Botones rápidos de vista previa en tarjetas 1 y 2
+    document.querySelectorAll('[data-preview-orient]').forEach(btn => {
+      const isThis = btn.getAttribute('data-preview-orient') === newOrient;
+      if (isThis) {
+        btn.classList.remove('text-slate-400');
+        btn.classList.add('bg-brand-cyan', 'text-[#0B0F19]');
+      } else {
+        btn.classList.remove('bg-brand-cyan', 'text-[#0B0F19]');
+        btn.classList.add('text-slate-400');
+      }
+    });
+
+    const orientLabel = document.getElementById('stamp-orientation-label');
+    if (orientLabel) {
+      orientLabel.textContent = newOrient === 'vertical' ? 'Vertical (18x47mm)' : 'Horizontal (47x18mm)';
+    }
+
+    updateStampPreview();
+    updateStampSummary();
+  }
+
+  document.querySelectorAll('[data-orientation]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setStampOrientation(btn.getAttribute('data-orientation'));
+    });
+  });
+
+  document.querySelectorAll('[data-preview-orient]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      setStampOrientation(btn.getAttribute('data-preview-orient'));
+    });
+  });
+
   // Selector de Tipo de Aparato (Personalizado)
   const apparatusCards = document.querySelectorAll('[data-apparatus]');
   apparatusCards.forEach(card => {
@@ -1258,18 +1308,28 @@ function updateStampPreview() {
 
   if (previewBoxes.length === 0 || innerFrames.length === 0 || previewContents.length === 0) return;
 
+  const isVertical = stampState.orientation === 'vertical';
+
   // Fondo de papel realista para la huella
   previewBoxes.forEach(box => {
-    box.className = 'stamp-paper-bg relative w-full p-6 sm:p-8 flex items-center justify-center transition-all duration-300 min-h-[220px] shadow-inner rounded-2xl';
+    box.className = `stamp-paper-bg relative w-full p-4 sm:p-6 flex items-center justify-center transition-all duration-300 ${isVertical ? 'min-h-[300px]' : 'min-h-[220px]'} shadow-inner rounded-2xl`;
   });
 
-  const dimensionsMap = {
+  const dimensionsMapHorizontal = {
     1: '38 x 10 mm (Aprox. Trodat 4910 / Madera Chico)',
     2: '38 x 14 mm (Aprox. Trodat 4911 / Madera Estándar)',
     3: '47 x 18 mm (Aprox. Trodat 4912 / Profesional)',
     4: '58 x 22 mm (Aprox. Trodat 4913 / Empresa & CUIT)'
   };
-  const dimText = dimensionsMap[stampState.lineCount] || 'Medida estándar';
+
+  const dimensionsMapVertical = {
+    1: '10 x 38 mm (Aprox. Trodat 4910 Vertical)',
+    2: '14 x 38 mm (Aprox. Trodat 4911 Vertical)',
+    3: '18 x 47 mm (Aprox. Trodat 4912 Vertical / Profesional)',
+    4: '22 x 58 mm (Aprox. Trodat 4913 Vertical / Empresa)'
+  };
+
+  const dimText = (isVertical ? dimensionsMapVertical : dimensionsMapHorizontal)[stampState.lineCount] || 'Medida estándar';
   const appText = stampState.apparatusType === 'automatico'
     ? 'Aparato Automático (Auto-entintable)'
     : 'Cabo de Madera Tradicional (Grabado Láser)';
@@ -1312,10 +1372,16 @@ function updateStampPreview() {
   dimensionBadges.forEach(b => { b.textContent = dimText; });
   apparatusBadges.forEach(b => { b.textContent = appText; });
 
-  let frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-dashed border-slate-400 rounded-sm';
-  if (stampState.borderStyle === 'solid') frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-solid border-slate-800 rounded-sm';
-  if (stampState.borderStyle === 'rounded') frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-solid border-slate-800 rounded-xl';
-  if (stampState.borderStyle === 'none') frameClass = 'p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border border-transparent';
+  const frameDimensions = isVertical
+    ? 'py-4 px-3 w-[175px] sm:w-[190px] max-w-[205px] min-h-[250px] sm:min-h-[270px] flex flex-col items-center justify-center transition-all duration-300'
+    : 'p-4 sm:p-5 w-full max-w-[340px] min-h-[140px] flex flex-col items-center justify-center transition-all duration-300';
+
+  let borderClasses = 'border-2 border-dashed border-slate-400 rounded-sm';
+  if (stampState.borderStyle === 'solid') borderClasses = 'border-2 border-solid border-slate-800 rounded-sm';
+  if (stampState.borderStyle === 'rounded') borderClasses = 'border-2 border-solid border-slate-800 rounded-xl';
+  if (stampState.borderStyle === 'none') borderClasses = 'border border-transparent';
+
+  let frameClass = `${frameDimensions} ${borderClasses}`;
 
   innerFrames.forEach(frame => {
     frame.className = frameClass;
@@ -1341,9 +1407,13 @@ function updateStampPreview() {
 
     const boldClass = stampState.lineBolds[i] ? 'font-bold' : 'font-normal';
     const italicClass = stampState.lineItalics[i] ? 'italic' : '';
-    const scaleClass = i === 0 
-      ? 'text-base sm:text-lg leading-tight' 
-      : (i === 1 ? 'text-xs sm:text-sm leading-snug' : 'text-[11px] sm:text-xs leading-snug opacity-95');
+    const scaleClass = isVertical
+      ? (i === 0 
+          ? 'text-xs sm:text-[13px] font-bold leading-tight break-words tracking-tight' 
+          : (i === 1 ? 'text-[10px] sm:text-[11px] leading-tight break-words' : 'text-[9px] sm:text-[10px] leading-tight opacity-95 break-words'))
+      : (i === 0 
+          ? 'text-base sm:text-lg leading-tight' 
+          : (i === 1 ? 'text-xs sm:text-sm leading-snug' : 'text-[11px] sm:text-xs leading-snug opacity-95'));
 
     if (text) {
       textLinesHtml.push(`<div class="${lineFont} ${boldClass} ${italicClass} ${scaleClass}">${text}</div>`);
@@ -1354,40 +1424,67 @@ function updateStampPreview() {
 
   const textAlignClass = stampState.alignment === 'left' ? 'text-left items-start' : (stampState.alignment === 'right' ? 'text-right items-end' : 'text-center items-center');
 
+  const lineSpacingClass = isVertical ? 'space-y-2' : 'space-y-1';
   let fullPreviewHtml = '';
-  // Dibujo Opcional (Izquierda o Derecha)
+
+  // Dibujo Opcional (En vertical se ubica Arriba o Abajo para respetar el ancho estrecho)
   if (stampState.drawingPosition !== 'none' && stampState.selectedDrawing) {
+    const drawingImgSize = isVertical ? 'w-10 h-10 sm:w-11 sm:h-11' : 'w-12 h-12 sm:w-14 sm:h-14';
     const drawingHtml = `
-      <div class="flex flex-col items-center justify-center flex-shrink-0 px-2 select-none">
+      <div class="flex flex-col items-center justify-center flex-shrink-0 px-1 select-none">
         <img src="${stampState.selectedDrawing.image}" 
              alt="${stampState.selectedDrawing.name}"
-             class="w-12 h-12 sm:w-14 sm:h-14 object-contain transition-all"
+             class="${drawingImgSize} object-contain transition-all"
              style="filter: ${getInkFilter(stampState.inkColor)};" />
-        <span class="text-[9px] font-mono font-bold tracking-tighter opacity-70 mt-0.5" style="color: ${stampState.inkColor};">#${stampState.selectedDrawing.code}</span>
+        <span class="text-[8px] sm:text-[9px] font-mono font-bold tracking-tighter opacity-70 mt-0.5" style="color: ${stampState.inkColor};">#${stampState.selectedDrawing.code}</span>
       </div>
     `;
 
-    if (stampState.drawingPosition === 'left') {
-      fullPreviewHtml = `
-        <div class="flex items-center justify-center gap-3 w-full">
-          ${drawingHtml}
-          <div class="flex-1 flex flex-col ${textAlignClass}">
-            ${textLinesHtml.join('')}
+    if (isVertical) {
+      // En orientación vertical: Dibujo encima o debajo de las líneas
+      if (stampState.drawingPosition === 'left') {
+        fullPreviewHtml = `
+          <div class="flex flex-col items-center justify-center gap-1.5 w-full">
+            ${drawingHtml}
+            <div class="w-full flex flex-col ${textAlignClass} ${lineSpacingClass}">
+              ${textLinesHtml.join('')}
+            </div>
           </div>
-        </div>
-      `;
+        `;
+      } else {
+        fullPreviewHtml = `
+          <div class="flex flex-col items-center justify-center gap-1.5 w-full">
+            <div class="w-full flex flex-col ${textAlignClass} ${lineSpacingClass}">
+              ${textLinesHtml.join('')}
+            </div>
+            ${drawingHtml}
+          </div>
+        `;
+      }
     } else {
-      fullPreviewHtml = `
-        <div class="flex items-center justify-center gap-3 w-full">
-          <div class="flex-1 flex flex-col ${textAlignClass}">
-            ${textLinesHtml.join('')}
+      // En orientación horizontal: Dibujo al costado (Izquierda o Derecha)
+      if (stampState.drawingPosition === 'left') {
+        fullPreviewHtml = `
+          <div class="flex items-center justify-center gap-3 w-full">
+            ${drawingHtml}
+            <div class="flex-1 flex flex-col ${textAlignClass} ${lineSpacingClass}">
+              ${textLinesHtml.join('')}
+            </div>
           </div>
-          ${drawingHtml}
-        </div>
-      `;
+        `;
+      } else {
+        fullPreviewHtml = `
+          <div class="flex items-center justify-center gap-3 w-full">
+            <div class="flex-1 flex flex-col ${textAlignClass} ${lineSpacingClass}">
+              ${textLinesHtml.join('')}
+            </div>
+            ${drawingHtml}
+          </div>
+        `;
+      }
     }
   } else {
-    fullPreviewHtml = `<div class="flex flex-col ${textAlignClass} w-full">${textLinesHtml.join('')}</div>`;
+    fullPreviewHtml = `<div class="flex flex-col ${textAlignClass} ${lineSpacingClass} w-full">${textLinesHtml.join('')}</div>`;
   }
 
   previewContents.forEach(content => {
@@ -1421,7 +1518,26 @@ function updateStampSummary() {
   }
 
   if (summaryMode) summaryMode.textContent = 'Sello Personalizado';
-  if (summaryDimensions) summaryDimensions.textContent = stampState.lineCount === 1 ? '38 x 10 mm' : (stampState.lineCount === 2 ? '38 x 14 mm' : (stampState.lineCount === 3 ? '47 x 18 mm' : '58 x 22 mm'));
+
+  const summaryOrientation = document.getElementById('summary-orientation');
+  if (summaryOrientation) {
+    summaryOrientation.textContent = stampState.orientation === 'vertical' ? 'Vertical' : 'Horizontal';
+  }
+
+  const orientLabel = stampState.orientation === 'vertical' ? 'Vertical' : 'Horizontal';
+  const dimBase = (stampState.orientation === 'vertical' ? {
+    1: '10 x 38 mm',
+    2: '14 x 38 mm',
+    3: '18 x 47 mm',
+    4: '22 x 58 mm'
+  } : {
+    1: '38 x 10 mm',
+    2: '38 x 14 mm',
+    3: '47 x 18 mm',
+    4: '58 x 22 mm'
+  })[stampState.lineCount] || '47 x 18 mm';
+
+  if (summaryDimensions) summaryDimensions.textContent = `${dimBase} (${orientLabel})`;
   if (summaryApparatus) summaryApparatus.textContent = stampState.apparatusType === 'automatico' ? 'Aparato Automático' : 'Cabo de Madera';
 
   if (summaryFont) {
@@ -1499,8 +1615,11 @@ function handleWhatsAppOrder() {
     lineasTexto += `  • Línea ${i + 1}: "${txt || '(Sin texto indicado)'}" (Fuente: ${fontLabel}${styleText})\n`;
   }
 
+  const orientStr = stampState.orientation === 'vertical' ? 'Vertical (18 x 47 mm / Formato vertical)' : 'Horizontal (47 x 18 mm / Apaisado tradicional)';
+
   message += `Quiero solicitar *Presupuesto* para confeccionar un *Sello Personalizado* con este diseño:\n\n` +
     `📌 *Tipo de Aparato:* ${aparatoStr}\n` +
+    `📐 *Orientación de la Huella:* ${orientStr}\n` +
     `📏 *Cantidad de Líneas:* ${stampState.lineCount}\n` +
     `🎨 *Color de Tinta:* ${colorStr}\n` +
     `📐 *Alineación:* ${alineacionStr}\n` +

@@ -295,7 +295,13 @@
       if (heroWeekdays && weekdays) heroWeekdays.textContent = weekdays;
       if (heroSaturdays && saturdays) heroSaturdays.textContent = saturdays;
       if (heroSundays && sundays) heroSundays.textContent = sundays;
-      if (heroHolidays && holidays) heroHolidays.textContent = holidays;
+      if (heroHolidays && holidays) {
+        if (holidays.trim().toLowerCase() === 'consultar por whatsapp') {
+          heroHolidays.textContent = 'Consultar en wsp';
+        } else {
+          heroHolidays.textContent = holidays;
+        }
+      }
 
       if (heroNotice) {
         if (specialNotice && specialNotice.trim()) {

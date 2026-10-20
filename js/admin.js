@@ -489,8 +489,8 @@ function renderProductsTable() {
     tr.innerHTML = `
       <!-- Foto -->
       <td class="py-3 px-4">
-        <div class="w-12 h-12 rounded-lg bg-[#0B0E14] border border-[#1E2638] overflow-hidden flex items-center justify-center">
-          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="w-full h-full object-cover group-hover:scale-105 transition duration-200" onerror="this.src='https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=200&auto=format&fit=crop&q=80'" />
+        <div class="w-12 h-12 rounded-lg bg-[#0B0E14] border border-[#1E2638] overflow-hidden flex items-center justify-center p-0.5">
+          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="max-w-full max-h-full object-contain group-hover:scale-105 transition duration-200" onerror="this.src='https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=200&auto=format&fit=crop&q=80'" />
         </div>
       </td>
 

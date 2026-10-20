@@ -216,11 +216,11 @@
     card.innerHTML = `
       <div>
         <!-- Foto del Producto con efecto hover -->
-        <div class="w-full h-44 rounded-xl bg-[#0B0E14] border border-[#1F2937] mb-4 overflow-hidden relative">
-          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=300&auto=format&fit=crop&q=80'" />
+        <div class="w-full h-48 sm:h-52 rounded-xl bg-[#0B0E14] border border-[#1F2937] mb-4 overflow-hidden relative flex items-center justify-center p-2.5 group/img">
+          <img src="${imgUrl}" alt="${escapeHTML(product.nombre)}" class="max-w-full max-h-full object-contain group-hover/img:scale-105 transition-transform duration-300 drop-shadow-md" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=300&auto=format&fit=crop&q=80'" />
           
           ${product.destacado ? `
-            <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-brand-magenta text-white shadow-md">
+            <span class="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-brand-magenta text-white shadow-md z-10">
               Destacado
             </span>
           ` : ''}

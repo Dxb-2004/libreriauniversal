@@ -53,10 +53,10 @@ const registerUserSchema = z.object({
   phone: z.string().trim().optional()
 }).strict();
 
-// Esquema de Inicio de Sesión
+// Esquema de Inicio de Sesión (Acceso directo con contraseña para administrador)
 const loginUserSchema = z.object({
-  email: z.string().trim().email('Correo electrónico inválido.'),
-  password: z.string().min(1, 'La contraseña es requerida.'),
+  email: z.string().trim().email('Correo electrónico inválido.').optional(),
+  password: z.string().min(1, 'La contraseña es requerida.').max(100),
   'cf-turnstile-response': z.string().optional()
 }).strict();
 

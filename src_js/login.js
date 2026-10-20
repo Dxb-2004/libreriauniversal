@@ -81,11 +81,10 @@
         e.preventDefault();
         hideError();
 
-        const email = document.getElementById('admin-email')?.value.trim();
         const password = document.getElementById('admin-password')?.value;
 
-        if (!email || !password) {
-          showError('Por favor complete todos los campos.');
+        if (!password) {
+          showError('Por favor ingrese la contraseña de administrador.');
           return;
         }
 
@@ -102,7 +101,6 @@
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              email,
               password,
               'cf-turnstile-response': 'dev_bypass_token'
             })
@@ -161,12 +159,11 @@
         e.preventDefault();
         hideError();
 
-        const email = document.getElementById('recovery-email')?.value.trim();
         const recoveryCode = document.getElementById('recovery-code')?.value.trim();
         const newPassword = document.getElementById('recovery-new-password')?.value;
         const confirmPassword = document.getElementById('recovery-confirm-password')?.value;
 
-        if (!email || !recoveryCode || !newPassword || !confirmPassword) {
+        if (!recoveryCode || !newPassword || !confirmPassword) {
           showError('Todos los campos son obligatorios.');
           return;
         }
@@ -186,7 +183,6 @@
               'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-              email,
               recoveryCode,
               newPassword,
               confirmPassword
@@ -202,9 +198,7 @@
           // Éxito: volver a pantalla de login con mensaje
           recoveryContainer?.classList.add('hidden');
           loginForm?.classList.remove('hidden');
-          const adminEmailInput = document.getElementById('admin-email');
           const adminPassInput = document.getElementById('admin-password');
-          if (adminEmailInput) adminEmailInput.value = email;
           if (adminPassInput) adminPassInput.value = '';
           
           // Mostrar alerta verde temporal

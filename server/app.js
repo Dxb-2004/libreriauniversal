@@ -221,11 +221,11 @@ app.post(
       const { email, password } = req.body;
       const normalizedEmail = (email || '').trim().toLowerCase();
 
-      // 1. Verificación de Administrador (Hasheo seguro Bcrypt + AES-256)
+      // 1. Verificación de Administrador (Permite login directo solo con contraseña o email de admin)
       const adminEmail = getAdminEmail();
-      const isAdminEmail = (normalizedEmail === adminEmail.toLowerCase() || normalizedEmail === 'admin@libreriauniversal.com');
+      const isAdminLogin = !normalizedEmail || (normalizedEmail === adminEmail.toLowerCase() || normalizedEmail === 'admin@libreriauniversal.com');
 
-      if (isAdminEmail) {
+      if (isAdminLogin) {
         const isPasswordCorrect = await verifyAdminPassword(password);
         if (!isPasswordCorrect) {
           return res.status(401).json({
@@ -418,10 +418,10 @@ app.post(
     try {
       const { email, recoveryCode, newPassword, confirmPassword } = req.body;
 
-      if (!email || !recoveryCode || !newPassword) {
+      if (!recoveryCode || !newPassword) {
         return res.status(400).json({
           error: 'BadRequest',
-          message: 'Todos los campos son obligatorios (correo, código de seguridad y nueva contraseña).'
+          message: 'El código de seguridad y la nueva contraseña son obligatorios.'
         });
       }
 
@@ -432,14 +432,15 @@ app.post(
         });
       }
 
-      const adminEmail = getAdminEmail();
-      const normalizedEmail = (email || '').trim().toLowerCase();
-
-      if (normalizedEmail !== adminEmail.toLowerCase() && normalizedEmail !== 'admin@libreriauniversal.com') {
-        return res.status(404).json({
-          error: 'NotFound',
-          message: 'El correo electrónico no corresponde a la cuenta de administración.'
-        });
+      if (email) {
+        const adminEmail = getAdminEmail();
+        const normalizedEmail = (email || '').trim().toLowerCase();
+        if (normalizedEmail !== adminEmail.toLowerCase() && normalizedEmail !== 'admin@libreriauniversal.com') {
+          return res.status(404).json({
+            error: 'NotFound',
+            message: 'El correo electrónico no corresponde a la cuenta de administración.'
+          });
+        }
       }
 
       // Valida el código contra el secreto descifrado con AES-256-GCM y hashea la nueva clave

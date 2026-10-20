@@ -53,10 +53,10 @@ const startAdmin = async () => {
     adminState.user = JSON.parse(storedUser);
     adminState.token = token;
 
-    // Mostrar email en el header
+    // Mostrar usuario / estado en el header
     const emailEl = document.getElementById('header-user-email');
-    if (emailEl && adminState.user.email) {
-      emailEl.textContent = adminState.user.email;
+    if (emailEl) {
+      emailEl.textContent = adminState.user.full_name || 'Administrador Oficial';
     }
   } catch (e) {
     logout();

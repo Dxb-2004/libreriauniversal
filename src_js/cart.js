@@ -15,8 +15,7 @@
   // Estado reactivo del carrito
   const cartState = {
     items: [],
-    customerName: '',
-    customerNotes: ''
+    customerName: ''
   };
 
   /**
@@ -477,10 +476,7 @@
     }
 
     const customerNameInput = document.getElementById('cart-customer-name');
-    const customerNotesInput = document.getElementById('cart-customer-notes');
-
     const customerName = customerNameInput ? customerNameInput.value.trim() : '';
-    const customerNotes = customerNotesInput ? customerNotesInput.value.trim() : '';
 
     let totalAmount = 0;
     let hasQuotedItems = false;
@@ -544,10 +540,7 @@
     message += `💰 *TOTAL ESTIMADO:* ${totalStr}\n\n`;
 
     if (customerName) {
-      message += `👤 *Cliente:* ${customerName}\n`;
-    }
-    if (customerNotes) {
-      message += `📝 *Aclaraciones / Retiro:* ${customerNotes}\n`;
+      message += `👤 *Nombre:* ${customerName}\n`;
     }
 
     message += `\n¿Me confirman disponibilidad y plazo de entrega para retirar por el local de Valentín Alsina? ¡Muchas gracias!`;

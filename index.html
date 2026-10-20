@@ -182,8 +182,7 @@
       <div class="flex items-center gap-2.5 text-slate-300 text-[11px] sm:text-xs font-medium">
         <span class="inline-block w-1.5 h-1.5 rounded-full bg-brand-cyan"></span>
         <span class="font-display tracking-tight text-white font-semibold">Librería Universal</span>
-        <span class="text-slate-500 hidden sm:inline">|</span>
-        <span class="text-slate-400 hidden sm:inline font-body text-[11px]">Imprenta, Insumos &amp; Gráfica Comercial en Valentín Alsina</span>
+        
       </div>
       <div class="flex items-center gap-3">
         <!-- Indicador dinámico de estado en vivo (Abierto/Cerrado) -->
@@ -359,28 +358,6 @@
           </a>
         </div>
 
-        <!-- Badge Destacado: Punto de Retiro Oficial Correo Argentino -->
-        <div class="pt-5 pb-2 flex justify-center">
-          <div class="inline-flex items-center gap-4 sm:gap-5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-2xl bg-gradient-to-r from-[#0F172A] via-[#131D31] to-[#0F172A] border-2 border-brand-yellow/40 hover:border-brand-yellow shadow-2xl shadow-brand-yellow/15 hover:shadow-brand-yellow/30 backdrop-blur-md transition-all duration-300 transform hover:-translate-y-0.5 group relative overflow-hidden">
-            <!-- Brillo de fondo sutil -->
-            <div class="absolute -top-12 -left-12 w-28 h-28 bg-brand-yellow/10 rounded-full blur-2xl pointer-events-none"></div>
-            
-            <img src="img/correo-argentino.svg" alt="Correo Argentino" class="h-10 sm:h-12 w-auto object-contain rounded-xl shadow-lg ring-2 ring-brand-yellow/30 flex-shrink-0 group-hover:scale-105 transition-transform duration-300">
-            
-            <div class="text-left leading-tight">
-              <div class="flex items-center gap-2">
-                <span class="text-sm sm:text-base md:text-lg font-extrabold text-white tracking-tight flex items-center gap-2 font-display">
-                  Punto de Retiro Oficial
-                </span>
-                <span class="inline-block w-3 h-3 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.9)] animate-pulse flex-shrink-0" title="Activo"></span>
-              </div>
-              <span class="text-xs sm:text-[13px] text-slate-300 block font-body font-normal mt-1">
-                📦 Retirá tus paquetes y compras online en nuestro local
-              </span>
-            </div>
-          </div>
-        </div>
-
       </div>
     </div>
 
@@ -434,21 +411,18 @@
             </div>
           </div>
 
-          <!-- Columna 3: ✉️ Correo Electrónico (Ahora en 3° lugar) -->
+          <!-- Columna 3: 📦 Correo Argentino - Punto de Retiro Oficial -->
           <div class="flex items-start gap-4">
-            <div class="w-12 h-12 rounded-xl bg-brand-magenta/10 border border-brand-magenta/20 flex items-center justify-center flex-shrink-0 text-brand-magenta">
-              <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-              </svg>
+            <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/25 flex items-center justify-center flex-shrink-0 p-1.5 shadow-md">
+              <img src="img/correo-argentino.svg" alt="Correo Argentino" class="w-full h-full object-contain rounded-lg">
             </div>
-            <div class="min-w-0">
-              <span class="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-400 block font-body">Correo Electrónico</span>
-              <a href="mailto:libu.impresiones@gmail.com"
-                 class="text-xs sm:text-[13px] xl:text-[14px] font-bold text-brand-cyan hover:underline leading-snug font-mono block mt-0.5 truncate"
-                 title="libu.impresiones@gmail.com">
-                libu.impresiones@gmail.com
-              </a>
-              <span class="text-sm text-slate-400 block mt-1">Presupuestos y archivos</span>
+            <div>
+              <div class="flex items-center gap-2">
+                <span class="text-xs sm:text-sm font-bold tracking-wider uppercase text-slate-400 block font-body">Correo Argentino</span>
+                <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.9)] animate-pulse flex-shrink-0" title="Activo"></span>
+              </div>
+              <strong class="text-base sm:text-lg font-bold text-white leading-snug block mt-0.5 font-display">Punto de Retiro Oficial</strong>
+              <span class="text-sm text-slate-400 block mt-1">📦 Retirá tus compras y paquetes</span>
             </div>
           </div>
 

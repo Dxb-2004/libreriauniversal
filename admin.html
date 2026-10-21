@@ -51,20 +51,25 @@
       box-shadow: 0 0 0 2px rgba(0, 168, 232, 0.25);
     }
 
-    /* Scrollbar personalizada */
+    /* Scrollbar personalizada accesible */
+    html {
+      scrollbar-width: auto;
+      scrollbar-color: #00A8E8 #0B0E14;
+    }
     ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
+      width: 14px;
+      height: 14px;
     }
     ::-webkit-scrollbar-track {
       background: #0B0E14;
     }
     ::-webkit-scrollbar-thumb {
-      background: #1E2638;
-      border-radius: 4px;
+      background: #00A8E8;
+      border-radius: 9999px;
+      border: 2px solid #0B0E14;
     }
     ::-webkit-scrollbar-thumb:hover {
-      background: #00A8E8;
+      background: #38BDF8;
     }
   </style>
 

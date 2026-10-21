@@ -218,21 +218,26 @@ html {
 .stamp-frame-5x3 { width: 300px; height: 180px; }
 .stamp-frame-6x4 { width: 320px; height: 213px; }
 
-/* Scrollbars personalizados para grillas de catálogos */
+/* Scrollbars personalizados para grillas de catálogos y modales */
+.catalog-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #00A3E0 #0F172A;
+}
 .catalog-scroll::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 10px;
+  height: 10px;
 }
 .catalog-scroll::-webkit-scrollbar-track {
   background: #0f172a;
   border-radius: 9999px;
 }
 .catalog-scroll::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #00A3E0;
   border-radius: 9999px;
+  border: 2px solid #0f172a;
 }
 .catalog-scroll::-webkit-scrollbar-thumb:hover {
-  background: #0284c7;
+  background: #38BDF8;
 }
 
 /* Animación de pulso para botón WhatsApp */
@@ -298,21 +303,29 @@ html {
   color: #ffffff;
 }
 
-/* 2. Scrollbar global estilizado y minimalista */
+/* 2. Scrollbar global accesible, visible y fácil de agarrar para todas las edades */
+html {
+  scrollbar-width: auto;
+  scrollbar-color: #00A3E0 #0B0F19;
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 14px;
+  height: 14px;
 }
 ::-webkit-scrollbar-track {
   background: #0B0F19;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1E293B;
+  background: #00A3E0;
   border-radius: 9999px;
   border: 2px solid #0B0F19;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #00A3E0;
+  background: #38BDF8;
+}
+::-webkit-scrollbar-thumb:active {
+  background: #00F0FF;
 }
 
 /* 3. Transiciones refinadas en tarjetas y paneles */

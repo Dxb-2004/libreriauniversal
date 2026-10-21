@@ -1382,7 +1382,7 @@ function handleAddStampToCart() {
 
 // ─── Generador de Mensaje de WhatsApp Especializado ───
 function handleWhatsAppOrder() {
-  let message = `👋 ¡Hola *${BUSINESS_CONFIG.name}*!\n\n`;
+  let message = `¡Hola *${BUSINESS_CONFIG.name}*!\n\n`;
 
   const aparatoStr = stampState.apparatusType === 'automatico' ? 'Aparato Automático Auto-entintable' : 'Cabo de Madera Tradicional';
   const colorStr = 'Tinta Negra';
@@ -1413,13 +1413,13 @@ function handleWhatsAppOrder() {
   const orientStr = stampState.orientation === 'vertical' ? 'Vertical (18 x 47 mm / Formato vertical)' : 'Horizontal (47 x 18 mm / Apaisado tradicional)';
 
   message += `Quiero solicitar *Presupuesto* para confeccionar un *Sello Personalizado* con este diseño:\n\n` +
-    `📌 *Tipo de Aparato:* ${aparatoStr}\n` +
-    `📐 *Orientación de la Huella:* ${orientStr}\n` +
-    `📏 *Cantidad de Líneas:* ${stampState.lineCount}\n` +
-    `🎨 *Color de Tinta:* ${colorStr}\n` +
-    `📐 *Alineación:* ${alineacionStr}\n` +
-    `🧸 *Dibujo del Sello:* ${dibujoStr}\n\n` +
-    `📝 *Texto y tipografía por línea:*\n` +
+    `*Tipo de Aparato:* ${aparatoStr}\n` +
+    `*Orientación:* ${orientStr}\n` +
+    `*Cantidad de Líneas:* ${stampState.lineCount}\n` +
+    `*Color de Tinta:* ${colorStr}\n` +
+    `*Alineación:* ${alineacionStr}\n` +
+    `*Dibujo del Sello:* ${dibujoStr}\n\n` +
+    `*Texto y tipografía por línea:*\n` +
     `${lineasTexto}\n` +
     `¿Me confirmás el presupuesto y plazo de entrega para retirar por el local de Valentín Alsina? ¡Muchas gracias!`;
 

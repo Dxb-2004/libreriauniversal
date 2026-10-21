@@ -497,31 +497,31 @@
 
       if (isStamp && item.stampDetails) {
         const d = item.stampDetails;
-        itemsText += `${num}️⃣ *${item.name}*\n`;
-        itemsText += `   • Cantidad: ${item.quantity}\n`;
-        itemsText += `   • Aparato: ${d.apparatus || 'Automático'}\n`;
-        itemsText += `   • Orientación: ${d.orientation || 'Horizontal'}\n`;
-        itemsText += `   • Tinta: ${d.inkColor || 'Negra'}\n`;
+        itemsText += `${num}. *${item.name}*\n`;
+        itemsText += `   - Cantidad: ${item.quantity}\n`;
+        itemsText += `   - Aparato: ${d.apparatus || 'Automático'}\n`;
+        itemsText += `   - Orientación: ${d.orientation || 'Horizontal'}\n`;
+        itemsText += `   - Tinta: ${d.inkColor || 'Negra'}\n`;
         if (d.drawing) {
-          itemsText += `   • Dibujo: #${d.drawing.code} - ${d.drawing.name} (${d.drawingPosition === 'left' ? 'A la Izquierda' : 'A la Derecha'})\n`;
+          itemsText += `   - Dibujo: #${d.drawing.code} - ${d.drawing.name} (${d.drawingPosition === 'left' ? 'A la Izquierda' : 'A la Derecha'})\n`;
         }
         if (d.lines && d.lines.length > 0) {
-          itemsText += `   • Texto configurado:\n`;
+          itemsText += `   - Texto configurado:\n`;
           d.lines.forEach((line, lIdx) => {
             const fontName = (d.fonts && d.fonts[lIdx]) ? d.fonts[lIdx].replace('font-stamp-', 'Tipo ') : 'Tipografía Estándar';
-            itemsText += `     - Línea ${lIdx + 1}: "${line || '(Vacía)'}" [${fontName}]\n`;
+            itemsText += `     * Línea ${lIdx + 1}: "${line || '(Vacía)'}" [${fontName}]\n`;
           });
         }
-        itemsText += `   • Precio: A cotizar\n\n`;
+        itemsText += `   - Precio: A cotizar\n\n`;
       } else {
-        itemsText += `${num}️⃣ *${item.name}*\n`;
-        itemsText += `   • Cantidad: ${item.quantity}\n`;
-        itemsText += `   • Categoría: ${item.category || 'Librería'}\n`;
+        itemsText += `${num}. *${item.name}*\n`;
+        itemsText += `   - Cantidad: ${item.quantity}\n`;
+        itemsText += `   - Categoría: ${item.category || 'Librería'}\n`;
         if (itemPrice !== null) {
-          itemsText += `   • Precio unitario: ${formatMoney(itemPrice)}\n`;
-          itemsText += `   • Subtotal: ${formatMoney(subtotalItem)}\n\n`;
+          itemsText += `   - Precio unitario: ${formatMoney(itemPrice)}\n`;
+          itemsText += `   - Subtotal: ${formatMoney(subtotalItem)}\n\n`;
         } else {
-          itemsText += `   • Precio: Consultar presupuesto\n\n`;
+          itemsText += `   - Precio: Consultar presupuesto\n\n`;
         }
       }
     });
@@ -531,16 +531,16 @@
       totalStr += ' (+ ítems a cotizar)';
     }
 
-    // Armado del mensaje completo
-    let message = `👋 ¡Hola *${BUSINESS_NAME}*! Quiero encargar el siguiente *Pedido Unificado* desde la web:\n\n`;
-    message += `🛍️ *DETALLE DE LOS PRODUCTOS (${cartState.items.length} ítems):*\n`;
-    message += `────────────────────────────\n`;
+    // Armado del mensaje completo (sin emojis ni símbolos especiales propensos a corromperse en WhatsApp)
+    let message = `¡Hola *${BUSINESS_NAME}*! Quiero encargar el siguiente *Pedido Unificado* desde la web:\n\n`;
+    message += `*DETALLE DE LOS PRODUCTOS (${cartState.items.length} ítems):*\n`;
+    message += `------------------------------------\n`;
     message += `${itemsText}`;
-    message += `────────────────────────────\n`;
-    message += `💰 *TOTAL ESTIMADO:* ${totalStr}\n\n`;
+    message += `------------------------------------\n`;
+    message += `*TOTAL ESTIMADO:* ${totalStr}\n\n`;
 
     if (customerName) {
-      message += `👤 *Nombre:* ${customerName}\n`;
+      message += `*Nombre:* ${customerName}\n`;
     }
 
     message += `\n¿Me confirman disponibilidad y plazo de entrega para retirar por el local de Valentín Alsina? ¡Muchas gracias!`;

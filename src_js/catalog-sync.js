@@ -7,7 +7,7 @@
 (function () {
   const BUSINESS_PHONE = "5491126097125";
   let dynamicProducts = [];
-  let currentCategory = 'all';
+  let currentCategory = 'Librería Comercial';
   let currentSearch = '';
 
   /**
@@ -93,35 +93,38 @@
   }
 
   /**
-   * Renderiza dinámicamente las pestañas de categorías según los productos disponibles
+   * Renderiza dinámicamente las pestañas de categorías según los productos disponibles.
+   * "Librería Comercial" es la pestaña principal por defecto y "Todos los Productos" va al final.
    */
   function renderCategoryTabs() {
     const container = document.getElementById('stationery-category-tabs');
     if (!container) return;
 
     const rawCategories = dynamicProducts.map(p => p.categoria).filter(Boolean);
-    const uniqueCategories = Array.from(new Set(rawCategories));
+    let uniqueCategories = Array.from(new Set(rawCategories));
+
+    // Ordenar categorías colocando siempre "Librería Comercial" primera en la lista
+    uniqueCategories.sort((a, b) => {
+      const isA = a.toLowerCase() === 'librería comercial' || a.toLowerCase() === 'libreria comercial';
+      const isB = b.toLowerCase() === 'librería comercial' || b.toLowerCase() === 'libreria comercial';
+      if (isA) return -1;
+      if (isB) return 1;
+      return a.localeCompare(b, 'es', { sensitivity: 'base' });
+    });
+
+    // Validar si la categoría actual coincide con alguna disponible en la lista
+    if (currentCategory !== 'all') {
+      const matchCat = uniqueCategories.find(c => c.toLowerCase() === currentCategory.toLowerCase());
+      if (matchCat) {
+        currentCategory = matchCat;
+      } else if (uniqueCategories.length > 0) {
+        currentCategory = uniqueCategories[0];
+      }
+    }
 
     container.replaceChildren();
 
-    // Pestaña "Todos los Productos"
-    const allBtn = document.createElement('button');
-    allBtn.type = 'button';
-    const isAllActive = currentCategory === 'all';
-    allBtn.className = `px-4 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all ${
-      isAllActive 
-        ? 'bg-brand-cyan text-[#0B0F19] shadow-md font-bold' 
-        : 'bg-[#111827] text-slate-300 hover:bg-[#1F2937] hover:text-white'
-    }`;
-    allBtn.textContent = 'Todos los Productos';
-    allBtn.addEventListener('click', () => {
-      currentCategory = 'all';
-      renderCategoryTabs();
-      renderDynamicStationeryGrid();
-    });
-    container.appendChild(allBtn);
-
-    // Pestañas individuales para cada categoría existente
+    // 1. Pestañas individuales para cada categoría (con Librería Comercial al inicio)
     uniqueCategories.forEach(cat => {
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -139,6 +142,23 @@
       });
       container.appendChild(btn);
     });
+
+    // 2. Pestaña "Todos los Productos" al final
+    const allBtn = document.createElement('button');
+    allBtn.type = 'button';
+    const isAllActive = currentCategory === 'all';
+    allBtn.className = `px-4 py-2.5 text-xs sm:text-sm font-bold rounded-lg transition-all ${
+      isAllActive 
+        ? 'bg-brand-cyan text-[#0B0F19] shadow-md font-bold' 
+        : 'bg-[#111827] text-slate-300 hover:bg-[#1F2937] hover:text-white'
+    }`;
+    allBtn.textContent = 'Todos los Productos';
+    allBtn.addEventListener('click', () => {
+      currentCategory = 'all';
+      renderCategoryTabs();
+      renderDynamicStationeryGrid();
+    });
+    container.appendChild(allBtn);
   }
 
   /**

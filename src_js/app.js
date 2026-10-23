@@ -1267,26 +1267,21 @@ function updateStampPreview() {
 
 // ─── Actualiza el resumen técnico de la tarjeta derecha ───
 function updateStampSummary() {
-  const summaryMode = document.getElementById('summary-mode');
-  const summaryDimensions = document.getElementById('summary-dimensions');
-  const summaryApparatus = document.getElementById('summary-apparatus');
-  const summaryFont = document.getElementById('summary-font');
-  const summaryDrawing = document.getElementById('summary-drawing');
-  const summaryContent = document.getElementById('summary-content');
+  const setAllText = (selector, val) => {
+    document.querySelectorAll(selector).forEach(el => { el.textContent = val; });
+  };
+  const setAllHTML = (selector, val) => {
+    document.querySelectorAll(selector).forEach(el => { el.innerHTML = val; });
+  };
 
   // Actualizar banner de dibujo seleccionado en Paso 4
   updateDrawingBanner();
 
-
-
-  if (summaryMode) summaryMode.textContent = 'Sello Personalizado';
-
-  const summaryOrientation = document.getElementById('summary-orientation');
-  if (summaryOrientation) {
-    summaryOrientation.textContent = stampState.orientation === 'vertical' ? 'Vertical' : 'Horizontal';
-  }
+  setAllText('#summary-mode, #summary-mode-top, .summary-mode', 'Sello Personalizado');
 
   const orientLabel = stampState.orientation === 'vertical' ? 'Vertical' : 'Horizontal';
+  setAllText('#summary-orientation, #summary-orientation-top, .summary-orientation', orientLabel);
+
   const dimBase = (stampState.orientation === 'vertical' ? {
     1: '10 x 38 mm',
     2: '14 x 38 mm',
@@ -1299,38 +1294,35 @@ function updateStampSummary() {
     4: '58 x 22 mm'
   })[stampState.lineCount] || '47 x 18 mm';
 
-  if (summaryDimensions) summaryDimensions.textContent = `${dimBase} (${orientLabel})`;
-  if (summaryApparatus) summaryApparatus.textContent = stampState.apparatusType === 'automatico' ? 'Aparato Automático' : 'Cabo de Madera';
+  setAllText('#summary-dimensions, #summary-dimensions-top, .summary-dimensions', `${dimBase} (${orientLabel})`);
+  setAllText('#summary-apparatus, #summary-apparatus-top, .summary-apparatus', stampState.apparatusType === 'automatico' ? 'Aparato Automático' : 'Cabo de Madera');
 
-  if (summaryFont) {
-    const activeFonts = [];
-    for (let i = 0; i < stampState.lineCount; i++) {
-      activeFonts.push(stampState.lineFonts[i] || stampState.fontFamily || 'font-stamp-01');
-    }
-    const allSame = activeFonts.every(f => f === activeFonts[0]);
+  const activeFonts = [];
+  for (let i = 0; i < stampState.lineCount; i++) {
+    activeFonts.push(stampState.lineFonts[i] || stampState.fontFamily || 'font-stamp-01');
+  }
+  const allSame = activeFonts.every(f => f === activeFonts[0]);
 
-    if (allSame) {
-      summaryFont.textContent = `${getFontShortName(activeFonts[0])} (Todas las líneas)`;
-    } else {
-      // Desglose limpio
-      summaryFont.innerHTML = activeFonts
-        .map((f, idx) => `<span class="block text-xs font-semibold text-slate-200">Línea ${idx + 1}: <span class="text-cyan-400 font-bold">${getFontShortName(f)}</span></span>`)
-        .join('');
-    }
+  if (allSame) {
+    setAllText('#summary-font, #summary-font-top, .summary-font', `${getFontShortName(activeFonts[0])} (Todas las líneas)`);
+  } else {
+    // Desglose limpio
+    const htmlBreakdown = activeFonts
+      .map((f, idx) => `<span class="block text-xs font-semibold text-slate-200">Línea ${idx + 1}: <span class="text-cyan-400 font-bold">${getFontShortName(f)}</span></span>`)
+      .join('');
+    setAllHTML('#summary-font, #summary-font-top, .summary-font', htmlBreakdown);
   }
 
-  if (summaryDrawing) {
-    if (stampState.drawingPosition === 'none' || !stampState.selectedDrawing) {
-      summaryDrawing.textContent = 'Sin dibujo';
-    } else {
-      const posStr = stampState.drawingPosition === 'left' ? 'Izq.' : 'Der.';
-      summaryDrawing.textContent = `#${stampState.selectedDrawing.code} - ${stampState.selectedDrawing.name} (${posStr})`;
-    }
+  let drawingText = 'Sin dibujo';
+  if (stampState.drawingPosition !== 'none' && stampState.selectedDrawing) {
+    const posStr = stampState.drawingPosition === 'left' ? 'Izq.' : 'Der.';
+    drawingText = `#${stampState.selectedDrawing.code} - ${stampState.selectedDrawing.name} (${posStr})`;
   }
-  if (summaryContent) {
-    const firstLine = (stampState.lines[0] || '').trim();
-    summaryContent.textContent = firstLine ? `"${firstLine}"` : `${stampState.lineCount} Líneas indicadas`;
-  }
+  setAllText('#summary-drawing, #summary-drawing-top, .summary-drawing', drawingText);
+
+  const firstLine = (stampState.lines[0] || '').trim();
+  const contentText = firstLine ? `"${firstLine}"` : `${stampState.lineCount} Líneas indicadas`;
+  setAllText('#summary-content, #summary-content-top, .summary-content', contentText);
 }
 
 // ─── Agregar Sello al Carrito de Compras Unificado ───

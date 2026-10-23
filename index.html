@@ -744,7 +744,7 @@
   <!-- ═══════════════════════════════════════════════════════════════
        D. DISEÑADOR INTERACTIVO DE SELLOS
        ═══════════════════════════════════════════════════════════════ -->
-  <section id="cotizador-sellos" class="py-20 text-white relative overflow-hidden editorial-halftone border-t border-[#1F2937]">
+  <section id="cotizador-sellos" class="py-20 text-white relative editorial-halftone border-t border-[#1F2937]">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
       
       <!-- Encabezado Editorial -->
@@ -764,6 +764,76 @@
           Elegí tu aparato, escribí el texto línea por línea, visualizá la huella exacta con la tipografía que prefieras y pedí tu presupuesto a medida directo a Librería Universal por WhatsApp.
         </p>
       </div>
+
+      <!-- ═════════════════════════════════════════════════════════════════════
+           RESUMEN DEL PEDIDO - ARRIBA DEL TODO (SINCRONIZADO EN TIEMPO REAL)
+           ═════════════════════════════════════════════════════════════════════ -->
+      <div id="stamp-summary-top-card" class="mb-10 bg-[#111827] p-5 sm:p-6 border-2 border-brand-cyan/40 rounded-2xl shadow-2xl relative overflow-hidden">
+        <div class="absolute -right-12 -top-12 w-40 h-40 bg-brand-cyan/5 rounded-full blur-2xl pointer-events-none"></div>
+        <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-[#1F2937] flex-wrap gap-2 relative z-10">
+          <div class="flex items-center gap-2.5">
+            <span class="w-3 h-3 rounded-full bg-brand-cyan animate-pulse"></span>
+            <span class="text-xs sm:text-sm font-bold tracking-[0.25em] uppercase text-brand-cyan font-body">Resumen del Pedido</span>
+            <span class="px-2 py-0.5 rounded bg-brand-cyan/15 text-brand-cyan border border-brand-cyan/30 text-[10px] font-extrabold tracking-wider uppercase">En Vivo</span>
+          </div>
+          <div class="flex items-center gap-3 text-xs text-slate-400 font-body">
+            <span class="hidden sm:inline-block text-slate-400">Valentín Alsina · Retiro en mostrador o envío</span>
+            <span class="text-slate-500 font-mono text-[11px]">| Presupuesto Directo</span>
+          </div>
+        </div>
+
+        <!-- Grilla de Parámetros del Resumen -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 text-xs font-body relative z-10">
+          <!-- 1. Modalidad -->
+          <div class="p-3 bg-[#0B0F19] border border-[#1F2937] rounded-xl flex flex-col justify-between hover:border-brand-cyan/40 transition">
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider block mb-1">Modalidad</span>
+            <span class="font-bold text-brand-cyan summary-mode truncate" id="summary-mode-top">Sello Personalizado</span>
+          </div>
+
+          <!-- 2. Orientación -->
+          <div class="p-3 bg-[#0B0F19] border border-[#1F2937] rounded-xl flex flex-col justify-between hover:border-brand-cyan/40 transition">
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider block mb-1">Orientación</span>
+            <span class="font-bold text-white summary-orientation truncate" id="summary-orientation-top">Horizontal</span>
+          </div>
+
+          <!-- 3. Medida Estimada -->
+          <div class="p-3 bg-[#0B0F19] border border-[#1F2937] rounded-xl flex flex-col justify-between hover:border-brand-cyan/40 transition">
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider block mb-1">Medida</span>
+            <span class="font-bold text-brand-cyan summary-dimensions truncate" id="summary-dimensions-top">47 x 18 mm</span>
+          </div>
+
+          <!-- 4. Aparato -->
+          <div class="p-3 bg-[#0B0F19] border border-[#1F2937] rounded-xl flex flex-col justify-between hover:border-brand-cyan/40 transition">
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider block mb-1">Aparato</span>
+            <span class="font-bold text-white summary-apparatus truncate" id="summary-apparatus-top">Aparato Automático</span>
+          </div>
+
+          <!-- 5. Tipografía -->
+          <div class="p-3 bg-[#0B0F19] border border-[#1F2937] rounded-xl flex flex-col justify-between hover:border-brand-cyan/40 transition">
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider block mb-1">Tipografía</span>
+            <span class="font-bold text-purple-300 summary-font truncate" id="summary-font-top">01 - Arial</span>
+          </div>
+
+          <!-- 6. Dibujo / Código -->
+          <div class="p-3 bg-[#0B0F19] border border-[#1F2937] rounded-xl flex flex-col justify-between hover:border-brand-cyan/40 transition">
+            <span class="text-[10px] font-medium text-slate-400 uppercase tracking-wider block mb-1">Dibujo / Código</span>
+            <span class="font-bold text-amber-300 summary-drawing truncate" id="summary-drawing-top">Sin dibujo</span>
+          </div>
+        </div>
+
+        <!-- Fila de Texto / Contenido del Sello en Vivo -->
+        <div class="mt-3.5 p-3 sm:p-3.5 bg-[#0B0F19] border border-[#1F2937] rounded-xl flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs font-body relative z-10">
+          <div class="flex items-center gap-2 flex-wrap">
+            <span class="text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Texto en Sello:</span>
+            <span class="font-bold text-cyan-200 summary-content italic text-sm" id="summary-content-top">3 Líneas indicadas</span>
+          </div>
+          <div class="flex items-center gap-2 text-slate-400 text-[11px]">
+            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span>Mirá la huella exacta a la derecha mientras escribís</span>
+          </div>
+        </div>
+      </div>
+
 
       <!-- Módulo de 2 Columnas -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -1041,258 +1111,157 @@
         </div>
 
         <!-- Columna Derecha: Live Preview Superior, Resumen y Live Preview Emojis -->
-        <div class="lg:col-span-5 order-first lg:order-last flex flex-col space-y-6">
+        <div class="lg:col-span-5 order-first lg:order-last flex flex-col space-y-6 lg:sticky lg:top-24">
           
-          <!-- Bloque Superior: Vista Previa 1 + Resumen Técnico -->
-          <div class="space-y-6">
-            <!-- Panel Sticky de Vista Previa (Arriba en móvil para ver cambios en vivo) -->
-            <div id="stamp-preview-sticky-card" class="bg-[#111827] p-5 sm:p-6 border border-[#1F2937] rounded-2xl sticky top-20 z-30 shadow-2xl backdrop-blur-md">
-              <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#1F2937] flex-wrap gap-2">
-                <div class="flex items-center gap-2">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <h4 id="stamp-mode-badge" class="text-[10px] font-bold tracking-[0.3em] text-slate-300 uppercase font-body">Personalizado</h4>
-                </div>
-                <div class="flex items-center gap-2">
-                  <div class="inline-flex p-0.5 bg-[#0B0F19] border border-[#1F2937] rounded">
-                    <button type="button" data-preview-orient="horizontal" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-brand-cyan text-[#0B0F19] transition" title="Formato Horizontal">↔ Horiz.</button>
-                    <button type="button" data-preview-orient="vertical" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-white transition" title="Formato Vertical">↕ Vert.</button>
-                  </div>
-                  <span id="stamp-dimension-badge" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937] rounded">
-                    47 x 18 mm (Aprox.)
-                  </span>
-                </div>
+          <!-- SELLO DE MUESTRA (CARD PRINCIPAL STICKY) -->
+          <div id="stamp-preview-sticky-card" class="bg-[#111827] p-5 sm:p-6 border-2 border-brand-cyan/40 rounded-2xl shadow-2xl backdrop-blur-md">
+            <div class="flex items-center justify-between pb-3 mb-3 border-b border-[#1F2937] flex-wrap gap-2">
+              <div class="flex items-center gap-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                <h4 id="stamp-mode-badge" class="text-[10px] font-bold tracking-[0.3em] text-white uppercase font-body">Sello de Muestra</h4>
+                <span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-[9px] font-bold uppercase tracking-wider">En Vivo</span>
               </div>
-
-              <!-- Recuadro simulador de huella con fondo de papel texturado y marco de corte técnico -->
-              <div id="stamp-live-preview-box" class="stamp-paper-bg rounded-xl border border-slate-300 min-h-[220px] sm:min-h-[240px] flex items-center justify-center p-4 sm:p-6 overflow-hidden shadow-inner relative">
-                <!-- Regla milimétrica visual superior -->
-                <div class="absolute top-1.5 left-4 right-4 flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 select-none pointer-events-none opacity-70">
-                  <span>| 0mm</span>
-                  <span>↔ Ancho aprox. 47 mm</span>
-                  <span>47mm |</span>
+              <div class="flex items-center gap-2">
+                <div class="inline-flex p-0.5 bg-[#0B0F19] border border-[#1F2937] rounded">
+                  <button type="button" data-preview-orient="horizontal" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-brand-cyan text-[#0B0F19] transition" title="Formato Horizontal">↔ Horiz.</button>
+                  <button type="button" data-preview-orient="vertical" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-white transition" title="Formato Vertical">↕ Vert.</button>
                 </div>
-
-                <div id="stamp-inner-frame" class="stamp-cutting-frame p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all bg-white/40 rounded-sm">
-                  <div id="stamp-live-text-content" class="stamp-ink-effect font-stamp-01 text-center space-y-1 w-full">
-                    <!-- Inyectado dinámicamente por app.js -->
-                  </div>
-                </div>
-
-                <!-- Regla milimétrica visual inferior -->
-                <div class="absolute bottom-1.5 right-4 text-[9px] font-mono font-bold text-slate-400 select-none pointer-events-none opacity-70">
-                  ↕ Alto aprox. 18 mm
-                </div>
-              </div>
-
-              <div class="mt-3 flex items-center justify-between text-[11px] text-slate-400">
-                <span id="stamp-apparatus-badge" class="font-medium text-slate-300 font-body">Aparato Automático</span>
-                <span class="italic text-slate-400 font-body">Grabado en goma HD · Tinta nítida</span>
+                <span id="stamp-dimension-badge" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937] rounded">
+                  47 x 18 mm (Aprox.)
+                </span>
               </div>
             </div>
 
-
-
-            <!-- Resumen y Enlace a WhatsApp -->
-            <div class="bg-[#111827] p-6 border border-[#1F2937] space-y-5 rounded-2xl shadow-xl">
-              <div class="flex items-center justify-between">
-                <span class="text-[10px] font-bold tracking-[0.3em] uppercase text-brand-cyan font-body">Resumen del Pedido</span>
-                <span class="text-[10px] text-slate-500 tracking-wider uppercase font-body">Valentín Alsina</span>
+            <!-- Recuadro simulador de huella con fondo de papel texturado y marco de corte técnico -->
+            <div id="stamp-live-preview-box" class="stamp-paper-bg rounded-xl border border-slate-300 min-h-[220px] sm:min-h-[240px] flex items-center justify-center p-4 sm:p-6 overflow-hidden shadow-inner relative">
+              <!-- Regla milimétrica visual superior -->
+              <div class="absolute top-1.5 left-4 right-4 flex items-center justify-between text-[9px] font-mono font-bold text-slate-400 select-none pointer-events-none opacity-70">
+                <span>| 0mm</span>
+                <span>↔ Ancho aprox. 47 mm</span>
+                <span>47mm |</span>
               </div>
 
-              <div class="space-y-2.5 text-xs sm:text-sm text-slate-300 border-b border-[#1F2937] pb-4 font-body">
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">Modalidad:</span>
-                  <span id="summary-mode" class="font-bold text-brand-cyan">Personalizado</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">Orientación:</span>
-                  <span id="summary-orientation" class="font-bold text-brand-cyan bg-[#0B0F19] px-2 py-0.5 border border-[#1F2937]">Horizontal</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">Medida Estimada:</span>
-                  <span id="summary-dimensions" class="font-bold text-white bg-[#0B0F19] px-2 py-0.5 border border-[#1F2937]">47 x 18 mm</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">Aparato:</span>
-                  <span id="summary-apparatus" class="font-bold text-white bg-[#0B0F19] px-2 py-0.5 border border-[#1F2937]">Aparato Automático</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">Tipografía:</span>
-                  <span id="summary-font" class="font-semibold text-brand-cyan">01 - Arial</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">Dibujo / Código:</span>
-                  <span id="summary-drawing" class="font-bold text-amber-300">Sin dibujo</span>
-                </div>
-                <div class="flex justify-between items-center">
-                  <span class="text-slate-500">Detalle / Texto:</span>
-                  <span id="summary-content" class="text-right text-slate-200 font-medium truncate max-w-[200px]">3 Líneas de texto</span>
+              <div id="stamp-inner-frame" class="stamp-cutting-frame p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all bg-white/40 rounded-sm">
+                <div id="stamp-live-text-content" class="stamp-ink-effect font-stamp-01 text-center space-y-1 w-full">
+                  <!-- Inyectado dinámicamente por app.js -->
                 </div>
               </div>
 
-              <div class="p-3 bg-[#0B0F19] border border-[#1F2937] text-xs text-slate-300 leading-relaxed font-body">
-                💬 <strong>Presupuesto directo:</strong> Enviás el diseño por mensaje de WhatsApp a <strong>Librería Universal</strong> y te confirmamos precio y plazo de entrega para retirar por nuestro local.
+              <!-- Regla milimétrica visual inferior -->
+              <div class="absolute bottom-1.5 right-4 text-[9px] font-mono font-bold text-slate-400 select-none pointer-events-none opacity-70">
+                ↕ Alto aprox. 18 mm
               </div>
+            </div>
 
-              <div class="space-y-2.5 pt-1">
-                <!-- Botón Agregar Sello al Carrito -->
-                <button id="btn-add-stamp-cart" type="button" 
-                        class="w-full py-3.5 px-6 font-bold text-sm bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] shadow-lg shadow-brand-cyan/20 transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 active:translate-y-0 mb-2.5">
-                  <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                  </svg>
-                  <span>Agregar este Sello al Carrito</span>
-                </button>
+            <div class="mt-3 flex items-center justify-between text-[11px] text-slate-400">
+              <span id="stamp-apparatus-badge" class="font-medium text-slate-300 font-body">Aparato Automático</span>
+              <span class="italic text-slate-400 font-body">Grabado en goma HD · Tinta nítida</span>
+            </div>
 
-                <button id="btn-whatsapp-stamp-order" type="button" 
-                        class="w-full py-4 px-6 font-black text-sm sm:text-base bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/30 hover:shadow-emerald-600/50 transition-all flex items-center justify-center gap-3 transform hover:-translate-y-0.5 active:translate-y-0">
-                  <svg class="w-6 h-6 fill-current flex-shrink-0" viewBox="5.8 5.8 12.4 12.4">
-                    <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
-                  </svg>
-                  <span>Solicitar Presupuesto por WhatsApp</span>
-                </button>
+            <!-- Botones de Acción Inmediata (Bajo el sello de muestra) -->
+            <div class="space-y-2.5 pt-4 mt-4 border-t border-[#1F2937]">
+              <!-- Botón Agregar Sello al Carrito -->
+              <button id="btn-add-stamp-cart" type="button" 
+                      class="w-full py-3.5 px-6 font-bold text-sm bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] shadow-lg shadow-brand-cyan/20 transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 active:translate-y-0">
+                <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span>Agregar este Sello al Carrito</span>
+              </button>
 
+              <!-- Botón WhatsApp -->
+              <button id="btn-whatsapp-stamp-order" type="button" 
+                      class="w-full py-3.5 px-6 font-black text-sm sm:text-base bg-emerald-600 hover:bg-emerald-500 text-white shadow-xl shadow-emerald-600/30 hover:shadow-emerald-600/50 transition-all flex items-center justify-center gap-3 transform hover:-translate-y-0.5 active:translate-y-0">
+                <svg class="w-6 h-6 fill-current flex-shrink-0" viewBox="5.8 5.8 12.4 12.4">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
+                </svg>
+                <span>Solicitar Presupuesto por WhatsApp</span>
+              </button>
+
+              <div class="flex items-center gap-2 pt-1">
                 <button id="btn-copy-stamp-details" type="button"
-                        class="w-full py-2.5 px-4 font-semibold text-xs text-slate-300 hover:text-white bg-[#1F2937] hover:bg-slate-700 transition flex items-center justify-center gap-2 border border-[#1F2937]">
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="flex-1 py-2 px-3 font-semibold text-xs text-slate-300 hover:text-white bg-[#0B0F19] hover:bg-slate-800 transition flex items-center justify-center gap-1.5 border border-[#1F2937]">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
                   </svg>
-                  <span>Copiar Especificaciones</span>
+                  <span>Copiar Datos</span>
                 </button>
 
-                <button type="button" class="btn-open-catalog-modal w-full py-2 px-4 font-semibold text-xs text-brand-cyan hover:text-white bg-brand-cyan/5 hover:bg-brand-cyan/10 transition flex items-center justify-center gap-2 border border-brand-cyan/30">
-                  <span>📖 Ver Catálogos Completos (PDFs y Láminas)</span>
+                <button type="button" class="btn-open-catalog-modal flex-1 py-2 px-3 font-semibold text-xs text-brand-cyan hover:text-white bg-brand-cyan/5 hover:bg-brand-cyan/15 transition flex items-center justify-center gap-1.5 border border-brand-cyan/30 truncate">
+                  <span>📖 Catálogos PDF</span>
                 </button>
               </div>
 
               <div class="pt-2 text-center text-xs text-slate-500 font-body tracking-wide">
                 ⚡ <strong>Retiro en el local:</strong> Av. Pte. Tte. Gral. J. D. Perón 3502
               </div>
+            </div>
+          </div>
 
+          <!-- TARJETA INSTITUCIONAL / LOCAL Y HORARIOS -->
+          <div class="editorial-card crop-marks bg-[#111827] p-6 border border-[#1F2937] shadow-xl relative overflow-hidden" style="--card-accent: #00A3E0">
+            <div class="absolute -right-6 -bottom-6 w-36 h-36 opacity-10 pointer-events-none">
+              <img src="img/logo-libreria-universal.png" alt="" class="w-full h-full object-contain filter brightness-200">
             </div>
 
-            <!-- Recuadro Institucional con Logo de Librería Universal (Completa el bloque derecho) -->
-            <div class="editorial-card crop-marks bg-[#111827] p-6 border border-[#1F2937] shadow-xl relative overflow-hidden" style="--card-accent: #00A3E0">
-              <div class="absolute -right-6 -bottom-6 w-36 h-36 opacity-10 pointer-events-none">
-                <img src="img/logo-libreria-universal.png" alt="" class="w-full h-full object-contain filter brightness-200">
+            <div class="flex items-center gap-4 relative z-10 mb-4">
+              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#0B0F19] border-2 border-brand-cyan/40 p-2 flex items-center justify-center flex-shrink-0 shadow-lg shadow-cyan-950/50">
+                <img src="img/logo-libreria-universal.png" alt="Logo Librería Universal" class="w-full h-full object-contain">
               </div>
-
-              <div class="flex items-center gap-4 relative z-10 mb-4">
-                <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-[#0B0F19] border-2 border-brand-cyan/40 p-2 flex items-center justify-center flex-shrink-0 shadow-lg shadow-cyan-950/50">
-                  <img src="img/logo-libreria-universal.png" alt="Logo Librería Universal" class="w-full h-full object-contain">
-                </div>
-                <div>
-                  <h3 class="text-lg sm:text-xl font-display text-white leading-tight">
-                    Librería Universal
-                  </h3>
-                  <p class="text-xs text-brand-cyan font-medium leading-snug mt-1 font-body">
-                    Librería Comercial / Escolar, Impresiones y Soluciones Gráficas.
-                  </p>
-                </div>
+              <div>
+                <h3 class="text-lg sm:text-xl font-display text-white leading-tight">
+                  Librería Universal
+                </h3>
+                <p class="text-xs text-brand-cyan font-medium leading-snug mt-1 font-body">
+                  Librería Comercial / Escolar, Impresiones y Soluciones Gráficas.
+                </p>
               </div>
+            </div>
 
-              <!-- Horarios de Atención y Local a la Calle -->
-              <div class="py-3.5 border-y border-[#1F2937] relative z-10 text-xs font-body space-y-3">
-                <div class="flex items-start gap-2.5">
-                  <span class="text-amber-400 text-sm flex-shrink-0 mt-0.5">⏰</span>
-                  <div class="flex-1">
-                    <span class="font-bold text-slate-200 text-xs uppercase tracking-wider block mb-1.5">Horarios de Atención</span>
-                    <div class="space-y-1.5 text-[11px] text-slate-300">
-                      <div class="flex justify-between items-center">
-                        <span class="text-slate-400">Lunes a Viernes:</span>
-                        <span class="font-mono font-bold text-white" id="schedule-stamp-weekdays">9:30 a 13:15 | 16:00 a 19:30 hs</span>
-                      </div>
-                      <div class="flex justify-between items-center">
-                        <span class="text-slate-400">Sábados:</span>
-                        <span class="font-mono font-bold text-white" id="schedule-stamp-saturdays">10:00 a 13:00 | 16:30 a 19:00 hs</span>
-                      </div>
-                      <div class="flex justify-between items-center">
-                        <span class="text-rose-400 font-medium">Feriados:</span>
-                        <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quisiera%20consultar%20el%20horario%20de%20atenci%C3%B3n%20para%20feriados." target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-bold uppercase text-[10px] tracking-wider hover:underline inline-flex items-center gap-1.5 transition whitespace-nowrap" title="Consultar por WhatsApp"><svg class="w-3.5 h-3.5 fill-current text-emerald-400 flex-shrink-0" viewBox="5.8 5.8 12.4 12.4"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/></svg><span id="schedule-stamp-holidays">Consultar en wsp</span></a>
-                      </div>
-                      <div class="flex justify-between items-center">
-                        <span class="text-slate-400">Domingos:</span>
-                        <span class="text-rose-400 font-bold uppercase text-[10px] tracking-wider" id="schedule-stamp-sundays">Cerrado</span>
-                      </div>
-                      <div id="schedule-stamp-notice" class="hidden mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-300 font-medium leading-snug"></div>
+            <!-- Horarios de Atención y Local a la Calle -->
+            <div class="py-3.5 border-y border-[#1F2937] relative z-10 text-xs font-body space-y-3">
+              <div class="flex items-start gap-2.5">
+                <span class="text-amber-400 text-sm flex-shrink-0 mt-0.5">⏰</span>
+                <div class="flex-1">
+                  <span class="font-bold text-slate-200 text-xs uppercase tracking-wider block mb-1.5">Horarios de Atención</span>
+                  <div class="space-y-1.5 text-[11px] text-slate-300">
+                    <div class="flex justify-between items-center">
+                      <span class="text-slate-400">Lunes a Viernes:</span>
+                      <span class="font-mono font-bold text-white" id="schedule-stamp-weekdays">9:30 a 13:15 | 16:00 a 19:30 hs</span>
                     </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-slate-400">Sábados:</span>
+                      <span class="font-mono font-bold text-white" id="schedule-stamp-saturdays">10:00 a 13:00 | 16:30 a 19:00 hs</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-rose-400 font-medium">Feriados:</span>
+                      <a href="https://wa.me/5491126097125?text=Hola%20Librer%C3%ADa%20Universal!%20Quisiera%20consultar%20el%20horario%20de%20atenci%C3%B3n%20para%20feriados." target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 font-bold uppercase text-[10px] tracking-wider hover:underline inline-flex items-center gap-1.5 transition whitespace-nowrap" title="Consultar por WhatsApp"><svg class="w-3.5 h-3.5 fill-current text-emerald-400 flex-shrink-0" viewBox="5.8 5.8 12.4 12.4"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/></svg><span id="schedule-stamp-holidays">Consultar en wsp</span></a>
+                    </div>
+                    <div class="flex justify-between items-center">
+                      <span class="text-slate-400">Domingos:</span>
+                      <span class="text-rose-400 font-bold uppercase text-[10px] tracking-wider" id="schedule-stamp-sundays">Cerrado</span>
+                    </div>
+                    <div id="schedule-stamp-notice" class="hidden mt-2 p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-300 font-medium leading-snug"></div>
                   </div>
                 </div>
-
-                <div class="flex items-center justify-between pt-2.5 border-t border-[#1F2937]/60 text-[11px]">
-                  <div class="flex items-center gap-1.5">
-                    <span class="text-purple-400 text-sm">📍</span>
-                    <span class="font-bold text-slate-200">Local:</span>
-                    <span class="text-slate-300">Av. Pte. Tte. Gral. J. D. Perón 3502</span>
-                  </div>
-                  <span class="text-slate-500 font-medium">Valentín Alsina</span>
-                </div>
               </div>
 
-              <div class="flex items-center justify-between text-[11px] text-slate-400 pt-3 relative z-10 font-body">
-                <span class="text-slate-500">Atención personalizada</span>
-                <span class="text-brand-cyan font-bold font-mono">100% Garantizado</span>
+              <div class="flex items-center justify-between pt-2.5 border-t border-[#1F2937]/60 text-[11px]">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-purple-400 text-sm">📍</span>
+                  <span class="font-bold text-slate-200">Local:</span>
+                  <span class="text-slate-300">Av. Pte. Tte. Gral. J. D. Perón 3502</span>
+                </div>
+                <span class="text-slate-500 font-medium">Valentín Alsina</span>
               </div>
             </div>
 
+            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-3 relative z-10 font-body">
+              <span class="text-slate-500">Atención personalizada</span>
+              <span class="text-brand-cyan font-bold font-mono">100% Garantizado</span>
+            </div>
           </div>
-
-          <!-- Vista Previa en Vivo al lado derecho (A la altura de los emojis / dibujos) -->
-          <div class="hidden lg:block bg-[#111827] p-6 border border-[#1F2937] shadow-xl space-y-4 lg:sticky lg:bottom-6">
-            <div class="flex items-center justify-between pb-3 border-b border-[#1F2937] flex-wrap gap-2">
-              <div class="flex items-center gap-2">
-                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                <h4 id="stamp-mode-badge-2" class="text-[10px] font-bold tracking-[0.3em] text-slate-300 uppercase font-body">Personalizado</h4>
-              </div>
-              <div class="flex items-center gap-2">
-                <div class="inline-flex p-0.5 bg-[#0B0F19] border border-[#1F2937]">
-                  <button type="button" data-preview-orient="horizontal" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-brand-cyan text-[#0B0F19] transition" title="Formato Horizontal">↔ Horiz.</button>
-                  <button type="button" data-preview-orient="vertical" class="px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-white transition" title="Formato Vertical">↕ Vert.</button>
-                </div>
-                <span id="stamp-dimension-badge-2" class="text-[11px] font-mono font-bold px-2 py-0.5 bg-[#0B0F19] text-brand-cyan border border-[#1F2937]">
-                  47 x 18 mm (Aprox.)
-                </span>
-              </div>
-            </div>
-
-            <!-- Recuadro simulador de huella -->
-            <div id="stamp-live-preview-box-2" class="stamp-paper-bg rounded-lg border border-slate-300 min-h-[220px] flex items-center justify-center p-4 overflow-hidden shadow-inner">
-              <div id="stamp-inner-frame-2" class="p-4 sm:p-5 w-full max-w-[340px] flex flex-col items-center justify-center transition-all border-2 border-dashed border-slate-400 rounded-sm">
-                <div id="stamp-live-text-content-2" class="stamp-ink-effect font-stamp-01 text-center space-y-1 w-full">
-                  <!-- Inyectado por JS -->
-                </div>
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
-              <span id="stamp-apparatus-badge-2" class="font-medium text-slate-300 font-body">Aparato Automático</span>
-              <span class="italic text-slate-500 font-body">Grabado en goma sintética HD</span>
-            </div>
-
-
-
-            <!-- Botón WhatsApp Directo debajo de la previsualización de emojis -->
-            <!-- Botón Agregar al Carrito debajo de la previsualización -->
-            <button id="btn-add-stamp-cart-2" type="button" 
-                    class="w-full mb-2.5 py-3 px-5 font-bold text-xs sm:text-sm bg-brand-cyan hover:bg-[#0092ca] text-[#080B10] shadow-md transition-all flex items-center justify-center gap-2 transform hover:-translate-y-0.5 active:translate-y-0">
-              <svg class="w-4 h-4 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
-              </svg>
-              <span>Agregar al Carrito de Pedidos</span>
-            </button>
-
-            <button id="btn-whatsapp-stamp-order-2" type="button" 
-                    class="w-full py-3.5 px-5 font-black text-xs sm:text-sm bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 hover:shadow-emerald-600/50 transition-all flex items-center justify-center gap-2.5 transform hover:-translate-y-0.5 active:translate-y-0">
-              <svg class="w-5 h-5 fill-current flex-shrink-0" viewBox="5.8 5.8 12.4 12.4">
-                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.187-2.59-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86.174.086.275.072.376-.044.101-.116.433-.506.549-.68.116-.174.231-.145.39-.087s1.011.477 1.184.564.289.13.332.203c.043.072.043.419-.101.824z"/>
-              </svg>
-              <span>Pedir este Sello por WhatsApp</span>
-            </button>
-          </div>
-
-        </div>
-
-      </div>
+        </div></div>
 
     </div>
   </section>

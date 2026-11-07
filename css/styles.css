@@ -899,6 +899,32 @@ html.light [class*="bg-brand-purple"]:not(.badge-en-vivo):not(nav *):not(.mobile
   color: #581C87 !important; /* violet-900 */
 }
 
+/* Cajas de Aviso / Alerta Amber y No Recibimos Llamadas (Soluciona Aviso Footer) */
+html:not(.dark) .notice-no-llamadas,
+html.light .notice-no-llamadas,
+html:not(.dark) [class*="bg-amber-950"],
+html.light [class*="bg-amber-950"],
+html:not(.dark) [class*="bg-amber-500/10"],
+html.light [class*="bg-amber-500/10"],
+html:not(.dark) [class*="bg-amber-500/15"],
+html.light [class*="bg-amber-500/15"],
+html:not(.dark) [class*="bg-amber-500/25"],
+html.light [class*="bg-amber-500/25"] {
+  background-color: #FEF3C7 !important; /* amber-100 cálido y limpio */
+  border: 1.5px solid #F59E0B !important; /* amber-500 nítido */
+  color: #78350F !important; /* amber-900: máxima legibilidad en fondo claro */
+  border-radius: 0.5rem !important;
+}
+
+html:not(.dark) .notice-no-llamadas *,
+html.light .notice-no-llamadas *,
+html:not(.dark) [class*="bg-amber-950"] *,
+html.light [class*="bg-amber-950"] *,
+html:not(.dark) [class*="bg-amber-500/10"] *,
+html.light [class*="bg-amber-500/10"] * {
+  color: #78350F !important;
+}
+
 /* Drawers y Modales */
 html:not(.dark) #mobile-menu-drawer > div,
 html.light #mobile-menu-drawer > div,

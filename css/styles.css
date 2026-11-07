@@ -432,31 +432,32 @@ html {
 
 
 /* ==========================================================================
-   TEMA CLARO (MODO CLARO POR DEFECTO - ALTA LEGIBILIDAD PARA TODO PÚBLICO)
-   Optimizado para personas mayores, alto contraste y lectura descansada
+   TEMA CLARO (MODO BLANCO POR DEFECTO - 100% AUDITADO Y SIN BUGS)
+   Optimizado para legibilidad, alto contraste, personas mayores y lectura limpia.
    ========================================================================== */
 html:not(.dark),
 html.light {
   color-scheme: light;
 }
 
+/* 1. Fondo global de la página y texto base */
 html:not(.dark) body,
 html.light body {
   background-color: #F8FAFC !important;
   color: #0F172A !important;
 }
 
-/* Halftone dots editorial en modo claro */
+/* Halftone dots: grafito suave sobre fondo blanco/slate */
 html:not(.dark) .editorial-halftone,
 html.light .editorial-halftone {
-  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1.2px, transparent 1.2px) !important;
+  background-image: radial-gradient(rgba(15, 23, 42, 0.05) 1.2px, transparent 1.2px) !important;
   background-size: 24px 24px !important;
 }
 
-/* Header & Navegación */
+/* 2. Header fijo superior */
 html:not(.dark) header,
 html.light header {
-  background-color: rgba(255, 255, 255, 0.96) !important;
+  background-color: rgba(255, 255, 255, 0.97) !important;
   border-bottom: 1px solid #E2E8F0 !important;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
 }
@@ -471,57 +472,323 @@ html.light header nav a:hover {
   color: #0284C7 !important;
 }
 
-/* Títulos principales y tipografía display */
-html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4,
-html.light h1, html.light h2, html.light h3, html.light h4,
+/* 3. Tipografía y Encabezados Globales */
+html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4, html:not(.dark) h5,
+html.light h1, html.light h2, html.light h3, html.light h4, html.light h5,
 html:not(.dark) .font-display,
 html.light .font-display {
   color: #0F172A !important;
 }
 
-/* Reemplazo de superficies oscuras por tarjetas claras elegantes */
-html:not(.dark) .bg-\[\#0B0F19\],
-html.light .bg-\[\#0B0F19\],
-html:not(.dark) .bg-\[\#090D16\],
-html.light .bg-\[\#090D16\],
-html:not(.dark) .bg-\[\#0F1420\],
-html.light .bg-\[\#0F1420\] {
-  background-color: #F1F5F9 !important;
+/* Párrafos y textos secundarios con alto contraste */
+html:not(.dark) p:not(.keep-white):not([class*="bg-"]):not([class*="text-emerald"]):not([class*="text-cyan"]):not([class*="text-amber"]):not([class*="text-rose"]):not([class*="text-purple"]):not(#btn-whatsapp-stamp-order *):not(#floating-whatsapp *),
+html.light p:not(.keep-white):not([class*="bg-"]):not([class*="text-emerald"]):not([class*="text-cyan"]):not([class*="text-amber"]):not([class*="text-rose"]):not([class*="text-purple"]):not(#btn-whatsapp-stamp-order *):not(#floating-whatsapp *) {
+  color: #334155 !important;
 }
 
-html:not(.dark) .bg-\[\#111827\],
-html.light .bg-\[\#111827\],
-html:not(.dark) .bg-\[\#121826\],
-html.light .bg-\[\#121826\],
-html:not(.dark) .bg-\[\#1E2638\],
-html.light .bg-\[\#1E2638\],
-html:not(.dark) .bg-slate-900,
-html.light .bg-slate-900,
-html:not(.dark) .bg-slate-950,
-html.light .bg-slate-950 {
-  background-color: #FFFFFF !important;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+/* 4. Tarjetas Bento en Modo Claro (Soluciona Screenshot 1) */
+html:not(.dark) .bento-card,
+html.light .bento-card {
+  background: #FFFFFF !important;
+  background-image: none !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05) !important;
 }
 
-html:not(.dark) .bg-\[\#1F2937\],
-html.light .bg-\[\#1F2937\],
-html:not(.dark) .bg-slate-800,
-html.light .bg-slate-800 {
-  background-color: #E2E8F0 !important;
+html:not(.dark) .bento-card:hover,
+html.light .bento-card:hover {
+  background: #FFFFFF !important;
+  background-image: none !important;
+  border-color: var(--card-accent, #00A3E0) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .bento-card h3,
+html.light .bento-card h3 {
+  color: #0F172A !important;
+}
+
+html:not(.dark) .bento-card p,
+html.light .bento-card p {
+  color: #475569 !important;
+}
+
+html:not(.dark) .bento-card .border-t,
+html.light .bento-card .border-t {
+  border-top-color: #E2E8F0 !important;
+}
+
+/* Chips bento */
+html:not(.dark) .bento-chip,
+html.light .bento-chip {
+  background: #F1F5F9 !important;
+  border: 1px solid #CBD5E1 !important;
   color: #1E293B !important;
 }
 
-/* Bordes en modo claro */
-html:not(.dark) .border-\[\#1F2937\],
-html.light .border-\[\#1F2937\],
-html:not(.dark) .border-\[\#121826\],
-html.light .border-\[\#121826\],
-html:not(.dark) .border-\[\#0B0F19\],
-html.light .border-\[\#0B0F19\] {
+html:not(.dark) .bento-chip:hover,
+html.light .bento-chip:hover {
+  background: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+/* 5. Contenedores con fondos oscuros convertidos a Blanco/Slate (Soluciona Screenshots 1, 2, 4, 5) */
+html:not(.dark) [class*="bg-[#111827]"],
+html.light [class*="bg-[#111827]"],
+html:not(.dark) [class*="bg-[#121826]"],
+html.light [class*="bg-[#121826]"],
+html:not(.dark) [class*="bg-[#1E2638]"],
+html.light [class*="bg-[#1E2638]"],
+html:not(.dark) [class*="bg-slate-900"],
+html.light [class*="bg-slate-900"],
+html:not(.dark) [class*="bg-slate-950"],
+html.light [class*="bg-slate-950"] {
+  background-color: #FFFFFF !important;
   border-color: #E2E8F0 !important;
 }
 
-/* Textos secundarios con alto contraste para lectura */
+html:not(.dark) [class*="bg-[#0B0F19]"],
+html.light [class*="bg-[#0B0F19]"],
+html:not(.dark) [class*="bg-[#090D16]"],
+html.light [class*="bg-[#090D16]"],
+html:not(.dark) [class*="bg-[#0F1420]"],
+html.light [class*="bg-[#0F1420]"],
+html:not(.dark) [class*="bg-slate-800"],
+html.light [class*="bg-slate-800"] {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+}
+
+html:not(.dark) [class*="border-[#1F2937]"],
+html.light [class*="border-[#1F2937]"],
+html:not(.dark) [class*="border-[#121826]"],
+html.light [class*="border-[#121826]"],
+html:not(.dark) [class*="border-[#0B0F19]"],
+html.light [class*="border-[#0B0F19]"],
+html:not(.dark) .border-slate-800,
+html.light .border-slate-800,
+html:not(.dark) .border-slate-700,
+html.light .border-slate-700 {
+  border-color: #E2E8F0 !important;
+}
+
+/* 6. Barra de Info Hero (Soluciona Screenshot 2) */
+html:not(.dark) [class*="bg-[#111827]"] a.text-white,
+html.light [class*="bg-[#111827]"] a.text-white,
+html:not(.dark) [class*="bg-[#111827]"] strong.text-white,
+html.light [class*="bg-[#111827]"] strong.text-white {
+  color: #0F172A !important;
+}
+
+html:not(.dark) [class*="bg-[#111827]"] strong.text-white:hover,
+html.light [class*="bg-[#111827]"] strong.text-white:hover,
+html:not(.dark) [class*="bg-[#111827]"] a.text-white:hover,
+html.light [class*="bg-[#111827]"] a.text-white:hover {
+  color: #0284C7 !important;
+}
+
+/* 7. Footer de Contacto Institucional en Modo Claro (Soluciona Screenshot 3) */
+html:not(.dark) #contacto,
+html.light #contacto {
+  background-color: #FFFFFF !important;
+  border-top: 1px solid #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+html:not(.dark) #contacto [class*="bg-[#0a0d15]"],
+html.light #contacto [class*="bg-[#0a0d15]"],
+html:not(.dark) #contacto [class*="bg-[#111827]"],
+html.light #contacto [class*="bg-[#111827]"] {
+  background-color: #F8FAFC !important;
+  border-color: #E2E8F0 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) #contacto h1,
+html:not(.dark) #contacto h2,
+html:not(.dark) #contacto h3,
+html:not(.dark) #contacto h4,
+html.light #contacto h1,
+html.light #contacto h2,
+html.light #contacto h3,
+html.light #contacto h4 {
+  color: #0F172A !important;
+}
+
+html:not(.dark) #contacto a,
+html.light #contacto a {
+  color: #334155 !important;
+}
+
+html:not(.dark) #contacto a:hover,
+html.light #contacto a:hover {
+  color: #0284C7 !important;
+}
+
+html:not(.dark) #contacto .text-white,
+html.light #contacto .text-white {
+  color: #0F172A !important;
+}
+
+html:not(.dark) #contacto .text-slate-300,
+html:not(.dark) #contacto .text-slate-400,
+html:not(.dark) #contacto .text-slate-500,
+html.light #contacto .text-slate-300,
+html.light #contacto .text-slate-400,
+html.light #contacto .text-slate-500 {
+  color: #475569 !important;
+}
+
+html:not(.dark) #contacto .border-b,
+html:not(.dark) #contacto .border-t,
+html.light #contacto .border-b,
+html.light #contacto .border-t {
+  border-color: #E2E8F0 !important;
+}
+
+/* 8. Catálogo y Grilla de Dibujos de Sellos (Soluciona Screenshot 4) */
+html:not(.dark) #stamp-drawings-grid,
+html.light #stamp-drawings-grid,
+html:not(.dark) #modal-grid-container,
+html.light #modal-grid-container {
+  background-color: #F8FAFC !important;
+  border: 1px solid #CBD5E1 !important;
+}
+
+html:not(.dark) #stamp-drawings-grid button,
+html.light #stamp-drawings-grid button,
+html:not(.dark) #modal-grid-container button,
+html.light #modal-grid-container button {
+  background-color: #FFFFFF !important;
+  border: 1px solid #CBD5E1 !important;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) #stamp-drawings-grid button:hover,
+html.light #stamp-drawings-grid button:hover,
+html:not(.dark) #modal-grid-container button:hover,
+html.light #modal-grid-container button:hover {
+  border-color: #00A3E0 !important;
+  background-color: #F0F9FF !important;
+}
+
+html:not(.dark) #stamp-drawings-grid button span,
+html.light #stamp-drawings-grid button span,
+html:not(.dark) #modal-grid-container button span,
+html.light #modal-grid-container button span {
+  color: #1E293B !important;
+}
+
+html:not(.dark) #stamp-drawings-grid button span.font-mono,
+html.light #stamp-drawings-grid button span.font-mono,
+html:not(.dark) #modal-grid-container button span.font-mono,
+html.light #modal-grid-container button span.font-mono {
+  color: #0284C7 !important;
+}
+
+html:not(.dark) .drawing-cat-btn:not(.bg-brand-cyan),
+html.light .drawing-cat-btn:not(.bg-brand-cyan) {
+  background-color: #FFFFFF !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+}
+
+/* 9. Diseñador de Sellos: Inputs y Controles (Soluciona Screenshot 5) */
+html:not(.dark) #stamp-lines-inputs,
+html.light #stamp-lines-inputs {
+  background-color: #F1F5F9 !important;
+  border: 1px solid #E2E8F0 !important;
+  border-radius: 0.75rem !important;
+}
+
+html:not(.dark) #stamp-lines-inputs > div,
+html.light #stamp-lines-inputs > div {
+  background-color: #FFFFFF !important;
+  border: 1.5px solid #CBD5E1 !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) #stamp-lines-inputs label,
+html.light #stamp-lines-inputs label {
+  color: #0F172A !important;
+}
+
+/* Botones [B] e [I] no seleccionados en modo claro */
+html:not(.dark) #stamp-lines-inputs button:not(.bg-cyan-600),
+html.light #stamp-lines-inputs button:not(.bg-cyan-600) {
+  background-color: #F1F5F9 !important;
+  color: #334155 !important;
+  border: 1px solid #CBD5E1 !important;
+}
+
+html:not(.dark) #stamp-lines-inputs button:not(.bg-cyan-600):hover,
+html.light #stamp-lines-inputs button:not(.bg-cyan-600):hover {
+  background-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+/* Paso 1: Aparato Automático / Madera */
+html:not(.dark) [data-apparatus="automatico"],
+html.light [data-apparatus="automatico"] {
+  background-color: #F0F9FF !important;
+  border-color: #0284C7 !important;
+}
+
+html:not(.dark) [data-apparatus="madera"],
+html.light [data-apparatus="madera"] {
+  background-color: #FFFFFF !important;
+  border-color: #CBD5E1 !important;
+}
+
+/* Botones de orientación y líneas no seleccionados */
+html:not(.dark) .orientation-btn:not(.border-brand-cyan),
+html.light .orientation-btn:not(.border-brand-cyan),
+html:not(.dark) [data-lines]:not(.bg-brand-cyan),
+html.light [data-lines]:not(.bg-brand-cyan) {
+  background-color: #FFFFFF !important;
+  color: #334155 !important;
+  border: 1.5px solid #CBD5E1 !important;
+}
+
+/* Inputs, selects y textareas */
+html:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html:not(.dark) select,
+html.light select,
+html:not(.dark) textarea,
+html.light textarea {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1.5px solid #CBD5E1 !important;
+}
+
+html:not(.dark) input::placeholder,
+html.light input::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* 10. Resumen del Pedido y Sello de Muestra */
+html:not(.dark) #stamp-summary-top-card,
+html.light #stamp-summary-top-card {
+  background-color: #FFFFFF !important;
+  border: 2px solid #00A3E0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 163, 224, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) #stamp-summary-top-card [class*="bg-[#0B0F19]"],
+html.light #stamp-summary-top-card [class*="bg-[#0B0F19]"] {
+  background-color: #F8FAFC !important;
+  border: 1px solid #E2E8F0 !important;
+}
+
+html:not(.dark) #stamp-preview-sticky-card,
+html.light #stamp-preview-sticky-card {
+  background-color: #FFFFFF !important;
+  border: 2px solid #00A3E0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 163, 224, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* 11. Reglas Globales de Contraste de Texto */
 html:not(.dark) .text-slate-300,
 html.light .text-slate-300,
 html:not(.dark) .text-slate-200,
@@ -541,93 +808,36 @@ html.light .text-slate-500 {
   color: #64748B !important;
 }
 
-/* Inversión de text-white a oscuro, EXCLUYENDO elementos de acción coloreados */
-html:not(.dark) .text-white:not([class*="bg-emerald"]):not([class*="bg-brand-magenta"]):not([class*="bg-brand-purple"]):not([class*="bg-rose"]):not(#floating-whatsapp *):not(#btn-whatsapp-stamp-order *):not(#cart-send-whatsapp-btn *):not(#footer-whatsapp-btn *):not([class*="from-emerald"] *):not(.keep-white),
-html.light .text-white:not([class*="bg-emerald"]):not([class*="bg-brand-magenta"]):not([class*="bg-brand-purple"]):not([class*="bg-rose"]):not(#floating-whatsapp *):not(#btn-whatsapp-stamp-order *):not(#cart-send-whatsapp-btn *):not(#footer-whatsapp-btn *):not([class*="from-emerald"] *):not(.keep-white) {
+/* Inversión segura de text-white a texto oscuro */
+html:not(.dark) .text-white:not(.keep-white):not([class*="bg-emerald"]):not([class*="bg-brand-magenta"]):not([class*="bg-brand-purple"]):not([class*="bg-rose"]):not(#floating-whatsapp *):not(#btn-whatsapp-stamp-order *):not(#cart-send-whatsapp-btn *):not(#footer-whatsapp-btn *):not([class*="from-emerald"] *),
+html.light .text-white:not(.keep-white):not([class*="bg-emerald"]):not([class*="bg-brand-magenta"]):not([class*="bg-brand-purple"]):not([class*="bg-rose"]):not(#floating-whatsapp *):not(#btn-whatsapp-stamp-order *):not(#cart-send-whatsapp-btn *):not(#footer-whatsapp-btn *):not([class*="from-emerald"] *) {
   color: #0F172A !important;
 }
 
-/* Inputs, textareas y selects con fondo nítido blanco */
-html:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
-html.light input:not([type="checkbox"]):not([type="radio"]),
-html:not(.dark) select,
-html.light select,
-html:not(.dark) textarea,
-html.light textarea {
-  background-color: #FFFFFF !important;
-  color: #0F172A !important;
-  border: 1.5px solid #CBD5E1 !important;
-}
-
-html:not(.dark) input::placeholder,
-html.light input::placeholder {
-  color: #94A3B8 !important;
-}
-
-/* Tarjetas Bento & Editorial */
-html:not(.dark) .bento-card,
-html.light .bento-card,
-html:not(.dark) .editorial-card,
-html.light .editorial-card {
-  background-color: #FFFFFF !important;
-  border: 1px solid #E2E8F0 !important;
-  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
-}
-
-html:not(.dark) .bento-chip,
-html.light .bento-chip {
-  background: #F1F5F9 !important;
-  border: 1px solid #CBD5E1 !important;
-  color: #1E293B !important;
-}
-
-html:not(.dark) .bento-chip:hover,
-html.light .bento-chip:hover {
-  background: #E2E8F0 !important;
-  color: #0F172A !important;
-}
-
-/* Sección Sellos: Resumen y Sello de Muestra */
-html:not(.dark) #stamp-summary-top-card,
-html.light #stamp-summary-top-card {
-  background-color: #FFFFFF !important;
-  border: 2px solid #00A3E0 !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 163, 224, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
-}
-
-html:not(.dark) #stamp-preview-sticky-card,
-html.light #stamp-preview-sticky-card {
-  background-color: #FFFFFF !important;
-  border: 2px solid #00A3E0 !important;
-  box-shadow: 0 10px 25px -5px rgba(0, 163, 224, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
-}
-
-/* Drawers y Modales */
-html:not(.dark) #mobile-menu-drawer > div,
-html.light #mobile-menu-drawer > div,
-html:not(.dark) #cart-drawer-panel,
-html.light #cart-drawer-panel,
-html:not(.dark) #catalog-modal > div > div,
-html.light #catalog-modal > div > div {
-  background-color: #FFFFFF !important;
-  border-color: #E2E8F0 !important;
-  color: #0F172A !important;
-}
-
-/* Asegurar botones de WhatsApp siempre con texto blanco y verde impecable */
+/* Elementos que SIEMPRE conservan texto blanco */
 #floating-whatsapp,
-#btn-whatsapp-stamp-order,
-#cart-send-whatsapp-btn {
-  color: #FFFFFF !important;
-}
-
 #floating-whatsapp *,
+#btn-whatsapp-stamp-order,
 #btn-whatsapp-stamp-order *,
-#cart-send-whatsapp-btn * {
+#cart-send-whatsapp-btn,
+#cart-send-whatsapp-btn *,
+.bg-emerald-600,
+.bg-emerald-600 *,
+.bg-brand-magenta,
+.bg-brand-magenta *,
+.bg-brand-purple,
+.bg-brand-purple *,
+.bg-cyan-600,
+.bg-cyan-600 *,
+.bg-rose-500,
+.bg-rose-500 *,
+[class*="from-emerald"],
+[class*="from-emerald"] *,
+.keep-white {
   color: #FFFFFF !important;
 }
 
-/* Colores de acento con contraste AA/AAA sobre fondo claro */
+/* Acentos de color optimizados para fondo blanco (WCAG AAA) */
 html:not(.dark) .text-amber-300,
 html.light .text-amber-300,
 html:not(.dark) .text-brand-yellow,
@@ -640,31 +850,14 @@ html.light .text-brand-cyan {
   color: #0284C7 !important;
 }
 
-/* Footer de Contacto Institucional (Preserva fondo sobrio oscuro con máxima legibilidad) */
-html:not(.dark) #contacto,
-html.light #contacto {
-  background-color: #0A0D15 !important;
-  color: #FFFFFF !important;
-}
-
-html:not(.dark) #contacto h1,
-html:not(.dark) #contacto h2,
-html:not(.dark) #contacto h3,
-html:not(.dark) #contacto h4,
-html:not(.dark) #contacto span.text-white,
-html:not(.dark) #contacto p.text-white,
-html:not(.dark) #contacto a,
-html.light #contacto h1,
-html.light #contacto h2,
-html.light #contacto h3,
-html.light #contacto h4,
-html.light #contacto span.text-white,
-html.light #contacto p.text-white,
-html.light #contacto a {
-  color: #FFFFFF !important;
-}
-
-html:not(.dark) #contacto .text-slate-400,
-html.light #contacto .text-slate-400 {
-  color: #94A3B8 !important;
+/* Drawers y Modales */
+html:not(.dark) #mobile-menu-drawer > div,
+html.light #mobile-menu-drawer > div,
+html:not(.dark) #cart-drawer-panel,
+html.light #cart-drawer-panel,
+html:not(.dark) #catalog-modal > div > div,
+html.light #catalog-modal > div > div {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="scroll-smooth light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -233,6 +233,14 @@
         <!-- Controles de Cabecera: Carrito y Acciones -->
         <div class="flex items-center gap-3 flex-shrink-0">
           
+          <!-- Selector de Modo Claro / Oscuro (Alta Legibilidad) -->
+          <button id="theme-toggle-btn" type="button" aria-label="Cambiar entre modo claro y modo oscuro"
+                  class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-cyan"
+                  title="Cambiar a Modo Oscuro">
+            <span id="theme-toggle-icon" class="text-sm">🌙</span>
+            <span id="theme-toggle-text" class="hidden sm:inline font-body">Oscuro</span>
+          </button>
+
           <!-- Botón Carrito en Navbar -->
           <button id="nav-cart-btn" type="button" aria-label="Abrir Carrito de Pedidos"
                   class="relative inline-flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#111827] hover:bg-[#1E2638] text-white border border-[#1F2937] hover:border-brand-cyan transition shadow-md group">
@@ -290,7 +298,16 @@
             </svg>
           </button>
         </div>
-        <div class="mt-4 mb-4">
+        <div class="mt-4 mb-2">
+          <button id="mobile-theme-toggle-btn" type="button" class="flex items-center justify-between w-full py-2.5 px-3.5 rounded-xl border border-slate-300 bg-slate-100 text-slate-800 text-sm font-bold font-body transition mb-2">
+            <div class="flex items-center gap-2.5">
+              <span id="mobile-theme-toggle-icon" class="text-base">🌙</span>
+              <span id="mobile-theme-toggle-text">Cambiar a Modo Oscuro</span>
+            </div>
+            <span class="text-xs px-2 py-0.5 rounded bg-slate-200 text-slate-700 font-bold uppercase">Tema</span>
+          </button>
+        </div>
+        <div class="mb-4">
           <button id="mobile-cart-btn" type="button" class="flex items-center justify-between w-full py-2.5 px-3.5 rounded-xl bg-[#0B0F19] hover:bg-[#1E2638] border border-[#1F2937] text-white text-sm font-bold font-body transition">
             <div class="flex items-center gap-2.5">
               <svg class="w-5 h-5 text-brand-cyan" fill="none" stroke="currentColor" viewBox="0 0 24 24">

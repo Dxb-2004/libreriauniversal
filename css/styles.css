@@ -429,3 +429,242 @@ html {
 .animate-bounce-subtle {
   animation: bounceSubtle 2.5s ease-in-out infinite;
 }
+
+
+/* ==========================================================================
+   TEMA CLARO (MODO CLARO POR DEFECTO - ALTA LEGIBILIDAD PARA TODO PÚBLICO)
+   Optimizado para personas mayores, alto contraste y lectura descansada
+   ========================================================================== */
+html:not(.dark),
+html.light {
+  color-scheme: light;
+}
+
+html:not(.dark) body,
+html.light body {
+  background-color: #F8FAFC !important;
+  color: #0F172A !important;
+}
+
+/* Halftone dots editorial en modo claro */
+html:not(.dark) .editorial-halftone,
+html.light .editorial-halftone {
+  background-image: radial-gradient(rgba(15, 23, 42, 0.06) 1.2px, transparent 1.2px) !important;
+  background-size: 24px 24px !important;
+}
+
+/* Header & Navegación */
+html:not(.dark) header,
+html.light header {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-bottom: 1px solid #E2E8F0 !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) header nav a,
+html.light header nav a {
+  color: #334155 !important;
+}
+
+html:not(.dark) header nav a:hover,
+html.light header nav a:hover {
+  color: #0284C7 !important;
+}
+
+/* Títulos principales y tipografía display */
+html:not(.dark) h1, html:not(.dark) h2, html:not(.dark) h3, html:not(.dark) h4,
+html.light h1, html.light h2, html.light h3, html.light h4,
+html:not(.dark) .font-display,
+html.light .font-display {
+  color: #0F172A !important;
+}
+
+/* Reemplazo de superficies oscuras por tarjetas claras elegantes */
+html:not(.dark) .bg-\[\#0B0F19\],
+html.light .bg-\[\#0B0F19\],
+html:not(.dark) .bg-\[\#090D16\],
+html.light .bg-\[\#090D16\],
+html:not(.dark) .bg-\[\#0F1420\],
+html.light .bg-\[\#0F1420\] {
+  background-color: #F1F5F9 !important;
+}
+
+html:not(.dark) .bg-\[\#111827\],
+html.light .bg-\[\#111827\],
+html:not(.dark) .bg-\[\#121826\],
+html.light .bg-\[\#121826\],
+html:not(.dark) .bg-\[\#1E2638\],
+html.light .bg-\[\#1E2638\],
+html:not(.dark) .bg-slate-900,
+html.light .bg-slate-900,
+html:not(.dark) .bg-slate-950,
+html.light .bg-slate-950 {
+  background-color: #FFFFFF !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+html:not(.dark) .bg-\[\#1F2937\],
+html.light .bg-\[\#1F2937\],
+html:not(.dark) .bg-slate-800,
+html.light .bg-slate-800 {
+  background-color: #E2E8F0 !important;
+  color: #1E293B !important;
+}
+
+/* Bordes en modo claro */
+html:not(.dark) .border-\[\#1F2937\],
+html.light .border-\[\#1F2937\],
+html:not(.dark) .border-\[\#121826\],
+html.light .border-\[\#121826\],
+html:not(.dark) .border-\[\#0B0F19\],
+html.light .border-\[\#0B0F19\] {
+  border-color: #E2E8F0 !important;
+}
+
+/* Textos secundarios con alto contraste para lectura */
+html:not(.dark) .text-slate-300,
+html.light .text-slate-300,
+html:not(.dark) .text-slate-200,
+html.light .text-slate-200,
+html:not(.dark) .text-slate-100,
+html.light .text-slate-100 {
+  color: #1E293B !important;
+}
+
+html:not(.dark) .text-slate-400,
+html.light .text-slate-400 {
+  color: #475569 !important;
+}
+
+html:not(.dark) .text-slate-500,
+html.light .text-slate-500 {
+  color: #64748B !important;
+}
+
+/* Inversión de text-white a oscuro, EXCLUYENDO elementos de acción coloreados */
+html:not(.dark) .text-white:not([class*="bg-emerald"]):not([class*="bg-brand-magenta"]):not([class*="bg-brand-purple"]):not([class*="bg-rose"]):not(#floating-whatsapp *):not(#btn-whatsapp-stamp-order *):not(#cart-send-whatsapp-btn *):not(#footer-whatsapp-btn *):not([class*="from-emerald"] *):not(.keep-white),
+html.light .text-white:not([class*="bg-emerald"]):not([class*="bg-brand-magenta"]):not([class*="bg-brand-purple"]):not([class*="bg-rose"]):not(#floating-whatsapp *):not(#btn-whatsapp-stamp-order *):not(#cart-send-whatsapp-btn *):not(#footer-whatsapp-btn *):not([class*="from-emerald"] *):not(.keep-white) {
+  color: #0F172A !important;
+}
+
+/* Inputs, textareas y selects con fondo nítido blanco */
+html:not(.dark) input:not([type="checkbox"]):not([type="radio"]),
+html.light input:not([type="checkbox"]):not([type="radio"]),
+html:not(.dark) select,
+html.light select,
+html:not(.dark) textarea,
+html.light textarea {
+  background-color: #FFFFFF !important;
+  color: #0F172A !important;
+  border: 1.5px solid #CBD5E1 !important;
+}
+
+html:not(.dark) input::placeholder,
+html.light input::placeholder {
+  color: #94A3B8 !important;
+}
+
+/* Tarjetas Bento & Editorial */
+html:not(.dark) .bento-card,
+html.light .bento-card,
+html:not(.dark) .editorial-card,
+html.light .editorial-card {
+  background-color: #FFFFFF !important;
+  border: 1px solid #E2E8F0 !important;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.05) !important;
+}
+
+html:not(.dark) .bento-chip,
+html.light .bento-chip {
+  background: #F1F5F9 !important;
+  border: 1px solid #CBD5E1 !important;
+  color: #1E293B !important;
+}
+
+html:not(.dark) .bento-chip:hover,
+html.light .bento-chip:hover {
+  background: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+/* Sección Sellos: Resumen y Sello de Muestra */
+html:not(.dark) #stamp-summary-top-card,
+html.light #stamp-summary-top-card {
+  background-color: #FFFFFF !important;
+  border: 2px solid #00A3E0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 163, 224, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) #stamp-preview-sticky-card,
+html.light #stamp-preview-sticky-card {
+  background-color: #FFFFFF !important;
+  border: 2px solid #00A3E0 !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 163, 224, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Drawers y Modales */
+html:not(.dark) #mobile-menu-drawer > div,
+html.light #mobile-menu-drawer > div,
+html:not(.dark) #cart-drawer-panel,
+html.light #cart-drawer-panel,
+html:not(.dark) #catalog-modal > div > div,
+html.light #catalog-modal > div > div {
+  background-color: #FFFFFF !important;
+  border-color: #E2E8F0 !important;
+  color: #0F172A !important;
+}
+
+/* Asegurar botones de WhatsApp siempre con texto blanco y verde impecable */
+#floating-whatsapp,
+#btn-whatsapp-stamp-order,
+#cart-send-whatsapp-btn {
+  color: #FFFFFF !important;
+}
+
+#floating-whatsapp *,
+#btn-whatsapp-stamp-order *,
+#cart-send-whatsapp-btn * {
+  color: #FFFFFF !important;
+}
+
+/* Colores de acento con contraste AA/AAA sobre fondo claro */
+html:not(.dark) .text-amber-300,
+html.light .text-amber-300,
+html:not(.dark) .text-brand-yellow,
+html.light .text-brand-yellow {
+  color: #B45309 !important;
+}
+
+html:not(.dark) .text-brand-cyan,
+html.light .text-brand-cyan {
+  color: #0284C7 !important;
+}
+
+/* Footer de Contacto Institucional (Preserva fondo sobrio oscuro con máxima legibilidad) */
+html:not(.dark) #contacto,
+html.light #contacto {
+  background-color: #0A0D15 !important;
+  color: #FFFFFF !important;
+}
+
+html:not(.dark) #contacto h1,
+html:not(.dark) #contacto h2,
+html:not(.dark) #contacto h3,
+html:not(.dark) #contacto h4,
+html:not(.dark) #contacto span.text-white,
+html:not(.dark) #contacto p.text-white,
+html:not(.dark) #contacto a,
+html.light #contacto h1,
+html.light #contacto h2,
+html.light #contacto h3,
+html.light #contacto h4,
+html.light #contacto span.text-white,
+html.light #contacto p.text-white,
+html.light #contacto a {
+  color: #FFFFFF !important;
+}
+
+html:not(.dark) #contacto .text-slate-400,
+html.light #contacto .text-slate-400 {
+  color: #94A3B8 !important;
+}

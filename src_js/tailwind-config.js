@@ -5,6 +5,22 @@
  */
 (function() {
   'use strict';
+
+  // 1. Inicialización inmediata del tema antes de pintar el DOM (Por defecto: Modo Claro)
+  try {
+    var savedTheme = localStorage.getItem('libreria_theme');
+    if (savedTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+    }
+  } catch (e) {
+    document.documentElement.classList.remove('dark');
+    document.documentElement.classList.add('light');
+  }
+
   if (typeof window !== 'undefined' && typeof window.tailwind !== 'undefined') {
     window.tailwind.config = {
       darkMode: 'class',

@@ -103,7 +103,76 @@ const stampState = {
 // Catálogo de productos de librería organizado por categorías
 const stationeryProducts = [];
 // Inicialización cuando el DOM esté listo
+/* ==========================================================================
+   0. SISTEMA DE TEMA CLARO / OSCURO (POR DEFECTO MODO CLARO)
+   ========================================================================== */
+function initThemeToggle() {
+  const desktopBtn = document.getElementById('theme-toggle-btn');
+  const mobileBtn = document.getElementById('mobile-theme-toggle-btn');
+  const desktopIcon = document.getElementById('theme-toggle-icon');
+  const desktopText = document.getElementById('theme-toggle-text');
+  const mobileIcon = document.getElementById('mobile-theme-toggle-icon');
+  const mobileText = document.getElementById('mobile-theme-toggle-text');
+
+  function updateThemeUI(isDark) {
+    if (isDark) {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+      if (desktopIcon) desktopIcon.textContent = '☀️';
+      if (desktopText) desktopText.textContent = 'Claro';
+      if (desktopBtn) {
+        desktopBtn.title = 'Cambiar a Modo Claro (Alta Legibilidad)';
+        desktopBtn.className = 'inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-amber-500/40 bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 text-xs font-bold transition-all shadow-sm';
+      }
+      if (mobileIcon) mobileIcon.textContent = '☀️';
+      if (mobileText) mobileText.textContent = 'Cambiar a Modo Claro';
+      if (mobileBtn) {
+        mobileBtn.className = 'flex items-center justify-between w-full py-2.5 px-3.5 rounded-xl border border-amber-500/40 bg-amber-500/15 text-amber-300 text-sm font-bold font-body transition mb-2';
+      }
+    } else {
+      document.documentElement.classList.remove('dark');
+      document.documentElement.classList.add('light');
+      if (desktopIcon) desktopIcon.textContent = '🌙';
+      if (desktopText) desktopText.textContent = 'Oscuro';
+      if (desktopBtn) {
+        desktopBtn.title = 'Cambiar a Modo Oscuro';
+        desktopBtn.className = 'inline-flex items-center gap-1.5 px-3 py-2 rounded-full border border-slate-300 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all shadow-sm';
+      }
+      if (mobileIcon) mobileIcon.textContent = '🌙';
+      if (mobileText) mobileText.textContent = 'Cambiar a Modo Oscuro';
+      if (mobileBtn) {
+        mobileBtn.className = 'flex items-center justify-between w-full py-2.5 px-3.5 rounded-xl border border-slate-300 bg-slate-100 text-slate-800 text-sm font-bold font-body transition mb-2';
+      }
+    }
+  }
+
+  let isDark = false;
+  try {
+    const saved = localStorage.getItem('libreria_theme');
+    isDark = saved === 'dark';
+  } catch (e) {
+    isDark = false;
+  }
+  updateThemeUI(isDark);
+
+  function toggleTheme() {
+    const currentlyDark = document.documentElement.classList.contains('dark');
+    const nextIsDark = !currentlyDark;
+    try {
+      localStorage.setItem('libreria_theme', nextIsDark ? 'dark' : 'light');
+    } catch (e) {}
+    updateThemeUI(nextIsDark);
+    if (typeof showToast === 'function') {
+      showToast(nextIsDark ? '🌙 Modo Oscuro activado' : '☀️ Modo Claro activado (Alta Legibilidad)');
+    }
+  }
+
+  if (desktopBtn) desktopBtn.addEventListener('click', toggleTheme);
+  if (mobileBtn) mobileBtn.addEventListener('click', toggleTheme);
+}
+
 const startApp = () => {
+  initThemeToggle();
   initMobileMenu();
   initStampDesigner();
   initWhatsAppFloating();

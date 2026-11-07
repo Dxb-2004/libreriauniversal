@@ -850,6 +850,55 @@ html.light .text-brand-cyan {
   color: #0284C7 !important;
 }
 
+html:not(.dark) .text-purple-300,
+html.light .text-purple-300,
+html:not(.dark) .text-purple-400,
+html.light .text-purple-400 {
+  color: #6B21A8 !important; /* purple-800: máxima legibilidad en fondo blanco */
+}
+
+html:not(.dark) .text-emerald-400,
+html.light .text-emerald-400 {
+  color: #047857 !important; /* emerald-700 */
+}
+
+html:not(.dark) .text-rose-400,
+html.light .text-rose-400 {
+  color: #BE123C !important; /* rose-700 */
+}
+
+html:not(.dark) .text-blue-400,
+html.light .text-blue-400 {
+  color: #1D4ED8 !important; /* blue-700 */
+}
+
+html:not(.dark) .text-pink-400,
+html.light .text-pink-400 {
+  color: #BE185D !important; /* pink-700 */
+}
+
+/* Badge "EN VIVO" de Diseñador de Sellos en Navbar y Menú Móvil */
+html:not(.dark) .badge-en-vivo,
+html.light .badge-en-vivo,
+html:not(.dark) nav [class*="bg-brand-purple"],
+html.light nav [class*="bg-brand-purple"],
+html:not(.dark) .mobile-nav-link [class*="bg-brand-purple"],
+html.light .mobile-nav-link [class*="bg-brand-purple"] {
+  background-color: #6D28D9 !important; /* Violeta intenso */
+  color: #FFFFFF !important; /* Blanco nítido 100% visible */
+  border: 1px solid #5B21B6 !important;
+  box-shadow: 0 1px 3px rgba(109, 40, 217, 0.3) !important;
+  font-weight: 800 !important;
+}
+
+/* Otros badges con fondo púrpura en el contenido */
+html:not(.dark) [class*="bg-brand-purple"]:not(.badge-en-vivo):not(nav *):not(.mobile-nav-link *),
+html.light [class*="bg-brand-purple"]:not(.badge-en-vivo):not(nav *):not(.mobile-nav-link *) {
+  background-color: #EDE9FE !important; /* lavender-100 */
+  border-color: #C084FC !important;
+  color: #581C87 !important; /* violet-900 */
+}
+
 /* Drawers y Modales */
 html:not(.dark) #mobile-menu-drawer > div,
 html.light #mobile-menu-drawer > div,
